@@ -407,10 +407,6 @@ svg{display:block}
   .drawer-header::before{content:'';position:absolute;top:9px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:4px;background:var(--card-border)}
 }
 @media(max-width:380px){.menu-card .mc-text small{display:none}.menu-card{min-height:100px}}
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .js .rise,.js .reveal{opacity:1;transform:none}
-}
 </style>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" rel="stylesheet">
   <style>
@@ -1177,7 +1173,7 @@ body::after{opacity:.12}
 
     // --- EFEK VISUAL (ember, glow kursor, spotlight kartu, scroll reveal) ---
     (function () {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reduce = false;
       const bg = document.getElementById("bouncing-container");
 
       // partikel halus naik ke atas
@@ -1618,7 +1614,7 @@ body::after{opacity:.12}
 
   // --- PETIR ACAK DI LATAR ---
   (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (false) return;
     const bolt = document.getElementById("lightning"), flash = document.getElementById("flash");
     function strike() {
       bolt.style.left = (5 + Math.random() * 85) + "vw";
