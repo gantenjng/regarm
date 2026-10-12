@@ -1,0 +1,134 @@
+{
+  "_petunjuk": "Edit isi di dalam tanda kutip saja. Jangan hapus koma, kurung, atau tanda kutip. Tulis {estimasi} di teks mana pun untuk otomatis memakai nilai estimasi. Kunci yang dihapus = pakai isi bawaan di index. Cek hasil edit di jsonlint.com sebelum commit.",
+  "estimasi": "1-30 menit",
+  "banner": {
+    "tampil": true,
+    "teks": "Antrean normal ({estimasi}). Mohon sabar ya min!"
+  },
+  "marquee": [
+    "NANTI ADA PROMO/DISKON KALAU RAMAI",
+    "JANGAN RAGU BUAT BELI",
+    "TRUSTED SINCE 2023 WITH 300+ PROOF",
+    "ADA HARGA ADA KUALITAS",
+    "STAY TUNE FOR MORE INFO"
+  ],
+  "jam": {
+    "buka": "10:00",
+    "tutup": "00:30",
+    "status": "auto",
+    "pesan_tutup": ""
+  },
+  "wa": "62895325627342",
+  "telegram": "sadraxh",
+  "x": "klebuss",
+  "testimoni_link": "https://t.me/jejakbeli",
+  "pembayaran": [
+    {
+      "v": "QRIS",
+      "l": "QRIS All Payment"
+    },
+    {
+      "v": "SeaBank",
+      "l": "SeaBank"
+    },
+    {
+      "v": "GoPay",
+      "l": "GoPay"
+    }
+  ],
+  "populer": [
+    "Netflix",
+    "YouTube",
+    "Spotify",
+    "Canva",
+    "Capcut",
+    "ChatGPT",
+    "Claude AI",
+    "Disney",
+    "Gemini",
+    "Zoom",
+    "Viu",
+    "Vidio Platinum"
+  ],
+  "app_info": {
+    "Netflix": "Layanan streaming yang menyediakan berbagai macam acara TV, film, anime, film dokumenter, dan lainnya.",
+    "Spotify": "Layanan streaming musik digital yang memberimu akses ke jutaan lagu dan podcast tanpa batas.",
+    "DEFAULT": "Penjelasan detail mengenai aplikasi ini sedang dalam proses update. Silakan hubungi admin via WhatsApp untuk informasi lebih lanjut."
+  },
+  "logo_domain": {
+    "Netflix": "netflix.com",
+    "YouTube": "youtube.com",
+    "Spotify": "spotify.com",
+    "Disney": "disneyplus.com",
+    "Viu": "viu.com",
+    "iQIYI": "iq.com",
+    "WeTV": "wetv.vip",
+    "HBO Max": "hbomax.com",
+    "Viki": "viki.com",
+    "Vidio Platinum": "vidio.com",
+    "Prime Video": "primevideo.com",
+    "Loklok": "loklok.com",
+    "Youku": "youku.tv",
+    "Bstation": "bilibili.tv",
+    "Apple Music": "music.apple.com",
+    "Canva": "canva.com",
+    "Capcut": "capcut.com",
+    "Picsart": "picsart.com",
+    "Alight Motion": "alightmotionsapps.com",
+    "Figma": "figma.com",
+    "IbisPaint": "ibispaint.com",
+    "Meitu": "meituxiuxiu.com",
+    "Oldroll": "oldroll.id.aptoide.com",
+    "Wink": "wink.ai",
+    "Dazzcam": "dazzcam.org",
+    "ChatGPT": "chatgpt.com",
+    "Claude AI": "claude.ai",
+    "Gemini": "gemini.google.com",
+    "Zoom": "zoom.us",
+    "Grammarly": "grammarly.com",
+    "Quillbot": "quillbot.com",
+    "MS365": "microsoft365.com",
+    "Scribd": "scribd.com",
+    "Kahoot": "kahoot.it",
+    "DeepL": "deepl.com",
+    "iLovePDF": "ilovepdf.com",
+    "Coursera": "coursera.org",
+    "WPS Pro": "wps.com",
+    "Quizizz": "quizizz.com",
+    "Duolingo": "duolingo.com",
+    "Academia": "academia.edu",
+    "HMA VPN": "hidemyass.com"
+  },
+  "faq": [
+    {
+      "q": "Berapa lama proses pesanan setelah transfer?",
+      "a": "Estimasi normal {estimasi} tergantung antrean. Mohon bersabar dan dilarang spam (no rush order)."
+    },
+    {
+      "q": "Apakah ada garansi jika akun bermasalah?",
+      "a": "Tentu! Garansi diberikan penuh sesuai durasi paket yang kamu beli (max klaim 3x24 jam dengan syarat kirim screenshot kendala)."
+    },
+    {
+      "q": "Bagaimana cara pembayarannya?",
+      "a": "Pembayaran bisa melalui QRIS All Payment, SeaBank, atau GoPay. Silakan cek detailnya saat checkout nota digital."
+    },
+    {
+      "q": "Apakah bisa untuk perpanjangan (renewal)?",
+      "a": "Bisa banget, cukup konfirmasikan ke admin saat chat WhatsApp."
+    }
+  ],
+  "ketentuan": [
+    "Proses {estimasi}, no rush order!!!",
+    "This is blackmarket, don't expect too much.",
+    "Wajib send form + ss login, tidak kirim garansi hangus.",
+    "Garansi max 3x24 jam, bisa 7x24 jam (error massal).",
+    "NO REFUND jika bukan kesalahan kami.",
+    "Payment first."
+  ],
+  "syarat_klaim": [
+    "Tolong double cek akunnya terlebih dahulu sebelum report.",
+    "Wajib send ss problem.",
+    "Mohon tunggu sesuai estimasi, dilarang buru-buru atau garansi hangus.",
+    "Bisa untuk renewal."
+  ]
+}
