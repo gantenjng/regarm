@@ -4,11 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#07080d">
-  <title>Premium Apps | REGARM-MART</title>
-  <script>document.documentElement.classList.add('js');try{var _s=localStorage.getItem('skin');if(_s)document.documentElement.setAttribute('data-skin',_s);var _l=localStorage.getItem('lite');if(_l===null&&((navigator.deviceMemory||8)<=2||(navigator.hardwareConcurrency||8)<=2))_l='1';if(_l==='1')document.documentElement.setAttribute('data-lite','')}catch(e){}</script>
+  <title>REGARM-MART | Premium Apps Store</title>
+  <script>document.documentElement.classList.add('js');try{var _s=localStorage.getItem('skin');if(_s)document.documentElement.setAttribute('data-skin',_s);var _l=localStorage.getItem('lite');if(_l===null&&((navigator.deviceMemory||8)<=2||(navigator.hardwareConcurrency||8)<=2||(matchMedia('(pointer:coarse)').matches&&(navigator.hardwareConcurrency||8)<=4)||(navigator.connection&&navigator.connection.saveData)||matchMedia('(prefers-reduced-motion: reduce)').matches))_l='1';if(_l==='1')document.documentElement.setAttribute('data-lite','')}catch(e){}</script>
 
   <script>try{if(sessionStorage.getItem("splashed")==="1")document.documentElement.classList.add("no-splash")}catch(e){}</script>
-  <meta name="description" content="Pusat aplikasi premium bergaransi &amp; terpercaya sejak 2023. Cek harga, pilih paket, dan order lewat WhatsApp.">
+  <meta name="description" content="Katalog aplikasi premium bergaransi sejak 2023: cek harga Netflix, Spotify, Canva, ChatGPT &amp; lainnya, pilih paket, lalu order lewat WhatsApp.">
+  <link rel="canonical" href="https://regarmz.shop/">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="author" content="ZAY">
+  <meta property="og:locale" content="id_ID">
+  <meta property="og:image:alt" content="REGARM-MART Premium Apps Store">
+  <meta name="twitter:image:alt" content="REGARM-MART Premium Apps Store">
+  <link rel="preload" as="image" href="ava.png" fetchpriority="high">
   <link rel="manifest" href="manifest.json">
   <link rel="apple-touch-icon" href="icon-192.png">
   <meta name="apple-mobile-web-app-title" content="REGARM-MART">
@@ -31,7 +38,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"></noscript>
 
   <style>
 :root{
@@ -416,7 +423,7 @@ svg{display:block}
 }
 @media(max-width:380px){.menu-card .mc-text small{display:none}.menu-card{min-height:100px}}
 </style>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap"></noscript>
   <style>
 /* =====================================================
    V2 — GRUNGE NOIR (se-vibes dengan avatar ZAY)
@@ -758,9 +765,42 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
 .float-chat-container:has(.sub-chat-menu.active) .main-chat-btn .ic-close{display:block}
 .float-chat-container:has(.sub-chat-menu.active) .main-chat-btn{transform:rotate(90deg)}
 .no-splash #splash-screen{display:none!important}
+
+/* ===== V5: bukti transaksi, performa HP ===== */
+.proof-strip{width:100%;margin-bottom:26px}
+.proof-strip .strip-title a{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-decoration:none}
+.proof-item{flex:0 0 112px;scroll-snap-align:start;padding:0;border:2px solid var(--card-border);border-radius:14px;overflow:hidden;background:var(--card-bg);color:var(--text-color);cursor:pointer;text-align:left}
+.proof-item img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--input-bg)}
+.proof-item span{display:block;padding:6px 8px;font-size:10.5px;font-weight:700;line-height:1.3}
+.proof-item:active{transform:scale(.97)}
+#proof-lb{display:none;position:fixed;inset:0;z-index:120;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;background:rgba(0,0,0,.9);cursor:zoom-out}
+#proof-lb img{max-width:100%;max-height:78vh;object-fit:contain;border-radius:12px}
+#proof-lb p{color:#fff;font-size:13px;font-weight:600;text-align:center;margin:0}
+#proof-lb button{position:absolute;top:14px;right:16px;font-size:30px;line-height:1;background:none;border:none;color:#fff;cursor:pointer}
+.copyright a{color:inherit;text-decoration:underline}
+.steps,.testi{content-visibility:auto;contain-intrinsic-size:auto 260px}
+html.tab-hidden *,html.tab-hidden *::before,html.tab-hidden *::after{animation-play-state:paused!important}
+html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 </style>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@graph":[
+    {"@type":"WebSite","@id":"https://regarmz.shop/#website","url":"https://regarmz.shop/","name":"REGARM-MART","inLanguage":"id-ID"},
+    {"@type":"Organization","@id":"https://regarmz.shop/#org","name":"REGARM-MART","url":"https://regarmz.shop/","logo":"https://regarmz.shop/ava.png","foundingDate":"2023",
+     "sameAs":["https://t.me/sadraxh","https://x.com/klebuss"],
+     "contactPoint":{"@type":"ContactPoint","contactType":"customer service","telephone":"+62895325627342","availableLanguage":"Indonesian"}}
+  ]}
+  </script>
 </head>
 <body>
+
+  <noscript>
+    <div style="padding:16px;margin:12px;border:1px solid #888;border-radius:12px;font-family:sans-serif;line-height:1.6">
+      <b>REGARM-MART</b> — katalog aplikasi premium (Netflix, Spotify, Canva, ChatGPT, dan lainnya) sejak 2023.
+      Aktifkan JavaScript untuk melihat katalog &amp; harga, atau langsung chat admin:
+      <a href="https://wa.me/62895325627342?text=Halo%20Admin,%20saya%20mau%20tanya%20layanan">WhatsApp</a> ·
+      <a href="https://t.me/sadraxh">Telegram</a>.
+    </div>
+  </noscript>
 
   <!-- CUSTOM TOAST NOTIFICATION -->
   <div id="custom-toast">✅ Berhasil disalin ke clipboard!</div>
@@ -792,16 +832,16 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
   <div class="toast-notification" id="sales-toast">
     <div class="toast-icon">🛍️</div>
     <div class="toast-text">
-      <span class="toast-title" id="toast-buyer">Seseorang di Jakarta</span>
-      <span class="toast-desc" id="toast-product">Baru saja order Canva 1 Tahun</span>
-      <span class="toast-time" id="toast-time">Beberapa detik yang lalu</span>
+      <span class="toast-title" id="toast-buyer">Info toko</span>
+      <span class="toast-desc" id="toast-product">Selamat datang di REGARM-MART</span>
+      <span class="toast-time" id="toast-time">Info toko</span>
     </div>
   </div>
 
   <div class="app-container">
     <div class="profile-section">
       <div class="avatar-wrap rise" style="--d:.05s">
-        <img class="avatar" src="ava.png" alt="ZAY Profile" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
+        <img class="avatar" src="ava.png" alt="Logo REGARM-MART" fetchpriority="high" decoding="async" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
         <span class="status-dot" id="header-status-dot" title="Status Operasional"></span>
       </div>
       <div class="store-subtitle rise" style="--d:.15s" id="dynamic-greeting">PREMIUM APPS</div>
@@ -816,8 +856,8 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
       </div>
 
       <div class="stats-bar rise" style="--d:.46s">
-        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg></span><b id="stat-apps">0</b><span>Aplikasi</span></div>
-        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span><b id="stat-pkts">0</b><span>Paket</span></div>
+        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg></span><b id="stat-apps">–</b><span>Aplikasi</span></div>
+        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span><b id="stat-pkts">–</b><span>Paket</span></div>
         <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><b>2023</b><span>Sejak</span></div>
       </div>
     </div>
@@ -825,7 +865,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     <!-- PENGUMUMAN MAINTENANCE -->
     <div class="maintenance-banner rise" style="--d:.54s" id="maintenance-box">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4M12 17h.01"/></svg></span>
-      <div><b>Info Store:</b> Antrean normal (1-15 min). Mohon sabar ya min!</div>
+      <div><b>Info Store:</b> Antrean normal (1-30 min). Mohon sabar ya min!</div>
       <button class="close-banner" onclick="document.getElementById('maintenance-box').style.display='none'" aria-label="Tutup">&times;</button>
     </div>
 
@@ -841,6 +881,12 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     <div class="hot-strip rise" style="--d:.63s">
       <div class="strip-title"><span>🔥 Lagi Laris</span><span>GESER →</span></div>
       <div class="strip-row" id="hot-strip-row"></div>
+    </div>
+
+    <!-- BUKTI TRANSAKSI (isi lewat bukti.json; kosong = otomatis disembunyikan) -->
+    <div class="proof-strip rise" style="--d:.64s" id="proof-strip" hidden>
+      <div class="strip-title"><span>✅ Bukti Transaksi</span><a href="https://t.me/jejakbeli" target="_blank" rel="noopener">LIHAT SEMUA →</a></div>
+      <div class="strip-row" id="proof-row"></div>
     </div>
 
     <!-- Menu Utama -->
@@ -908,7 +954,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     </div>
 
     <footer class="copyright reveal">
-      &copy; 2026 ZAY. All Rights Reserved.
+      &copy; 2026 ZAY. All Rights Reserved. · <a href="#" onclick="bukaPrivasi();return false;">Kebijakan Privasi</a>
     </footer>
   </div>
 
@@ -938,6 +984,13 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
         <div id="testi-msg"></div>
       </div>
     </div>
+  </div>
+
+  <!-- LIGHTBOX BUKTI TRANSAKSI -->
+  <div id="proof-lb" onclick="tutupBukti()" role="dialog" aria-label="Bukti transaksi">
+    <button type="button" aria-label="Tutup" onclick="tutupBukti()">&times;</button>
+    <img id="proof-lb-img" alt="">
+    <p id="proof-lb-cap"></p>
   </div>
 
   <!-- TOMBOL KEMBALI KE ATAS -->
@@ -1028,7 +1081,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
 
         <form class="order-form" onsubmit="bukaNotaDigital(event)">
           <div class="info-note" id="form-note">
-            ⚡ <b>Estimasi Pengerjaan:</b> 1 – 15 menit (no rush order). Konfirmasi jenis akun bisa dibicarakan di WhatsApp.
+            ⚡ <b>Estimasi Pengerjaan:</b> 1 – 30 menit (no rush order). Konfirmasi jenis akun bisa dibicarakan di WhatsApp.
           </div>
 
           <div class="form-box">
@@ -1161,7 +1214,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
         <div class="snk-box">
           <div class="faq-item">
             <div class="faq-q">Q: Berapa lama proses pesanan setelah transfer?</div>
-            <div class="faq-a">A: Estimasi normal 1 sampai 15 menit tergantung antrean. Mohon bersabar dan dilarang spam (no rush order).</div>
+            <div class="faq-a">A: Estimasi normal 1 sampai 30 menit tergantung antrean. Mohon bersabar dan dilarang spam (no rush order).</div>
           </div>
           <div class="faq-item">
             <div class="faq-q">Q: Apakah ada garansi jika akun bermasalah?</div>
@@ -1222,6 +1275,51 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
             <button class="copy-btn ghost" onclick="salinFormatGaransi()" style="width: 100%; margin-top: 12px;">
               📋 SALIN FORMAT KLAIM GARANSI
             </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW KEBIJAKAN PRIVASI -->
+      <div id="view-privasi" class="view-panel" style="display: none;">
+        <div class="drawer-header">
+          <h3>🔒 KEBIJAKAN PRIVASI</h3>
+          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
+        </div>
+        <div class="snk-container">
+          <div class="snk-box">
+            <div class="snk-title">✦ DATA YANG KAMI TERIMA</div>
+            <div class="snk-text">
+              <p>❖ Website ini hanya katalog. Nomor WhatsApp dan pilihan paket di form hanya dipakai untuk menyusun pesan WhatsApp di perangkatmu, tidak dikirim ke server website dan tidak disimpan di sini.</p>
+              <p>❖ Setelah kamu mengirim pesan, data yang kamu kirim sendiri lewat WhatsApp/Telegram (nomor, detail pesanan, bukti bayar, data klaim garansi) kami terima dan hanya dipakai untuk memproses order dan garansi.</p>
+              <p>❖ Password yang diminta saat klaim adalah password akun yang kamu beli dari kami, bukan akun pribadimu yang lain.</p>
+              <p>❖ Kami tidak menjual data kamu.</p>
+            </div>
+          </div>
+          <div class="snk-box">
+            <div class="snk-title">✦ DATA DI PERANGKATMU</div>
+            <div class="snk-text">
+              <p>❖ Tema, mode hemat efek, daftar favorit, dan penanda splash screen disimpan di browser-mu (localStorage/sessionStorage). Bisa dihapus kapan saja lewat pengaturan browser.</p>
+            </div>
+          </div>
+          <div class="snk-box">
+            <div class="snk-title">✦ TESTIMONI &amp; BUKTI TRANSAKSI</div>
+            <div class="snk-text">
+              <p>❖ Testimoni yang kamu kirim (nama/inisial, produk, rating, isi pesan) tampil publik setelah disetujui admin. Jangan menulis nomor HP, email, atau password di testimoni.</p>
+              <p>❖ Bukti transaksi yang ditampilkan sudah disensor (nomor/email disamarkan). Minta hapus lewat admin jika kamu keberatan.</p>
+            </div>
+          </div>
+          <div class="snk-box">
+            <div class="snk-title">✦ PIHAK KETIGA</div>
+            <div class="snk-text">
+              <p>❖ Halaman ini memuat font dari Google Fonts, ikon aplikasi dari layanan favicon Google, ikon cadangan dari DiceBear, serta tautan ke WhatsApp dan Telegram. Layanan tersebut dapat menerima alamat IP dan data perangkat sesuai kebijakan masing-masing.</p>
+            </div>
+          </div>
+          <div class="snk-box">
+            <div class="snk-title">✦ HAPUS DATA &amp; KONTAK</div>
+            <div class="snk-text">
+              <p>❖ Mau data chat/order dihapus atau ada pertanyaan privasi? Hubungi admin via WhatsApp atau Telegram.</p>
+              <p>Terakhir diperbarui: 12 Oktober 2026</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1505,6 +1603,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     }
 
     function showRandomToast() {
+      if (document.hidden) return;
       const toast = document.getElementById("sales-toast");
       if (document.getElementById("drawer-modal").style.display === "flex") return;
       if (!toastQueue.length) toastQueue = shuffle(buildToastFeed());
@@ -1632,6 +1731,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     function bukaKontak() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-contact"); }
     function bukaAbout() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-about"); }
     function bukaFaq() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-faq"); }
+    function bukaPrivasi() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-privasi"); }
     function bukaSnK() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-snk"); }
     
     function bukaKatalogUtama() { 
@@ -1699,7 +1799,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
       matchedApps.forEach(item => {
         const row = document.createElement("div"); 
         row.className = "product-item";
-        row.innerHTML = `<div class="item-left"><img class="app-logo" src="${getLogoUrl(item.name)}" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${item.name}'"><span style="font-size: 14px;">${item.name} ${item.hot ? '<span class="hot-label">🔥 HOT</span>' : ''}</span></div><span class="arrow-icon">&#10095;</span>`;
+        row.innerHTML = `<div class="item-left"><img class="app-logo" loading="lazy" decoding="async" src="${getLogoUrl(item.name)}" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${item.name}'"><span style="font-size: 14px;">${item.name} ${item.hot ? '<span class="hot-label">🔥 HOT</span>' : ''}</span></div><span class="arrow-icon">&#10095;</span>`;
         row.onclick = () => { vibratePhone(); pKategoriApp = item.kat; pilihPaket(item.name); }; 
         box.appendChild(row);
       });
@@ -1832,7 +1932,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
       if (!DATABASE_HAS(n)) return;
       const b = document.createElement("button");
       b.className = "app-chip";
-      b.innerHTML = `<img src="${getLogoUrl(n)}" alt="${n}" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${n}'"><span>${n}</span>`;
+      b.innerHTML = `<img loading="lazy" decoding="async" src="${getLogoUrl(n)}" alt="${n}" onerror="this.src='https://api.dicebear.com/7.x/identicon/svg?seed=${n}'"><span>${n}</span>`;
       b.onclick = () => { vibratePhone(); bukaKatalogUtama(); pilihPaket(n); };
       row.appendChild(b);
     });
@@ -1990,7 +2090,7 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
     const POPULER = ["Netflix","YouTube","Spotify","Canva","Capcut","ChatGPT","Claude AI","Disney","Gemini","Zoom","Viu","Vidio Platinum"];
     const allApps = () => { const r = []; for (const k in DATABASE) for (const a in DATABASE[k]) r.push(a); return r; };
     const bukaApp = n => { vibratePhone(); bukaKatalogUtama(); pilihPaket(n); };
-    const logo = (img, n) => { img.src = getLogoUrl(n); img.onerror = () => { img.onerror = null; img.src = "https://api.dicebear.com/7.x/identicon/svg?seed=" + encodeURIComponent(n); }; };
+    const logo = (img, n) => { img.loading = "lazy"; img.decoding = "async"; img.src = getLogoUrl(n); img.onerror = () => { img.onerror = null; img.src = "https://api.dicebear.com/7.x/identicon/svg?seed=" + encodeURIComponent(n); }; };
 
     function refresh() {
       const names = allApps(), cnt = document.getElementById("stat-apps"); if (cnt) cnt.textContent = names.length; const pk = document.getElementById("stat-pkts"); if (pk) { let t = 0; for (const k in DATABASE) for (const a in DATABASE[k]) t += DATABASE[k][a].length; pk.textContent = t; }
@@ -2029,6 +2129,35 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
       Object.keys(DATABASE).forEach(k => delete DATABASE[k]); Object.assign(DATABASE, j); refresh();
     }).catch(e => { if (e && e.message) console.warn("produk.json:", e.message); });
   })();
+</script>
+<script>
+  // ========== BUKTI TRANSAKSI (baca bukti.json) ==========
+  (function () {
+    const box = document.getElementById("proof-strip"), row = document.getElementById("proof-row");
+    const lb = document.getElementById("proof-lb"), lbImg = document.getElementById("proof-lb-img"), lbCap = document.getElementById("proof-lb-cap");
+    window.tutupBukti = function () { lb.style.display = "none"; lbImg.removeAttribute("src"); };
+    document.addEventListener("keydown", e => { if (e.key === "Escape") window.tutupBukti(); });
+    if (!box || !row) return;
+    function tampil(it) {
+      const b = document.createElement("button"); b.type = "button"; b.className = "proof-item";
+      const i = document.createElement("img"); i.loading = "lazy"; i.decoding = "async"; i.width = 112; i.height = 150;
+      i.alt = it.cap ? "Bukti transaksi " + it.cap : "Bukti transaksi";
+      i.onerror = () => { b.remove(); if (!row.children.length) box.hidden = true; };
+      i.src = it.thumb || it.img;
+      const c = document.createElement("span"); c.textContent = it.cap || "";
+      b.append(i, c);
+      b.onclick = () => { vibratePhone(); lbImg.src = it.img; lbImg.alt = i.alt; lbCap.textContent = it.cap || ""; lb.style.display = "flex"; };
+      row.appendChild(b);
+    }
+    fetch("bukti.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : Promise.reject()).then(list => {
+      if (!Array.isArray(list)) return;
+      list.filter(it => it && typeof it.img === "string" && it.img).slice(0, 24).forEach(tampil);
+      if (row.children.length) box.hidden = false;
+    }).catch(() => {});
+  })();
+
+  // jeda animasi saat tab tidak aktif (hemat baterai HP)
+  document.addEventListener("visibilitychange", () => document.documentElement.classList.toggle("tab-hidden", document.hidden));
 </script>
 </body>
 </html>
