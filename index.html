@@ -781,6 +781,30 @@ html[data-skin] .main-chat-btn{box-shadow:0 12px 26px -8px var(--yellow)}
 .steps,.testi{content-visibility:auto;contain-intrinsic-size:auto 260px}
 html.tab-hidden *,html.tab-hidden *::before,html.tab-hidden *::after{animation-play-state:paused!important}
 html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+/* ===== V6: keranjang, riwayat, status admin, tanggal harga ===== */
+[hidden]{display:none!important}
+.status-admin{display:flex;align-items:center;justify-content:center;gap:8px;margin:-4px auto 14px;padding:8px 14px;border-radius:999px;border:1px solid var(--card-border);background:var(--card-bg);font-size:12px;font-weight:700;max-width:420px;text-align:center;line-height:1.4}
+.status-admin i{width:8px;height:8px;border-radius:50%;background:#10b981;flex:none}
+.status-admin.sibuk i{background:#f59e0b}
+.status-admin.offline i{background:#ef4444}
+.harga-update{font-size:11.5px;color:var(--muted);margin:-2px 2px 10px;font-weight:600}
+.cart-bar{width:100%;margin:0 0 12px;padding:11px;border-radius:14px;border:1px solid var(--accent-color);background:var(--soft);color:var(--accent-color);font-weight:800;font-size:12.5px;cursor:pointer}
+.cart-fab{position:fixed;right:25px;bottom:156px;z-index:91;width:52px;height:52px;border-radius:50%;border:none;background:var(--grad);color:var(--on-accent);font-size:22px;cursor:pointer;display:grid;place-items:center;box-shadow:0 10px 24px -10px rgba(0,0,0,.6)}
+.cart-fab span{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:#ef4444;color:#fff;font-size:11px;font-weight:800;display:grid;place-items:center}
+.cart-item{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:12px;border:1px solid var(--card-border);border-radius:14px;background:var(--card-bg);margin-bottom:8px;font-size:13px}
+.cart-item .ci-main{flex:1;min-width:0}
+.cart-item b{display:block;font-size:13.5px}
+.cart-item small{display:block;color:var(--muted);margin-top:2px;font-size:11.5px}
+.cart-qty{display:flex;align-items:center;gap:6px}
+.cart-qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--card-border);background:var(--input-bg);color:var(--text-color);cursor:pointer;font-weight:800}
+.cart-del{background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;padding:4px}
+.cart-total{display:flex;justify-content:space-between;gap:10px;padding:12px 4px;margin:10px 0;border-top:2px dashed var(--card-border);font-weight:800;color:var(--accent-color);font-size:14px}
+.cart-empty{text-align:center;color:var(--muted);padding:24px 8px;font-size:13px;line-height:1.6}
+.cart-check{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;font-weight:600;margin:4px 0 14px;line-height:1.5}
+.hist-item{flex-direction:column;align-items:stretch}
+.hist-actions{display:flex;gap:8px;margin-top:8px}
+.hist-actions button{flex:1}
 </style>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
@@ -855,6 +879,8 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         <span id="badge-status-text" style="color: var(--accent-color);">Memeriksa status toko...</span>
       </div>
 
+      <div class="status-admin" id="status-admin" hidden><i></i><span id="status-admin-teks"></span></div>
+
       <div class="stats-bar rise" style="--d:.46s">
         <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg></span><b id="stat-apps">–</b><span>Aplikasi</span></div>
         <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span><b id="stat-pkts">–</b><span>Paket</span></div>
@@ -895,6 +921,12 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg></span>
         <span class="mc-text"><b>Katalog Aplikasi Premium</b><small>Cek harga &amp; pilih paket favoritmu</small></span>
         <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>
+
+      <button class="menu-card wide span-2 rise" id="menu-riwayat" style="--d:.7s;display:none" onclick="vibratePhone(); bukaRiwayat()">
+        <span class="mc-icon">🔁</span>
+        <span class="mc-text"><b>Order Lagi / Perpanjang</b><small>Dari riwayat order di perangkat ini</small></span>
+        <span class="arrow-icon">&#10095;</span>
       </button>
 
       <button class="menu-card rise" style="--d:.72s" onclick="vibratePhone(); bukaFavoritSaya()">
@@ -1011,6 +1043,9 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     </div>
   </div>
 
+  <!-- TOMBOL KERANJANG MENGAMBANG -->
+  <button class="cart-fab" id="cart-fab" onclick="bukaKeranjang()" aria-label="Buka keranjang" hidden>🛒<span id="cart-fab-n">0</span></button>
+
   <!-- MODAL DRAWER -->
   <div id="drawer-modal" class="drawer-overlay" onclick="tutupLuar(event)">
     <div class="drawer-content">
@@ -1021,6 +1056,9 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           <h3 id="katalog-title">✦ PREMIUM APPS PRICELIST</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
+
+        <div class="harga-update" hidden></div>
+        <button type="button" class="cart-bar" onclick="bukaKeranjang()" hidden>🛒 Keranjang (<b class="cart-n">0</b>) · Lihat &amp; checkout →</button>
 
         <div class="search-box">
           <input type="text" id="search-app" placeholder="Cari aplikasi premium favoritmu..." oninput="filterAplikasi()">
@@ -1064,6 +1102,9 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           </select>
         </div>
 
+        <div class="harga-update" hidden></div>
+        <button type="button" class="cart-bar" onclick="bukaKeranjang()" hidden>🛒 Keranjang (<b class="cart-n">0</b>) · Lihat &amp; checkout →</button>
+
         <div class="hint-box">
           🐺 Klik ikon serigala untuk menyimpan ke <b>Favorit Saya</b> secara permanen!
         </div>
@@ -1080,6 +1121,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         </div>
 
         <form class="order-form" onsubmit="bukaNotaDigital(event)">
+          <div class="info-note status-admin-note" hidden></div>
           <div class="info-note" id="form-note">
             ⚡ <b>Estimasi Pengerjaan:</b> <span id="form-estimasi">1-30 menit</span> (no rush order). Konfirmasi jenis akun bisa dibicarakan di WhatsApp.
           </div>
@@ -1111,14 +1153,54 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           </div>
 
           <button type="submit" class="submit-btn" style="width: 100%;">TAMPILKAN NOTA PESANAN</button>
+          <button type="button" class="ask-btn" onclick="tambahKeranjang()">➕ TAMBAH KE KERANJANG &amp; PILIH LAGI</button>
           <button type="button" class="ask-btn" onclick="tanyaAdminWA()">💬 MASIH BINGUNG? TANYA ADMIN DULU YUK</button>
         </form>
+      </div>
+
+      <!-- VIEW KERANJANG -->
+      <div id="view-keranjang" class="view-panel" style="display: none;">
+        <div class="drawer-header">
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <h3>🛒 KERANJANG</h3>
+          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
+        </div>
+        <div class="info-note status-admin-note" hidden style="margin-bottom:12px"></div>
+        <div id="cart-list"></div>
+        <div id="cart-bawah">
+          <div class="cart-total"><span>Total</span><span id="cart-total">–</span></div>
+          <div class="info-note" id="cart-note" hidden style="margin-bottom:12px"></div>
+          <label class="cart-check"><input type="checkbox" id="cart-renewal"> <span>Ini perpanjangan (aku sudah punya akun/langganan dari REGARM-MART)</span></label>
+          <form class="order-form" onsubmit="bukaNotaKeranjang(event)">
+            <div class="form-box">
+              <label>Nomor WhatsApp Anda</label>
+              <input type="text" id="cart-wa" placeholder="Misal: 08123456789" required>
+            </div>
+            <div class="form-box">
+              <label>Pilihan Pembayaran</label>
+              <select id="cart-pay"></select>
+            </div>
+            <button type="submit" class="submit-btn" style="width: 100%;">TAMPILKAN NOTA PESANAN</button>
+            <button type="button" class="ask-btn" onclick="kosongkanKeranjang()">🗑️ KOSONGKAN KERANJANG</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- VIEW RIWAYAT / ORDER LAGI -->
+      <div id="view-riwayat" class="view-panel" style="display: none;">
+        <div class="drawer-header">
+          <h3>🔁 ORDER LAGI / PERPANJANG</h3>
+          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
+        </div>
+        <div class="info-note" style="margin-bottom:12px">Riwayat hanya tersimpan di perangkat ini. Harga yang dipakai adalah harga terbaru di katalog.</div>
+        <div id="hist-list"></div>
+        <button type="button" class="ask-btn" onclick="hapusRiwayat()">🗑️ HAPUS RIWAYAT DI PERANGKAT INI</button>
       </div>
 
       <!-- VIEW NOTA -->
       <div id="view-nota" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <button class="nav-btn" onclick="gantiView('view-form')">&#10094;</button>
+          <button class="nav-btn" onclick="notaKembali()">&#10094;</button>
           <h3>✦ NOTA DIGITAL</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
@@ -1133,6 +1215,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           <div class="receipt-row"><span>Aplikasi:</span> <span id="nota-app"></span></div>
           <div class="receipt-row"><span>Paket/Durasi:</span> <span id="nota-paket"></span></div>
           <div class="receipt-row" id="nota-row-yt" style="display:none;"><span>Tipe Akun:</span> <span id="nota-yt"></span></div>
+          <div id="nota-items" style="display:none;"></div>
           <div class="receipt-row"><span>Nomor WA Cust:</span> <span id="nota-wa"></span></div>
           
           <div class="receipt-total">
@@ -1291,7 +1374,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           <div class="snk-box">
             <div class="snk-title">✦ DATA YANG KAMI TERIMA</div>
             <div class="snk-text">
-              <p>❖ Website ini hanya katalog. Nomor WhatsApp dan pilihan paket di form hanya dipakai untuk menyusun pesan WhatsApp di perangkatmu, tidak dikirim ke server website dan tidak disimpan di sini.</p>
+              <p>❖ Website ini hanya katalog. Nomor WhatsApp dan pilihan paket di form hanya dipakai untuk menyusun pesan WhatsApp di perangkatmu dan tidak dikirim ke server website. Nomor WA dan riwayat pesanan terakhir hanya diingat di browser-mu agar form terisi otomatis.</p>
               <p>❖ Setelah kamu mengirim pesan, data yang kamu kirim sendiri lewat WhatsApp/Telegram (nomor, detail pesanan, bukti bayar, data klaim garansi) kami terima dan hanya dipakai untuk memproses order dan garansi.</p>
               <p>❖ Password yang diminta saat klaim adalah password akun yang kamu beli dari kami, bukan akun pribadimu yang lain.</p>
               <p>❖ Kami tidak menjual data kamu.</p>
@@ -1300,7 +1383,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
           <div class="snk-box">
             <div class="snk-title">✦ DATA DI PERANGKATMU</div>
             <div class="snk-text">
-              <p>❖ Tema, mode hemat efek, daftar favorit, dan penanda splash screen disimpan di browser-mu (localStorage/sessionStorage). Bisa dihapus kapan saja lewat pengaturan browser.</p>
+              <p>❖ Tema, mode hemat efek, daftar favorit, isi keranjang, nomor WA yang pernah kamu isi, riwayat pesanan terakhir, dan penanda splash screen disimpan di browser-mu (localStorage/sessionStorage). Riwayat bisa dihapus lewat menu Order Lagi, dan semuanya bisa dihapus lewat pengaturan browser.</p>
             </div>
           </div>
           <div class="snk-box">
@@ -1418,6 +1501,12 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     // --- QUICK COPY & SHARE API ---
     function salinInfoBayar() {
       vibratePhone();
+      if (window.notaMode === "cart" && window.notaSnapshot) {
+        const sn = window.notaSnapshot;
+        const t = `Order ID: ${sn.orderId}\n` + sn.lines.join("\n") + `\nTotal: ${sn.totalTxt}\nMetode Bayar: ${sn.pay}`;
+        navigator.clipboard.writeText(t).then(() => { showToast("✅ Detail nota berhasil disalin!"); });
+        return;
+      }
       const textToCopy = `Order ID: ${document.getElementById("nota-id").innerText}\nProduk: ${pApp} - ${pNamaPaket}\nHarga: ${pHarga}\nMetode Bayar: ${document.getElementById("nota-pay").innerText}`;
       navigator.clipboard.writeText(textToCopy).then(() => { showToast("✅ Detail nota berhasil disalin!"); });
     }
@@ -1894,7 +1983,9 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     function bukaNotaDigital(e) {
       e.preventDefault();
       vibratePhone();
+      if (window.resetNotaSingle) window.resetNotaSingle();
       const waCust = document.getElementById("input-wa-cust").value;
+      try { localStorage.setItem("regarm_wa", JSON.stringify(waCust.trim())); } catch (e) {}
       const pay = document.getElementById("input-pay").value;
       
       const orderId = "ORD-" + Math.random().toString(36).substring(2, 6).toUpperCase() + Math.floor(Math.random() * 99);
@@ -1926,7 +2017,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
 
     function lanjutKeWA() { 
       vibratePhone();
-      if (linkWaFinal !== "") { window.open(linkWaFinal, "_blank"); } 
+      if (linkWaFinal !== "") { if (window.catatRiwayat) window.catatRiwayat(); window.open(linkWaFinal, "_blank"); } 
     }
   </script>
 
@@ -2167,6 +2258,211 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
   document.addEventListener("visibilitychange", () => document.documentElement.classList.toggle("tab-hidden", document.hidden));
 </script>
 <script>
+  // ========== KERANJANG, RIWAYAT & ORDER ULANG ==========
+  (function () {
+    const K_CART = "regarm_cart", K_HIST = "regarm_riwayat", K_WA = "regarm_wa";
+    const $ = id => document.getElementById(id);
+    const load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+    const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+    const rp = n => "Rp" + Math.round(n).toLocaleString("id-ID");
+    const bersih = s => String(s == null ? "" : s).replace(/\[(HOT|PROMO|BARU|HABIS)\]/gi, "").replace(/\s+/g, " ").trim();
+    const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+    function valid(i) { return i && typeof i.app === "string" && typeof i.nama === "string" && i.app && i.nama; }
+    const rapikan = i => ({ app: String(i.app), nama: String(i.nama), harga: String(i.harga || ""), yt: String(i.yt || ""), q: Math.min(9, Math.max(1, parseInt(i.q, 10) || 1)) });
+    let cart = (Array.isArray(load(K_CART, [])) ? load(K_CART, []) : []).filter(valid).map(rapikan);
+    let hist = (Array.isArray(load(K_HIST, [])) ? load(K_HIST, []) : []).filter(h => h && Array.isArray(h.items)).map(h => ({ t: +h.t || Date.now(), items: h.items.filter(valid).map(rapikan) })).filter(h => h.items.length).slice(0, 6);
+
+    // harga: angka tunggal saja; "Rp4.000 / Rp7.000" = ambigu
+    function angka(h) {
+      h = String(h || "");
+      if (h.indexOf("/") > -1 || (h.match(/rp/gi) || []).length > 1) return null;
+      const d = h.replace(/[^0-9]/g, ""); return d ? parseInt(d, 10) : null;
+    }
+    function cariPaket(app, nama) {
+      const n = bersih(nama);
+      for (const k in DATABASE) {
+        const list = DATABASE[k][app]; if (!list) continue;
+        for (const p of list) { const parts = p.split(" - "); if (bersih(parts[0]) === n) return { harga: parts.length > 1 ? parts[1].trim() : "", habis: /\[HABIS\]/i.test(parts[0]) }; }
+      }
+      return null;
+    }
+    function hitung() {
+      let total = 0, ambigu = false;
+      cart.forEach(i => {
+        const a = angka(i.harga);
+        if (a == null) { ambigu = true; return; }
+        total += (a + (/\+\s*Rp\s?5\.?000/i.test(i.yt) ? 5000 : 0)) * i.q;
+      });
+      return { total, ambigu };
+    }
+    function totalTeks() {
+      const { total, ambigu } = hitung();
+      if (!total && ambigu) return "Dikonfirmasi admin";
+      return rp(total) + (ambigu ? " + paket berharga ganda (dikonfirmasi admin)" : "");
+    }
+    function jumlah() { return cart.reduce((a, i) => a + i.q, 0); }
+
+    function simpanCart() {
+      save(K_CART, cart);
+      const n = jumlah();
+      document.querySelectorAll(".cart-bar").forEach(b => { b.hidden = !n; });
+      document.querySelectorAll(".cart-n").forEach(e => { e.textContent = n; });
+      const fab = $("cart-fab"); if (fab) { fab.hidden = !n; $("cart-fab-n").textContent = n; }
+    }
+    function kartuRiwayat() { const c = $("menu-riwayat"); if (c) c.style.display = hist.length ? "" : "none"; }
+
+    window.tambahKeranjang = function () {
+      vibratePhone();
+      if (!pApp || !pNamaPaket) return;
+      const yt = pApp === "YouTube" ? $("input-yt-tipe").value : "";
+      const ada = cart.find(i => i.app === pApp && bersih(i.nama) === bersih(pNamaPaket) && i.yt === yt);
+      if (ada) ada.q = Math.min(9, ada.q + 1); else cart.push(rapikan({ app: pApp, nama: pNamaPaket, harga: pHarga, yt, q: 1 }));
+      simpanCart(); showToast("🛒 Ditambahkan ke keranjang!");
+      gantiView("view-pricelist-utama");
+    };
+
+    function segarkanHarga() {
+      const hilang = [];
+      cart = cart.filter(i => {
+        const c = cariPaket(i.app, i.nama);
+        if (!c || c.habis) { hilang.push(i.app + " " + i.nama); return false; }
+        i.harga = c.harga; return true;
+      });
+      return hilang;
+    }
+
+    function renderCart() {
+      const box = $("cart-list"); box.innerHTML = "";
+      $("cart-bawah").style.display = cart.length ? "" : "none";
+      if (!cart.length) { box.appendChild(el("div", "cart-empty", "Keranjang masih kosong. Pilih aplikasi di katalog, lalu tekan “Tambah ke keranjang”.")); return; }
+      cart.forEach((i, idx) => {
+        const row = el("div", "cart-item"), main = el("div", "ci-main");
+        main.append(el("b", "", i.app + " · " + i.nama), el("small", "", i.harga + (i.yt ? " · " + i.yt : "")));
+        const qty = el("div", "cart-qty");
+        const min = el("button", "", "−"), plus = el("button", "", "+"), jum = el("span", "", String(i.q));
+        min.type = plus.type = "button";
+        min.onclick = () => { if (i.q > 1) i.q--; else cart.splice(idx, 1); simpanCart(); renderCart(); };
+        plus.onclick = () => { i.q = Math.min(9, i.q + 1); simpanCart(); renderCart(); };
+        qty.append(min, jum, plus);
+        const del = el("button", "cart-del", "✕"); del.type = "button"; del.setAttribute("aria-label", "Hapus");
+        del.onclick = () => { cart.splice(idx, 1); simpanCart(); renderCart(); };
+        row.append(main, qty, del); box.appendChild(row);
+      });
+      $("cart-total").textContent = totalTeks();
+      const n = $("cart-note"), { ambigu } = hitung();
+      n.hidden = !ambigu;
+      n.textContent = ambigu ? "Ada paket dengan dua pilihan harga (mis. Anlim/Biasa). Admin akan mengonfirmasi total akhirnya di WhatsApp." : "";
+    }
+
+    window.bukaKeranjang = function () {
+      vibratePhone();
+      const hilang = segarkanHarga(); simpanCart();
+      if (hilang.length) showToast("⚠️ Dihapus (habis/tidak tersedia): " + hilang.join(", "));
+      const src = $("input-pay"), dst = $("cart-pay"), cur = dst.value; dst.innerHTML = "";
+      [...src.options].forEach(o => { const op = document.createElement("option"); op.value = o.value; op.textContent = o.textContent; dst.appendChild(op); });
+      if (cur && [...dst.options].some(o => o.value === cur)) dst.value = cur;
+      if (!$("cart-wa").value) $("cart-wa").value = load(K_WA, "") || "";
+      renderCart();
+      $("drawer-modal").style.display = "flex"; gantiView("view-keranjang");
+    };
+    window.kosongkanKeranjang = function () { vibratePhone(); cart = []; simpanCart(); renderCart(); showToast("Keranjang dikosongkan."); };
+
+    window.bukaNotaKeranjang = function (e) {
+      e.preventDefault(); vibratePhone();
+      if (!cart.length) return;
+      const wa = $("cart-wa").value.trim(), pay = $("cart-pay").value, renew = $("cart-renewal").checked;
+      save(K_WA, wa);
+      const orderId = "ORD-" + Math.random().toString(36).substring(2, 6).toUpperCase() + Math.floor(Math.random() * 99);
+      const now = new Date();
+      timeStrFinal = now.toLocaleDateString("id-ID") + " " + now.toLocaleTimeString("id-ID").substring(0, 5);
+      const tt = totalTeks();
+      const lines = cart.map((i, n) => (n + 1) + ". " + i.app + " - " + i.nama + " (" + i.harga + ")" + (i.q > 1 ? " x" + i.q : "") + (i.yt ? " | " + i.yt : ""));
+      const pesan = "Halo Admin REGARM-MART, saya mau " + (renew ? "PERPANJANG langganan" : "konfirmasi pesanan") + "!\n\n*📝 NOTA PESANAN | " + orderId + "*\n*⏰ Waktu Order:* " + timeStrFinal +
+        "\n----------------------------------\n• Item:\n" + lines.join("\n") + "\n• Total: " + tt + (renew ? "\n• Jenis: Perpanjangan (akun/email lama: ........)" : "") +
+        "\n• No. WhatsApp: " + wa + "\n• Pembayaran via: " + pay + "\n----------------------------------\nSegera diproses ya min, terima kasih! ⚡";
+      linkWaFinal = "https://wa.me/" + NO_WA + "?text=" + encodeURIComponent(pesan);
+
+      $("nota-id").innerText = orderId; $("nota-waktu").innerText = timeStrFinal; $("nota-wa").innerText = wa; $("nota-pay").innerText = pay;
+      $("nota-app").parentElement.style.display = "none"; $("nota-paket").parentElement.style.display = "none"; $("nota-row-yt").style.display = "none";
+      const box = $("nota-items"); box.innerHTML = ""; box.style.display = "";
+      cart.forEach(i => {
+        const r = el("div", "receipt-row");
+        r.append(el("span", "", i.app), el("span", "", i.nama + (i.q > 1 ? " ×" + i.q : "") + " · " + i.harga + (i.yt ? " (" + i.yt + ")" : "")));
+        box.appendChild(r);
+      });
+      const rt = el("div", "receipt-row"); rt.append(el("span", "", "Total"), el("span", "", tt)); box.appendChild(rt);
+      if (renew) { const rj = el("div", "receipt-row"); rj.append(el("span", "", "Jenis"), el("span", "", "Perpanjangan")); box.appendChild(rj); }
+      window.notaMode = "cart";
+      window.notaSnapshot = { orderId, lines, totalTxt: tt, pay, wa, items: cart.map(i => ({ ...i })) };
+      gantiView("view-nota");
+    };
+
+    window.resetNotaSingle = function () {
+      window.notaMode = "single"; window.notaSnapshot = null;
+      $("nota-app").parentElement.style.display = ""; $("nota-paket").parentElement.style.display = "";
+      const b = $("nota-items"); b.style.display = "none"; b.innerHTML = "";
+    };
+    window.notaKembali = function () { gantiView(window.notaMode === "cart" ? "view-keranjang" : "view-form"); };
+
+    // ----- riwayat -----
+    window.catatRiwayat = function () {
+      let items;
+      if (window.notaMode === "cart" && window.notaSnapshot) {
+        items = window.notaSnapshot.items.map(rapikan);
+        cart = []; simpanCart();
+      } else {
+        const yt = $("nota-row-yt").style.display === "none" ? "" : $("nota-yt").innerText;
+        items = [rapikan({ app: $("nota-app").innerText, nama: $("nota-paket").innerText, yt, q: 1 })];
+      }
+      hist.unshift({ t: Date.now(), items }); hist = hist.slice(0, 6); save(K_HIST, hist); kartuRiwayat();
+    };
+
+    function muatKeKeranjang(h, renew) {
+      const lewat = []; let tambah = 0;
+      h.items.forEach(i => {
+        const c = cariPaket(i.app, i.nama);
+        if (!c || c.habis) { lewat.push(i.app + " " + i.nama); return; }
+        const ada = cart.find(x => x.app === i.app && bersih(x.nama) === bersih(i.nama) && x.yt === i.yt);
+        if (ada) ada.q = Math.min(9, Math.max(ada.q, i.q)); else cart.push(rapikan({ app: i.app, nama: i.nama, harga: c.harga, yt: i.yt, q: i.q }));
+        tambah++;
+      });
+      simpanCart();
+      if (lewat.length) showToast("⚠️ Tidak tersedia lagi: " + lewat.join(", "));
+      if (!tambah) return;
+      window.bukaKeranjang(); $("cart-renewal").checked = !!renew;
+    }
+    function renderRiwayat() {
+      const box = $("hist-list"); box.innerHTML = "";
+      if (!hist.length) { box.appendChild(el("div", "cart-empty", "Belum ada riwayat order di perangkat ini.")); return; }
+      hist.forEach(h => {
+        const row = el("div", "cart-item hist-item");
+        row.appendChild(el("small", "", new Date(h.t).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })));
+        h.items.forEach(i => {
+          const c = cariPaket(i.app, i.nama);
+          const st = !c ? "tidak tersedia lagi" : c.habis ? "sedang habis" : c.harga;
+          const b = el("b", "", i.app + " · " + i.nama + (i.q > 1 ? " ×" + i.q : ""));
+          const sm = el("small", "", "Harga sekarang: " + st);
+          row.append(b, sm);
+        });
+        const act = el("div", "hist-actions");
+        const a = el("button", "ask-btn", "🔁 Order lagi"), b2 = el("button", "ask-btn", "♻️ Perpanjang");
+        a.type = b2.type = "button";
+        a.onclick = () => muatKeKeranjang(h, false); b2.onclick = () => muatKeKeranjang(h, true);
+        act.append(a, b2); row.appendChild(act); box.appendChild(row);
+      });
+    }
+    window.bukaRiwayat = function () { vibratePhone(); renderRiwayat(); $("drawer-modal").style.display = "flex"; gantiView("view-riwayat"); };
+    window.hapusRiwayat = function () { vibratePhone(); hist = []; save(K_HIST, hist); kartuRiwayat(); renderRiwayat(); showToast("Riwayat dihapus dari perangkat ini."); };
+
+    // ----- awal -----
+    const w = load(K_WA, "");
+    if (w && typeof w === "string") { if ($("input-wa-cust") && !$("input-wa-cust").value) $("input-wa-cust").value = w; }
+    window.notaMode = "single"; window.notaSnapshot = null;
+    simpanCart(); kartuRiwayat();
+  })();
+</script>
+<script>
   // ========== TOKO.JSON (semua teks yang sering diubah) ==========
   // Semua kunci opsional. Kalau toko.json tidak ada / rusak, tampilan memakai isi bawaan di index.
   (function () {
@@ -2175,29 +2471,25 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     const jalan = (nama, fn) => { try { fn(); } catch (e) { console.warn("toko.json [" + nama + "]:", e); } };
     const $ = id => document.getElementById(id);
     const httpsOk = u => /^https:\/\//i.test(u);
+    const estOf = t => isStr(t.estimasi) ? t.estimasi.trim() : "1-30 menit";
+    const tglId = v => {
+      v = String(v).trim();
+      if (/^\d{4}-\d{2}-\d{2}/.test(v)) { const d = new Date(v.slice(0, 10) + "T00:00:00+07:00"); if (!isNaN(d)) return d.toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Jakarta" }); }
+      return v;
+    };
 
-    fetch("toko.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : Promise.reject()).then(t => {
-      if (!t || typeof t !== "object" || Array.isArray(t)) throw new Error("format salah (harus berupa objek { })");
-      window.TOKO = t;
-      const est = isStr(t.estimasi) ? t.estimasi.trim() : "1-30 menit";
-      const T = x => String(x).replace(/\{estimasi\}/g, est);
+    // yang boleh berubah tanpa reload (dicek ulang tiap 60 detik)
+    function terapkanLive(t) {
+      const est = estOf(t), T = x => String(x).replace(/\{estimasi\}/g, est);
 
       jalan("estimasi", () => { if ($("form-estimasi")) $("form-estimasi").textContent = est; });
 
       jalan("banner", () => {
-        const b = t.banner; if (b === undefined) return;
+        const b = t.banner, box = $("maintenance-box"); if (b === undefined || !box) return;
         const teks = typeof b === "string" ? b : (b && b.teks);
         const tampil = (b && typeof b === "object") ? b.tampil !== false : true;
         if (isStr(teks) && $("banner-isi")) $("banner-isi").textContent = T(teks);
-        if ($("maintenance-box")) $("maintenance-box").style.display = tampil ? "" : "none";
-      });
-
-      jalan("marquee", () => {
-        if (!Array.isArray(t.marquee)) return;
-        const it = strs(t.marquee), box = document.querySelector(".promo-marquee");
-        if (!it.length) { if (box) box.style.display = "none"; return; }
-        const txt = it.map((x, i) => (i % 2 ? "✧" : "✦") + " " + x).join(" ") + " " + (it.length % 2 ? "✧" : "✦");
-        document.querySelectorAll(".marquee-text").forEach(el => { el.textContent = txt; });
+        if (!tampil) box.style.display = "none"; else if (!box.dataset.closed) box.style.display = "";
       });
 
       jalan("jam", () => {
@@ -2206,6 +2498,34 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         const f = x => String(x || "").replace(":", ".");
         if ($("jam-teks") && j.buka && j.tutup) $("jam-teks").textContent = "Pukul " + f(j.buka) + " – " + f(j.tutup) + " WIB";
         if (typeof checkJamOperasional === "function") checkJamOperasional();
+      });
+
+      jalan("status_admin", () => {
+        const s = t.status_admin;
+        const on = !!(s && typeof s === "object" && s.tampil !== false && isStr(s.teks));
+        const teks = on ? T(s.teks.trim()) : "";
+        const lv = on && ["ok", "sibuk", "offline"].includes(s.level) ? s.level : "ok";
+        const h = $("status-admin");
+        if (h) { h.hidden = !on; h.className = "status-admin " + lv; $("status-admin-teks").textContent = teks; }
+        document.querySelectorAll(".status-admin-note").forEach(n => { n.hidden = !on; n.textContent = on ? "ℹ️ Info admin: " + teks : ""; });
+      });
+
+      jalan("harga_diperbarui", () => {
+        const on = isStr(t.harga_diperbarui);
+        document.querySelectorAll(".harga-update").forEach(e => { e.hidden = !on; e.textContent = on ? "🕒 Harga diperbarui: " + tglId(t.harga_diperbarui) : ""; });
+      });
+    }
+
+    // sisanya hanya diterapkan sekali saat halaman dibuka
+    function terapkanPenuh(t) {
+      const est = estOf(t), T = x => String(x).replace(/\{estimasi\}/g, est);
+
+      jalan("marquee", () => {
+        if (!Array.isArray(t.marquee)) return;
+        const it = strs(t.marquee), box = document.querySelector(".promo-marquee");
+        if (!it.length) { if (box) box.style.display = "none"; return; }
+        const txt = it.map((x, i) => (i % 2 ? "✧" : "✦") + " " + x).join(" ") + " " + (it.length % 2 ? "✧" : "✦");
+        document.querySelectorAll(".marquee-text").forEach(el => { el.textContent = txt; });
       });
 
       jalan("kontak", () => {
@@ -2238,7 +2558,8 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         if (Array.isArray(t.populer)) { window.POPULER = strs(t.populer); ubah = true; }
         if (t.app_info && typeof t.app_info === "object") { for (const k in t.app_info) if (isStr(t.app_info[k])) APP_INFO[k] = t.app_info[k]; }
         if (t.logo_domain && typeof t.logo_domain === "object") {
-          for (const k in t.logo_domain) if (isStr(t.logo_domain[k]) && /^[a-z0-9.-]+$/i.test(t.logo_domain[k].trim())) appDomains[k] = t.logo_domain[k].trim(); ubah = true;
+          for (const k in t.logo_domain) if (isStr(t.logo_domain[k]) && /^[a-z0-9.-]+$/i.test(t.logo_domain[k].trim())) appDomains[k] = t.logo_domain[k].trim();
+          ubah = true;
         }
         if (ubah) {
           if (window.refreshBeranda) window.refreshBeranda();
@@ -2274,7 +2595,19 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         it.forEach(x => { const o = document.createElement("option"); o.value = x.v.trim(); o.textContent = isStr(x.l) ? x.l.trim() : x.v.trim(); sel.appendChild(o); });
         if ([...sel.options].some(o => o.value === cur)) sel.value = cur;
       });
-    }).catch(e => { if (e && e.message) console.warn("toko.json:", e.message); });
+    }
+
+    function ambil() {
+      return fetch("toko.json", { cache: "no-cache" }).then(r => r.ok ? r.json() : Promise.reject()).then(t => {
+        if (!t || typeof t !== "object" || Array.isArray(t)) throw new Error("format salah (harus berupa objek { })");
+        window.TOKO = t; return t;
+      });
+    }
+    const xb = document.querySelector("#maintenance-box .close-banner");
+    if (xb) xb.addEventListener("click", () => { $("maintenance-box").dataset.closed = "1"; });
+
+    ambil().then(t => { terapkanLive(t); terapkanPenuh(t); }).catch(e => { if (e && e.message) console.warn("toko.json:", e.message); });
+    setInterval(() => { if (document.hidden) return; ambil().then(terapkanLive).catch(() => {}); }, 60000);
   })();
 </script>
 </body>

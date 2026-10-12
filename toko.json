@@ -1,6 +1,12 @@
 {
-  "_petunjuk": "Edit isi di dalam tanda kutip saja. Jangan hapus koma, kurung, atau tanda kutip. Tulis {estimasi} di teks mana pun untuk otomatis memakai nilai estimasi. Kunci yang dihapus = pakai isi bawaan di index. Cek hasil edit di jsonlint.com sebelum commit.",
+  "_petunjuk": "Edit isi di dalam tanda kutip saja. Jangan hapus koma, kurung, atau tanda kutip. Tulis {estimasi} di teks mana pun untuk otomatis memakai nilai estimasi. Kunci yang dihapus = pakai isi bawaan di index. harga_diperbarui: isi tanggal seperti 2026-10-12 (kosong = tidak ditampilkan). status_admin: ubah tampil jadi true dan level jadi ok / sibuk / offline untuk memunculkan info di beranda, form, dan keranjang. Status, banner, dan jam dicek ulang otomatis tiap 60 detik tanpa perlu refresh. Cek hasil edit di jsonlint.com sebelum commit.",
   "estimasi": "1-30 menit",
+  "harga_diperbarui": "",
+  "status_admin": {
+    "tampil": false,
+    "level": "ok",
+    "teks": "Admin sedang sibuk, balasan sekitar {estimasi}"
+  },
   "banner": {
     "tampil": true,
     "teks": "Antrean normal ({estimasi}). Mohon sabar ya min!"
@@ -114,7 +120,7 @@
     },
     {
       "q": "Apakah bisa untuk perpanjangan (renewal)?",
-      "a": "Bisa banget, cukup konfirmasikan ke admin saat chat WhatsApp."
+      "a": "Bisa banget! Setelah kamu pernah order di perangkat ini, pilih menu “Order Lagi / Perpanjang” di beranda. Atau konfirmasikan langsung ke admin saat chat WhatsApp."
     }
   ],
   "ketentuan": [
