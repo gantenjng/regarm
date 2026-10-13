@@ -3,7 +3,7 @@
   "estimasi": "1-30 menit",
   "harga_diperbarui": "",
   "status_admin": {
-    "tampil": false,
+    "tampil": true,
     "level": "sibuk",
     "teks": "Admin sedang sibuk, balasan sekitar {estimasi}",
     "jadwal": [
@@ -11,16 +11,16 @@
         "mulai": "19:00",
         "selesai": "22:00",
         "level": "sibuk",
-        "teks": "Jam ramai, balasan admin bisa lebih lama dari biasanya"
+        "teks": "Jam ramai, balasan admin bisa sedikit lebih lama dari biasanya"
       }
     ]
   },
   "banner": {
     "tampil": true,
-    "teks": "Antrean normal ({estimasi}). Mohon sabar ya min!"
+    "teks": "Antrean normal ({estimasi}). Mohon sabar ya buyer pembaikku!"
   },
   "marquee": [
-    "NANTI ADA PROMO/DISKON KALAU RAMAI",
+    "NANTIKAN PROMONYA",
     "JANGAN RAGU BUAT BELI",
     "TRUSTED SINCE 2023 WITH 300+ PROOF",
     "ADA HARGA ADA KUALITAS",
@@ -28,7 +28,7 @@
   ],
   "jam": {
     "buka": "10:00",
-    "tutup": "00:30",
+    "tutup": "01:00",
     "status": "auto",
     "pesan_tutup": ""
   },
