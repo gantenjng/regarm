@@ -1,11 +1,19 @@
 {
-  "_petunjuk": "Edit isi di dalam tanda kutip saja. Jangan hapus koma, kurung, atau tanda kutip. Tulis {estimasi} di teks mana pun untuk otomatis memakai nilai estimasi. Kunci yang dihapus = pakai isi bawaan di index. harga_diperbarui: isi tanggal seperti 2026-10-12 (kosong = tidak ditampilkan). status_admin: ubah tampil jadi true dan level jadi ok / sibuk / offline untuk memunculkan info di beranda, form, dan keranjang. Status, banner, dan jam dicek ulang otomatis tiap 60 detik tanpa perlu refresh. Cek hasil edit di jsonlint.com sebelum commit.",
+  "_petunjuk": "Edit isi di dalam tanda kutip saja. Jangan hapus koma, kurung, atau tanda kutip. Tulis {estimasi} di teks mana pun untuk otomatis memakai nilai estimasi. Kunci yang dihapus = pakai isi bawaan di index. harga_diperbarui: isi tanggal seperti 2026-10-12 (kosong = tidak ditampilkan). status_admin: kalau tampil = true, teks manual dipakai terus. Kalau tampil = false, yang dipakai adalah jadwal otomatis (jam WIB, format 24 jam, boleh lewat tengah malam). Tiap jadwal: mulai, selesai, level (ok / sibuk / offline), teks, dan hari opsional [0=Minggu ... 6=Sabtu]. Kosongkan jadwal ([]) untuk mematikan status otomatis. Status, banner, dan jam dicek ulang otomatis tiap 60 detik tanpa perlu refresh. Cek hasil edit di jsonlint.com sebelum commit.",
   "estimasi": "1-30 menit",
   "harga_diperbarui": "",
   "status_admin": {
     "tampil": false,
-    "level": "ok",
-    "teks": "Admin sedang sibuk, balasan sekitar {estimasi}"
+    "level": "sibuk",
+    "teks": "Admin sedang sibuk, balasan sekitar {estimasi}",
+    "jadwal": [
+      {
+        "mulai": "19:00",
+        "selesai": "22:00",
+        "level": "sibuk",
+        "teks": "Jam ramai, balasan admin bisa lebih lama dari biasanya"
+      }
+    ]
   },
   "banner": {
     "tampil": true,

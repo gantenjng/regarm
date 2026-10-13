@@ -2478,6 +2478,22 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
       return v;
     };
 
+    // jadwal status otomatis (waktu WIB). Mendukung rentang lewat tengah malam & filter hari (0=Minggu ... 6=Sabtu)
+    function jadwalAktif(list) {
+      const p = {};
+      new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jakarta", hour: "numeric", minute: "numeric", hour12: false, weekday: "short" })
+        .formatToParts(new Date()).forEach(x => { p[x.type] = x.value; });
+      const now = (+p.hour % 24) * 60 + (+p.minute), hari = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(p.weekday);
+      const mnt = v => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(v || "")); return m ? +m[1] * 60 + +m[2] : null; };
+      for (const j of list) {
+        if (!j || !isStr(j.teks)) continue;
+        const a = mnt(j.mulai), b = mnt(j.selesai); if (a == null || b == null) continue;
+        if (Array.isArray(j.hari) && j.hari.length && !j.hari.includes(hari)) continue;
+        if (a <= b ? (now >= a && now < b) : (now >= a || now < b)) return j;
+      }
+      return null;
+    }
+
     // yang boleh berubah tanpa reload (dicek ulang tiap 60 detik)
     function terapkanLive(t) {
       const est = estOf(t), T = x => String(x).replace(/\{estimasi\}/g, est);
@@ -2502,9 +2518,14 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
 
       jalan("status_admin", () => {
         const s = t.status_admin;
-        const on = !!(s && typeof s === "object" && s.tampil !== false && isStr(s.teks));
-        const teks = on ? T(s.teks.trim()) : "";
-        const lv = on && ["ok", "sibuk", "offline"].includes(s.level) ? s.level : "ok";
+        let aktif = null;
+        if (s && typeof s === "object") {
+          if (s.tampil !== false && isStr(s.teks)) aktif = s;            // manual selalu menang
+          else if (Array.isArray(s.jadwal)) aktif = jadwalAktif(s.jadwal); // otomatis menurut jam (WIB)
+        }
+        const on = !!aktif;
+        const teks = on ? T(aktif.teks.trim()) : "";
+        const lv = on && ["ok", "sibuk", "offline"].includes(aktif.level) ? aktif.level : "ok";
         const h = $("status-admin");
         if (h) { h.hidden = !on; h.className = "status-admin " + lv; $("status-admin-teks").textContent = teks; }
         document.querySelectorAll(".status-admin-note").forEach(n => { n.hidden = !on; n.textContent = on ? "ℹ️ Info admin: " + teks : ""; });
@@ -2607,7 +2628,7 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     if (xb) xb.addEventListener("click", () => { $("maintenance-box").dataset.closed = "1"; });
 
     ambil().then(t => { terapkanLive(t); terapkanPenuh(t); }).catch(e => { if (e && e.message) console.warn("toko.json:", e.message); });
-    setInterval(() => { if (document.hidden) return; ambil().then(terapkanLive).catch(() => {}); }, 60000);
+    setInterval(() => { if (document.hidden) return; ambil().then(terapkanLive).catch(() => { if (window.TOKO) terapkanLive(window.TOKO); }); }, 60000);
   })();
 </script>
 </body>
