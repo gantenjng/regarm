@@ -107,15 +107,15 @@ td small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}td.up,
   <div class="card bn" id="nd"><span>🌙 Belum ada catatan hari ini. Ada transaksi yang terlewat?</span></div>
 
   <div class="bar">
-    <select id="per"><option value="today">Hari ini</option><option value="7">7 hari terakhir</option><option value="month" selected>Bulan ini</option><option value="lastm">Bulan lalu</option><option value="all">Semua waktu</option></select>
+    <select id="per"><option value="today">Hari ini</option><option value="7">7 hari terakhir</option><option value="week">Minggu ini (Sen–Min)</option><option value="lastw">Minggu lalu</option><option value="month" selected>Bulan ini</option><option value="lastm">Bulan lalu</option><option value="all">Semua waktu</option></select>
     <input id="q" type="search" placeholder="🔍 Cari produk / pembeli / catatan">
     <select id="sf"><option value="">Semua status</option><option value="lunas">Lunas</option><option value="pending">Pending</option><option value="refund">Refund</option><option value="keluar">Pengeluaran</option></select>
   </div>
 
   <div class="kpi">
-    <div class="card"><span>Omzet</span><b id="k1">Rp0</b></div>
-    <div class="card"><span>Untung bersih</span><b id="k2" class="up">Rp0</b><div class="mut" id="k2s"></div></div>
-    <div class="card"><span>Transaksi</span><b id="k3">0</b></div>
+    <div class="card"><span>Omzet</span><b id="k1">Rp0</b><div class="mut" id="d1"></div></div>
+    <div class="card"><span>Untung bersih</span><b id="k2" class="up">Rp0</b><div class="mut" id="k2s"></div><div class="mut" id="d2"></div></div>
+    <div class="card"><span>Transaksi</span><b id="k3">0</b><div class="mut" id="d3"></div></div>
     <div class="card"><span>Margin</span><b id="k4">0%</b></div>
     <div class="card"><span>Pending (belum bayar)</span><b id="k5">Rp0</b></div>
   </div>
@@ -128,6 +128,13 @@ td small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}td.up,
   </div>
 
   <div class="card" id="rm" style="display:none"><h3>⏰ Segera berakhir — saatnya follow up</h3><div id="rl"></div></div>
+
+  <div class="card" id="pu" style="display:none"><h3>💳 Belum dibayar <span class="mut" id="pun"></span></h3><div id="pul"></div></div>
+
+  <div class="two">
+    <div class="card"><h3>📊 Per aplikasi <select id="pam" style="width:auto;padding:4px 8px;font-size:12px"><option value="pr">Untung</option><option value="om">Omzet</option><option value="n">Jumlah</option></select></h3><div id="pa"></div></div>
+    <div class="card"><h3>🏆 Pembeli setia</h3><div id="pb2"></div></div>
+  </div>
 
   <div class="main">
     <div class="card">
@@ -329,6 +336,59 @@ $('qb').onclick=()=>{quick($('qi').value);$('qi').value=''};$('qi').onkeydown=e=
 $('qc').onclick=e=>{const b=e.target.closest('[data-q]');if(b)quick(b.dataset.q)};
 
 paint();resetF();render();sync();
+</script>
+<script>
+/* ===== TAMBAHAN V3: minggu, perbandingan, belum dibayar, per aplikasi, pembeli setia ===== */
+(function(){
+let APPS=[];
+const wk=d=>{const x=new Date(d);x.setDate(x.getDate()-((x.getDay()+6)%7));x.setHours(0,0,0,0);return x};
+const _inP=inP;
+inP=function(t,p){const d=t.date;
+  if(p==='week'){const s=wk(new Date());return d>=iso(s)&&d<=iso(addD(s,6))}
+  if(p==='lastw'){const s=addD(wk(new Date()),-7);return d>=iso(s)&&d<=iso(addD(s,6))}
+  return _inP(t,p)};
+PL.week='Minggu ini';PL.lastw='Minggu lalu';
+function inPrev(t,p){const d=t.date,n=new Date();
+  if(p==='today')return d===iso(addD(n,-1));
+  if(p==='7')return d>=iso(addD(n,-13))&&d<=iso(addD(n,-7));
+  if(p==='month')return inP(t,'lastm');
+  if(p==='lastm'){const x=new Date();x.setDate(1);x.setMonth(x.getMonth()-2);return d.slice(0,7)===iso(x).slice(0,7)}
+  if(p==='week')return inP(t,'lastw');
+  if(p==='lastw'){const s=addD(wk(n),-14);return d>=iso(s)&&d<=iso(addD(s,6))}
+  return null}
+const dlt=(c,pv)=>{if(pv==null)return['',''];if(!pv&&!c)return['—',''];if(!pv)return['▲ baru','up'];const v=(c-pv)/Math.abs(pv)*100;return[(v>=0?'▲ ':'▼ ')+Math.abs(v).toFixed(0)+'% vs periode lalu',v>=0?'up':'dn']};
+const appOf=n=>{const l=String(n).toLowerCase();let b='';APPS.forEach(a=>{if(l.startsWith(a.toLowerCase())&&a.length>b.length)b=a});return b||String(n).split(/\s+/)[0]};
+function bars(el,rows,fmt){el.innerHTML=rows.length?rows.map(([k,v,w])=>`<div class="tp"><div class="tn"><b>${esc(k)}</b><span>${fmt(v)}</span></div><i style="width:${Math.max(3,w)}%"></i></div>`).join(''):'<p class="mut">Belum ada data di periode ini.</p>'}
+function extra(){
+  const p=$('per').value,P=A.filter(t=>inP(t,p)),st=stat(P),pv=inPrev&&A.some(()=>true)&&p!=='all'?stat(A.filter(t=>inPrev(t,p))):null;
+  [['d1',st.om,pv&&pv.om],['d2',st.pr,pv&&pv.pr],['d3',st.n,pv&&pv.n]].forEach(([id,c,o])=>{const [tx,cl]=dlt(c,o==null?null:o);$(id).textContent=tx;$(id).className='mut '+cl});
+  /* belum dibayar (semua waktu) */
+  const U=A.filter(t=>t.type==='jual'&&t.status==='pending').sort((a,b)=>a.date.localeCompare(b.date));
+  $('pu').style.display=U.length?'':'none';$('pun').textContent=U.length?U.length+' pesanan · '+rp(sum(U,'jual')):'';
+  $('pul').innerHTML=U.map(t=>{const age=Math.max(0,Math.round((D(iso(new Date()))-D(t.date))/864e5));return `<div class="rem"><span><b>${esc(t.name)}</b>${t.buyer?' · '+esc(t.buyer):''} <span class="ex">${rp(t.jual)} · ${age===0?'hari ini':age+' hari'}</span></span><span style="display:flex;gap:6px"><button class="btn" data-pt="${esc(t.id)}">Tagih</button><button class="btn pri" data-pl="${esc(t.id)}">✓ Lunas</button></span></div>`}).join('');
+  /* per aplikasi */
+  const m={};st.s.forEach(t=>{const a=appOf(t.name),x=m[a]||(m[a]={n:0,om:0,pr:0});x.n++;x.om+=t.jual;x.pr+=t.profit});
+  const k=$('pam').value,rows=Object.entries(m).sort((a,b)=>b[1][k]-a[1][k]).slice(0,8),mx=Math.max(1,...rows.map(r=>Math.abs(r[1][k])));
+  bars($('pa'),rows.map(([a,x])=>[a,x[k],Math.abs(x[k])/mx*100]),v=>k==='n'?v+'x':rp(v));
+  /* pembeli setia (semua waktu) */
+  const b={};A.filter(t=>t.type==='jual'&&t.status==='lunas'&&t.buyer).forEach(t=>{const x=b[t.buyer]||(b[t.buyer]={n:0,j:0,l:''});x.n++;x.j+=t.jual;if(t.date>x.l)x.l=t.date});
+  const br=Object.entries(b).sort((a,c)=>c[1].n-a[1].n||c[1].j-a[1].j).slice(0,5),bm=Math.max(1,...br.map(r=>r[1].n));
+  bars($('pb2'),br.map(([a,x])=>[a,x,x.n/bm*100]),x=>x.n+'x · '+rp(x.j));
+}
+const _r=render;render=function(){_r();extra()};
+$('pam').addEventListener('change',extra);
+$('pul').onclick=e=>{const l=e.target.closest('[data-pl]'),g=e.target.closest('[data-pt]');
+  if(l){const id=l.dataset.pl,old=T.slice();setT(T.map(t=>String(t.id)===id?Object.assign({},t,{status:'lunas'}):t));render();toast('✅ Ditandai lunas',()=>{setT(old);render()})}
+  if(g){const t=A.find(x=>String(x.id)===g.dataset.pt);if(t)clip(`Halo kak${t.buyer?' '+t.buyer:''} 👋 pesanan ${t.name} (${rp(t.jual)}) masih menunggu pembayaran. Kalau sudah transfer, kirim bukti ya 🙏 — REGARM-MART`)}};
+/* salin laporan: ada perbandingan & per aplikasi */
+copyRekap=function(){const p=$('per').value,P=A.filter(t=>inP(t,p)),st=stat(P),pv=p!=='all'?stat(A.filter(t=>inPrev(t,p))):null;
+  const m={};st.s.forEach(t=>{const a=appOf(t.name);m[a]=(m[a]||0)+t.profit});
+  const top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>k+' ('+rp(v)+')').join(', ');
+  const d=(c,o)=>pv?' ('+dlt(c,o)[0].replace(' vs periode lalu','')+')':'';
+  clip(`📒 LAPORAN REGARM-MART — ${PL[p]}\nTransaksi: ${st.n}${pv?d(st.n,pv.n):''}\nOmzet: ${rp(st.om)}${pv?d(st.om,pv.om):''}\nModal & biaya: ${rp(st.mo)}\nUntung bersih: ${rp(st.pr)}${pv?d(st.pr,pv.pr):''}\nMargin: ${st.om?(st.pr/st.om*100).toFixed(1):0}%\nBelum dibayar: ${rp(st.pend)}`+(top?`\nUntung terbesar: ${top}`:'')+(pv?'\n(▲▼ = dibanding periode sebelumnya)':''))};
+fetch('produk.json',{cache:'no-cache'}).then(r=>r.ok?r.json():0).then(j=>{if(!j)return;APPS=[];for(const c in j)for(const a in j[c])APPS.push(a);render()}).catch(()=>{});
+render();
+})();
 </script>
 </body>
 </html>
