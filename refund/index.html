@@ -2,7 +2,7 @@
 <html lang="id" data-mode="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="noindex,nofollow">
 <title>Kalkulator Refund | REGARM-MART</title>
 <link rel="icon" href="../ava.png">
@@ -10,8 +10,18 @@
 <style>
 :root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
 [data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#e2e8f0;--inp:#f8fafc;--hard:#111;--ok:#15803d;--bad:#c1121f;color-scheme:light}
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:18px 14px 70px;min-height:100vh;position:relative;overflow-x:hidden;transition:background .4s}
+
+* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body {
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:16px 12px 60px;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  transition:background .4s;
+}
 button,input,select,textarea{font-family:inherit;color:inherit}
 
 /* BACKGROUND & ZAY TEXT EFFECT */
@@ -25,9 +35,19 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 .zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 20%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 10%,transparent)}
 .zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 6%,transparent)}
 
-.wrap{position:relative;z-index:2;max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+/* CONTAINER UTAMA AGAR FIXED & TIDAK JEBOL DI HP/PC */
+.wrap{
+  position:relative;
+  z-index:2;
+  max-width:680px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width: 100%;
+}
 .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.ttl{font:400 clamp(24px,6vw,36px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl{font:400 clamp(22px,5vw,34px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
 .ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px}
 
 /* GLITCH EFFECT */
@@ -37,7 +57,7 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 @keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
 @keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
 
-.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:20px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4)}
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:16px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%;}
 .btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
 .btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
@@ -47,15 +67,21 @@ button,input,select,textarea{font-family:inherit;color:inherit}
 
 input,select,textarea{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;color:var(--text)}
 input:focus,select:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
-form .f{margin-bottom:14px}
+form .f{margin-bottom:12px}
 form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
 
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+/* RESPONSIF GRID YANG AMAN UNTUK HP KECIL MAUPUN LAPTOP */
+.g2{display:grid;grid-template-columns:1fr;gap:10px}
+.g3{display:grid;grid-template-columns:1fr;gap:10px}
 
-.result-box{background:color-mix(in srgb,var(--p) 12%,var(--card));border:2px solid var(--p);border-radius:10px;padding:20px;margin-top:16px;text-align:center;box-shadow:4px 4px 0 var(--s)}
+@media(min-width: 540px) {
+  .g2{grid-template-columns:1fr 1fr;}
+  .g3{grid-template-columns:1fr 1fr 1fr;}
+}
+
+.result-box{background:color-mix(in srgb,var(--p) 12%,var(--card));border:2px solid var(--p);border-radius:10px;padding:16px;margin-top:16px;text-align:center;box-shadow:4px 4px 0 var(--s)}
 .result-box h4{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-weight:700}
-.result-value{font:400 36px/1 Anton,sans-serif;color:var(--p);letter-spacing:1px;margin-bottom:14px;text-shadow:2px 2px 0 var(--s)}
+.result-value{font:400 32px/1 Anton,sans-serif;color:var(--p);letter-spacing:1px;margin-bottom:12px;text-shadow:2px 2px 0 var(--s)}
 
 .info-box{font-size:12.5px;color:var(--muted);line-height:1.6}
 .info-box b{color:var(--text)}
@@ -93,7 +119,7 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
   </div>
 
   <div class="card">
-    <h3 style="font-family:'Anton',sans-serif;font-size:18px;margin-bottom:12px;letter-spacing:1px;color:var(--p)">⚙️ KALKULATOR REFUND</h3>
+    <h3 style="font-family:'Anton',sans-serif;font-size:17px;margin-bottom:12px;letter-spacing:1px;color:var(--p)">⚙️ KALKULATOR PRORATA REFUND</h3>
     
     <form id="calcForm" onsubmit="event.preventDefault(); hitungRefund();">
       <div class="f">
@@ -117,10 +143,10 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
         </div>
       </div>
 
-      <!-- KOTAK GENERATOR HARI OTOMATIS -->
-      <div class="card" style="background:var(--inp);margin-bottom:14px;padding:14px">
-        <label style="color:var(--p);margin-bottom:6px;display:block">📅 Generator Durasi & Sisa Hari Otomatis</label>
-        <div class="badge-info">💡 Isi 3 tanggal di bawah lalu klik tombol hitung</div>
+      <!-- KOTAK GENERATOR HARI OTOMATIS (FIXED AGAR TIDAK TERPOTONG DI HP) -->
+      <div class="card" style="background:var(--inp);margin-bottom:14px;padding:12px">
+        <label style="color:var(--p);margin-bottom:6px;display:block;font-size:13px">📅 Generator Durasi & Sisa Hari Otomatis</label>
+        <div class="badge-info">💡 Isi 3 tanggal di bawah lalu klik hitung</div>
         
         <div class="g3">
           <div class="f" style="margin-bottom:8px"><label>Tgl Beli</label><input type="date" id="tglBeli"></div>
@@ -141,7 +167,7 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
         </div>
       </div>
 
-      <button type="submit" class="btn pri" style="width:100%;padding:14px;margin-top:6px">HITUNG NOMINAL REFUND</button>
+      <button type="submit" class="btn pri" style="width:100%;padding:13px;margin-top:6px">HITUNG NOMINAL REFUND</button>
     </form>
 
     <div class="result-box" id="resCard" style="display:none">
@@ -151,7 +177,7 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
       
       <div style="display:flex; gap:8px; flex-wrap:wrap">
         <button class="btn pri" style="flex:1" onclick="salinHasil()">📋 Salin Teks</button>
-        <button class="btn wa" style="flex:1" onclick="kirimKeWA()">🟢 Kirim ke WhatsApp Admin</button>
+        <button class="btn wa" style="flex:1" onclick="kirimKeWA()">🟢 Kirim ke WA</button>
       </div>
     </div>
   </div>
