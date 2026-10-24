@@ -10,23 +10,42 @@
 <style>
 :root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
 * {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);padding:16px 12px 60px;min-height:100vh;overflow-x:hidden;}
+body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);padding:16px 12px 60px;min-height:100vh;overflow-x:hidden;position:relative}
 button,input,select,textarea{font-family:inherit;color:inherit;outline:none}
 a{color:inherit;text-decoration:none}
 
+/* BACKGROUND & ZAY TEXT EFFECT */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .au{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:dr 26s ease-in-out infinite alternate}
-.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
+.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}
+.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
 @keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
 
+.zay{position:absolute;left:-25%;top:-25%;width:150%;height:150%;display:flex;flex-direction:column;justify-content:space-around;transform:rotate(-9deg);z-index:0}
+.zay div{display:flex;justify-content:space-around}
+.zay div:nth-child(even){margin-left:-9vw}
+.zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 20%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 10%,transparent)}
+.zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 6%,transparent)}
+
+/* LAYOUT UTAMA */
 .wrap{position:relative;z-index:2;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
-.hd{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .ttl{font:400 clamp(22px,5vw,34px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
 .ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px}
 
+/* GLITCH EFFECT */
+.gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
+.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;clip-path:inset(0 0 100% 0);text-shadow:none}
+.gl::before{color:var(--p);animation:g1 4.5s infinite steps(1)}
+.gl::after{color:#2ee6ff;animation:g2 4.5s infinite steps(1)}
+@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
+@keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
+
+/* NAVS MENU */
 .navs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
 .navs::-webkit-scrollbar{display:none}
 .navs a{flex:none;padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:12px;font-weight:800;transition:all .2s}
+.navs a:hover{border-color:var(--p)}
 .navs a.on{background:var(--p);color:#111;border-color:#111;box-shadow:3px 3px 0 var(--s)}
 
 .card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:16px;box-shadow:6px 6px 0 rgba(0,0,0,0.4)}
@@ -60,7 +79,13 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
 </style>
 </head>
 <body>
-<div class="bg"><div class="au a"></div><div class="au b"></div></div>
+
+<div class="bg">
+  <div class="au a"></div>
+  <div class="au b"></div>
+  <div class="zay" id="zay"></div>
+</div>
+
 <div id="toast">✅ Berhasil!</div>
 
 <div class="wrap">
@@ -119,7 +144,10 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
 </div>
 
 <script>
-// SISTEM KEAMANAN TOKEN LOKAL (Tidak ditulis di kodingan)
+// Latar belakang ZAY
+document.getElementById('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
+
+// SISTEM KEAMANAN TOKEN LOKAL
 let BOT_TOKEN = localStorage.getItem('regarm_bot_token');
 if (!BOT_TOKEN) {
   BOT_TOKEN = prompt("Sistem Keamanan: Masukkan API Token dari @BotFather (Hanya perlu diisi 1x):");
@@ -151,7 +179,7 @@ const valOpac = document.getElementById('valOpac');
 
 // AUTO-LOAD STIKER DARI GITHUB
 let stickerObj = new Image();
-stickerObj.src = 'stiker.png'; // Menarik otomatis dari file stiker.png di folder yang sama
+stickerObj.src = 'stiker.png';
 
 let imageQueue = [];
 let currentIndex = 0;
@@ -168,7 +196,6 @@ function toast(m){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// Load Bulk Foto
 uploadImg.addEventListener('change', e => {
   const files = e.target.files;
   if (files.length === 0) return;
@@ -221,13 +248,12 @@ function drawCanvas() {
   });
 
   if (currentPath.length > 0) {
-    ctx.lineWidth = 30; // Tebal coretan
+    ctx.lineWidth = 30;
     ctx.beginPath();
     currentPath.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y));
     ctx.stroke();
   }
 
-  // Draw Sticker Pattern
   if (stickerObj && stickerObj.complete && stickerObj.naturalWidth !== 0) {
     const size = parseInt(wmSize.value);
     const opacity = parseInt(wmOpacity.value) / 100;
@@ -250,10 +276,8 @@ function drawCanvas() {
   }
 }
 
-// Re-draw saat stiker baru selesai di-load di latar belakang
 stickerObj.onload = () => { drawCanvas(); };
 
-// Sensor Logic
 function getPos(e) {
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
@@ -275,7 +299,6 @@ document.getElementById('btnClearStrokes').onclick = () => { strokes = []; drawC
   valSize.innerText = wmSize.value; valOpac.innerText = wmOpacity.value; drawCanvas();
 }));
 
-// Telegram Sender API
 btnSend.addEventListener('click', () => {
   if (!currentImageObj || !BOT_TOKEN) return;
   btnSend.disabled = true;
@@ -301,10 +324,7 @@ btnSend.addEventListener('click', () => {
         loadNextImage();
       } else {
         alert('Gagal mengirim: ' + data.description);
-        // Jika unauthorized, hapus token karena kemungkinan token salah/dicabut
-        if(data.error_code === 401) {
-            resetToken();
-        }
+        if(data.error_code === 401) { resetToken(); }
       }
     })
     .catch(err => alert('Error jaringan: ' + err))
