@@ -47,9 +47,11 @@ button,input,select{font-family:inherit;color:inherit}
 @keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
 @keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
 
-.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
-.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:20px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
+.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
+.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
+.btn.pri:hover{box-shadow:6px 6px 0 var(--s)}
 .btn.tg{background:#229ed9;color:#fff;border-color:#111;box-shadow:4px 4px 0 #1577a8;font-weight:800}
 .btn.tg:hover{box-shadow:6px 6px 0 #1577a8}
 
@@ -57,44 +59,43 @@ button,input,select{font-family:inherit;color:inherit}
 .util-btn{background:var(--card);border:2px solid var(--line);color:var(--ac);width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
 .util-btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}
 
-/* KATEGORI TAGAR (CHIPS) YANG RAPI & LENGKAP */
+/* TOMBOL FILTER KATEGORI (KLIK LANGSUNG MENUJU TELEGRAM) */
 .filter-chips {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   padding-bottom: 6px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   scrollbar-width: none;
 }
 .filter-chips::-webkit-scrollbar { display: none; }
 .chip {
   background: var(--inp);
   border: 1.5px solid var(--line);
-  padding: 6px 14px;
+  padding: 8px 16px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 700;
-  color: var(--muted);
+  color: var(--text);
   white-space: nowrap;
-}
-.chip.highlight {
-  border-color: var(--p);
-  color: var(--p);
-}
-
-/* WIDGET EMBED CONTAINER */
-.embed-box {
-  width: 100%;
-  min-height: 550px;
-  background: var(--inp);
-  border: 2px solid var(--line);
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .2s;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
+  gap: 4px;
+}
+.chip:hover {
+  background: var(--p);
+  color: #111;
+  border-color: var(--p);
+  box-shadow: 2px 2px 0 var(--s);
+  transform: translateY(-2px);
+}
+.chip.special {
+  border-color: var(--s);
+  color: var(--p);
+  background: color-mix(in srgb, var(--s) 15%, var(--inp));
 }
 
 .stats-grid {
@@ -114,6 +115,16 @@ button,input,select{font-family:inherit;color:inherit}
 }
 .stat-card span { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 .stat-card b { font: 400 20px/1.1 Anton,sans-serif; color: var(--p); }
+
+.proof-banner {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--p) 15%, var(--card)), var(--card));
+  border: 2px solid var(--p);
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: 6px 6px 0 var(--s);
+  margin-top: 10px;
+}
 
 .foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}
 .foot b{color:var(--p)}
@@ -142,7 +153,7 @@ button,input,select{font-family:inherit;color:inherit}
     </div>
     <div class="stat-card">
       <span>Arsip Testimoni</span>
-      <b>AUTO-SYNC TELEGRAM</b>
+      <b>REAL-TIME ARCHIVE</b>
     </div>
     <div class="stat-card">
       <span>Channel Resmi</span>
@@ -152,31 +163,34 @@ button,input,select{font-family:inherit;color:inherit}
 
   <div class="card">
     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px">
-      <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p)">📸 GALERI BUKTI TRANSAKSI LIVE</h3>
+      <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p)">📸 PUSAT BUKTI &amp; TESTIMONI TRANSAKSI</h3>
       <a href="https://t.me/jejakbeli" target="_blank" class="btn tg">📢 Buka Channel @jejakbeli</a>
     </div>
 
-    <!-- DAFTAR TAGAR UTAMA SESUAI PRICELIST + NOKTEL & CGTC -->
+    <p style="font-size:13px; color:var(--muted); margin-bottom:14px">
+      Klik salah satu tagar kategori di bawah untuk langsung memfilter atau melihat riwayat bukti transaksi aplikasi pilihanmu di channel Telegram resmi kami:
+    </p>
+
+    <!-- TOMBOL TAGAR INTERAKTIF (LANGSUNG MENUJU PENCARIAN TELEGRAM) -->
     <div class="filter-chips">
-      <div class="chip highlight">📌 Tagar Aktif Pricelist:</div>
-      <div class="chip">#NETFLIX</div>
-      <div class="chip">#SPOTIFY</div>
-      <div class="chip">#CANVA</div>
-      <div class="chip">#YOUTUBE</div>
-      <div class="chip">#VIU</div>
-      <div class="chip">#DISNEY</div>
-      <div class="chip" style="border-color:var(--s); color:var(--p)">#NOKTEL</div>
-      <div class="chip" style="border-color:var(--s); color:var(--p)">#CGTC</div>
-      <div class="chip">#APLIKASILAINNYA</div>
+      <a href="https://t.me/s/jejakbeli" target="_blank" class="chip">📌 Semua</a>
+      <a href="https://t.me/s/jejakbeli?q=%23NETFLIX" target="_blank" class="chip">#NETFLIX</a>
+      <a href="https://t.me/s/jejakbeli?q=%23SPOTIFY" target="_blank" class="chip">#SPOTIFY</a>
+      <a href="https://t.me/s/jejakbeli?q=%23CANVA" target="_blank" class="chip">#CANVA</a>
+      <a href="https://t.me/s/jejakbeli?q=%23YOUTUBE" target="_blank" class="chip">#YOUTUBE</a>
+      <a href="https://t.me/s/jejakbeli?q=%23VIU" target="_blank" class="chip">#VIU</a>
+      <a href="https://t.me/s/jejakbeli?q=%23DISNEY" target="_blank" class="chip">#DISNEY</a>
+      <a href="https://t.me/s/jejakbeli?q=%23NOKTEL" target="_blank" class="chip special">#NOKTEL</a>
+      <a href="https://t.me/s/jejakbeli?q=%23CGTC" target="_blank" class="chip special">#CGTC</a>
     </div>
 
-    <!-- KOTAK WIDGET TELEGRAM EMBED -->
-    <div class="embed-box" id="telegramWidgetContainer">
-      <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="jejakbeli" data-width="100%" data-userpic="true" data-dark="1"></script>
-    </div>
-    
-    <div style="text-align:center; margin-top:12px">
-      <span style="font-size:12px; color:var(--muted)">💡 Terus selesaikan edit caption di <b style="color:var(--text)">@jejakbeli</b> pakai tagar di atas biar arsip tokomu makin rapi!</span>
+    <!-- BANNER PUSAT TESTIMONI ESTETIK (PENGGANTI WIDGET RUSAK) -->
+    <div class="proof-banner">
+      <h3 style="font-family:'Anton',sans-serif; font-size:24px; color:var(--p); margin-bottom:8px; letter-spacing:1px;">arsip lengkap ada di telegram</h3>
+      <p style="font-size:13.5px; color:var(--text); margin-bottom:18px; line-height:1.6;">
+        Semua ratusan bukti sukses transaksi, resi, dan testimoni pelanggan tersimpan rapi dan transparan secara <i>real-time</i> di channel khusus kami.
+      </p>
+      <a href="https://t.me/jejakbeli" target="_blank" class="btn pri" style="padding:12px 24px; font-size:14px;">🚀 Buka Galeri @jejakbeli Sekarang</a>
     </div>
   </div>
 
@@ -203,7 +217,6 @@ function toggleTheme(){
   C.mode=C.mode==='light'?'dark':'light';
   W('rk_cfg',C);
   paint();
-  location.reload();
 }
 paint();
 </script>
