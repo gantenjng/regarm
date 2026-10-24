@@ -84,12 +84,26 @@ td small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}td.up,
 
 <div class="modal" id="tm" onclick="if(event.target===this)this.classList.remove('on')"><div class="box"><h3>Pilih Tema 🎨</h3><div class="tgrid" id="tg"></div><button class="btn" onclick="$('tm').classList.remove('on')">Tutup</button></div></div>
 
+<!-- MODAL SINKRON DIUBAH: CUKUP MASUKKAN PASSWORD SAJA -->
 <div class="modal" id="cm" onclick="if(event.target===this)this.classList.remove('on')"><div class="box">
   <h3>☁️ Sinkron Cloud</h3>
-  <div class="mut">Masuk dengan akun Supabase milikmu supaya data bisa dibuka dari HP/laptop mana saja. Data dilindungi login; tanpa login tidak ada yang bisa membacanya.</div>
-  <input id="cu" placeholder="Project URL (https://xxxx.supabase.co)" autocomplete="off"><input id="ck" placeholder="anon public key" autocomplete="off">
-  <input id="ce" type="email" placeholder="Email akun" autocomplete="username"><input id="cp" type="password" placeholder="Password" autocomplete="current-password">
-  <div class="tools"><button class="btn pri" id="cin">Masuk &amp; sinkron</button><button class="btn" id="cnow">↻ Sinkron</button><button class="btn dng" id="cout">Keluar</button></div>
+  <div class="mut">Cukup masukkan password untuk menyinkronkan data di semua perangkat (HP/Laptop).</div>
+  <input id="cu" type="hidden">
+  <input id="ck" type="hidden">
+  <input id="ce" type="hidden">
+  <input id="cp" type="password" placeholder="Masukkan Password Cloud" autocomplete="current-password">
+  <div class="tools">
+    <button class="btn pri" id="cin">Masuk &amp; sinkron</button>
+    <button class="btn" id="cnow">↻ Sinkron</button>
+    <button class="btn dng" id="cout">Keluar</button>
+    <button class="btn" onclick="$('adv-box').style.display=$('adv-box').style.display==='none'?'flex':'none'" style="margin-left:auto" title="Pengaturan Server">⚙️</button>
+  </div>
+  <div id="adv-box" style="display:none;flex-direction:column;gap:8px;padding-top:8px;border-top:1px dashed var(--line)">
+    <div class="mut">Pengaturan Server (Opsional jika belum diisi di kode):</div>
+    <input id="cu_vis" placeholder="Project URL (https://xxxx.supabase.co)" autocomplete="off">
+    <input id="ck_vis" placeholder="anon public key" autocomplete="off">
+    <input id="ce_vis" type="email" placeholder="Email akun" autocomplete="username">
+  </div>
   <div class="mut" id="cmsg"></div></div></div>
 
 <div class="wrap">
@@ -197,12 +211,12 @@ Object.keys(SK).forEach(k=>{const b=document.createElement('button');b.dataset.k
 $('md').onclick=()=>{C.mode=C.mode==='light'?'dark':'light';SC();paint()};
 $('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
 
-/* ===== PIN ===== */
+/* ===== PIN (INGAT PERANGKAT OTOMATIS BIAR GAK MASUKKIN TERUS) ===== */
 const H=s=>{let a=3735928559,b=1103547991;for(let i=0;i<s.length;i++){const c=s.charCodeAt(i);a=Math.imul(a^c,2654435761);b=Math.imul(b^c,1597334677)}a=Math.imul(a^a>>>16,2246822507)^Math.imul(b^b>>>13,3266489909);b=Math.imul(b^b>>>16,2246822507)^Math.imul(a^a>>>13,3266489909);return String(4294967296*(2097151&b)+(a>>>0))};
-function tryPin(){if(H($('pin').value)===C.pin){$('lock').classList.remove('on');$('pin').value=''}else{$('pe').textContent='PIN salah';$('lock').firstChild.style.animation='sh .3s';setTimeout(()=>$('lock').firstChild.style.animation='',400)}}
+function tryPin(){if(H($('pin').value)===C.pin){W('rk_pin_ok',C.pin);$('lock').classList.remove('on');$('pin').value=''}else{$('pe').textContent='PIN salah';$('lock').firstChild.style.animation='sh .3s';setTimeout(()=>$('lock').firstChild.style.animation='',400)}}
 $('pok').onclick=tryPin;$('pin').onkeydown=e=>{if(e.key==='Enter')tryPin()};
-if(!C.pin)$('lock').classList.remove('on');
-function setPin(){const p=prompt('Atur PIN baru. Kosongkan lalu OK untuk menghapus PIN:');if(p===null)return;C.pin=p?H(p):'';SC();toast(p?'🔒 PIN dipasang':'🔓 PIN dihapus')}
+if(!C.pin || J('rk_pin_ok','')===C.pin)$('lock').classList.remove('on');
+function setPin(){const p=prompt('Atur PIN baru. Kosongkan lalu OK untuk menghapus PIN:');if(p===null)return;C.pin=p?H(p):'';W('rk_pin_ok',C.pin);SC();toast(p?'🔒 PIN dipasang (otomatis diingat di perangkat ini)':'🔓 PIN dihapus')}
 
 /* ===== PERIODE & STATISTIK ===== */
 const PL={today:'Hari ini','7':'7 hari terakhir',month:'Bulan ini',lastm:'Bulan lalu',all:'Semua waktu'};
@@ -286,8 +300,21 @@ function fromOrder(t){const g=r=>{const m=t.match(r);return m?m[1].trim():''},pr
 $('pb').onclick=()=>{if(fromOrder($('ps').value)){toast('⚡ Terisi. Cek modal & status (Pending → Lunas kalau sudah bayar), lalu simpan');if(!$('m').value)$('m').focus()}else toast('⚠️ Pesan order tidak dikenali')};
 $('ps').addEventListener('paste',()=>setTimeout(()=>$('pb').click(),60));
 
-/* ===== SINKRON CLOUD (Supabase, login + RLS) ===== */
-let CL=Object.assign({url:'',key:''},J('rk_cloud',{})),SS=J('rk_sess',null),DR=J('rk_dirty',{}),TB=J('rk_tomb',{}),PC=J('rk_cur','1970-01-01T00:00:00Z'),syncing=false,t1;
+/* =========================================================================
+   KONFIGURASI OTOMATIS SUPABASE (ISI 3 BARIS INI AGAR CUKUP LOGIN PASSWORD)
+   ========================================================================= */
+const DEFAULT_URL   = "https://iifanlskhheqnpppsfzs.supabase.co"; // contoh: "https://xxxx.supabase.co"
+const DEFAULT_KEY   = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpZmFubHNraGhlcW5wcHBzZnpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3OTE2MzksImV4cCI6MjEwNzM2NzYzOX0.oMM3c2HatmruV8AFvsRgBe28wd94AYYD51YiuIR_X7U";    // contoh: "eyJhbGciOiJIUzI1NiIsInR5c..."
+const DEFAULT_EMAIL = "leovanmarklevarendo@gmail.com";           // contoh: "admin@gmail.com"
+/* ========================================================================= */
+
+let savedCloud = J('rk_cloud',{});
+let CL={
+  url: (savedCloud.url && !savedCloud.url.includes('ISI_')) ? savedCloud.url : DEFAULT_URL,
+  key: (savedCloud.key && !savedCloud.key.includes('ISI_')) ? savedCloud.key : DEFAULT_KEY,
+  em:  (savedCloud.em  && !savedCloud.em.includes('ISI_'))  ? savedCloud.em  : DEFAULT_EMAIL
+};
+let SS=J('rk_sess',null),DR=J('rk_dirty',{}),TB=J('rk_tomb',{}),PC=J('rk_cur','1970-01-01T00:00:00Z'),syncing=false,t1;
 function setT(n){const old=T;T=n;commit(old);return W('regarm_rekapan',T)}
 function commit(old){const o=new Map(old.map(t=>[String(t.id),t])),n=new Map(T.map(t=>[String(t.id),t])),now=Date.now();
   n.forEach((t,id)=>{const p=o.get(id);if(!p||JSON.stringify(p)!==JSON.stringify(t)){t.u=now;DR[id]=1;delete TB[id]}});
@@ -316,14 +343,33 @@ async function sync(){if(syncing||!CL.url||!SS)return;syncing=true;let bad=false
     const n=new Date();setSt('☁️ Tersinkron '+pad(n.getHours())+'.'+pad(n.getMinutes())+(ch?' · '+ch+' data baru':''),'☁️ OK')
   }catch(e){bad=true;setSt('⚠️ '+(navigator.onLine===false?'Offline — tersimpan di perangkat, akan disinkron nanti':e.message),'☁️ ⚠️')}
   syncing=false;if(!bad&&Object.keys(DR).length)schedSync()}
-$('cin').onclick=async()=>{CL={url:$('cu').value.trim().replace(/\/+$/,''),key:$('ck').value.trim()};W('rk_cloud',CL);
-  if(!CL.url||!CL.key)return setSt('Isi Project URL dan anon key');
-  try{setSt('Masuk…');await auth({email:$('ce').value.trim(),password:$('cp').value},'password');$('cp').value='';
+
+$('cin').onclick=async()=>{
+  const uVis=$('cu_vis').value.trim().replace(/\/+$/,''), kVis=$('ck_vis').value.trim(), eVis=$('ce_vis').value.trim();
+  CL={
+    url: uVis || CL.url,
+    key: kVis || CL.key,
+    em:  eVis || CL.em
+  };
+  W('rk_cloud',CL);
+  if(!CL.url||!CL.key||CL.url.includes('ISI_')) {
+    $('adv-box').style.display='flex';
+    return setSt('⚠️ Isi dulu URL, Key & Email di kode atau di menu ⚙️ bawah ini');
+  }
+  try{setSt('Masuk…');await auth({email:CL.em,password:$('cp').value},'password');$('cp').value='';
     const k='rk_init_'+SS.uid;if(!J(k,0)){T.forEach(t=>{if(!t.u)t.u=Date.now();DR[t.id]=1});DR.__cfg=1;C.cu=C.cu||Date.now();SC();W('regarm_rekapan',T);W('rk_dirty',DR);W(k,1)}
-    await sync()}catch(e){setSt('⚠️ '+e.message,'☁️ Sinkron')}};
+    await sync();
+    toast('✅ Berhasil masuk & sinkron!');
+    $('cm').classList.remove('on');
+  }catch(e){setSt('⚠️ '+e.message,'☁️ Sinkron')}
+};
+$('cp').onkeydown=e=>{if(e.key==='Enter')$('cin').click()};
 $('cnow').onclick=()=>{if(!SS)return setSt('Belum login');sync()};
 $('cout').onclick=()=>{SS=null;W('rk_sess',null);setSt('Keluar. Data tetap ada di perangkat ini.','☁️ Sinkron')};
-$('cu').value=CL.url;$('ck').value=CL.key;$('ce').value=(SS&&SS.em)||'';
+$('cu').value=CL.url;$('ck').value=CL.key;$('ce').value=CL.em||(SS&&SS.em)||'';
+$('cu_vis').value=CL.url.includes('ISI_')?'':CL.url;
+$('ck_vis').value=CL.key.includes('ISI_')?'':CL.key;
+$('ce_vis').value=CL.em.includes('ISI_')?'':CL.em;
 if(SS)setSt('☁️ Aktif'+(SS.em?' · '+SS.em:''),'☁️ Aktif');
 addEventListener('online',sync);document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});setInterval(sync,90000);
 
