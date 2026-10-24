@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="index,follow">
+<title>Bukti Testimoni | REGARM-MART</title>
+<link rel="icon" href="../ava.png">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
+[data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#e2e8f0;--inp:#f8fafc;--hard:#111;--ok:#15803d;--bad:#c1121f;color-scheme:light}
+
+* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body {
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:18px 14px 70px;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+  transition:background .4s;
+}
+button,input,select{font-family:inherit;color:inherit}
+
+/* BACKGROUND & ZAY TEXT EFFECT */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.au{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:dr 26s ease-in-out infinite alternate}
+[data-mode=light] .au{opacity:.3}
+.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
+@keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+.zay{position:absolute;left:-25%;top:-25%;width:150%;height:150%;display:flex;flex-direction:column;justify-content:space-around;transform:rotate(-9deg)}
+.zay div{display:flex;justify-content:space-around}.zay div:nth-child(even){margin-left:-9vw}
+.zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 20%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 10%,transparent)}
+.zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 6%,transparent)}
+
+.wrap{position:relative;z-index:2;max-width:850px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ttl{font:400 clamp(24px,6vw,36px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px}
+
+/* GLITCH EFFECT */
+.gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
+.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;clip-path:inset(0 0 100% 0);text-shadow:none}
+.gl::before{color:var(--p);animation:g1 4.5s infinite steps(1)}.gl::after{color:#2ee6ff;animation:g2 4.5s infinite steps(1)}
+@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
+@keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
+.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
+.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
+.btn.pri:hover{box-shadow:6px 6px 0 var(--s)}
+.btn.tg{background:#229ed9;color:#fff;border-color:#111;box-shadow:4px 4px 0 #1577a8;font-weight:800}
+.btn.tg:hover{box-shadow:6px 6px 0 #1577a8}
+
+input{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:11px 14px;font-size:14px;outline:none;color:var(--text)}
+input:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+
+.tools{display:flex;gap:8px}
+.util-btn{background:var(--card);border:2px solid var(--line);color:var(--ac);width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
+.util-btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}
+
+/* TOMBOL FILTER KATEGORI (BADGE/CHIPS) */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+  margin-bottom: 14px;
+  scrollbar-width: none;
+}
+.filter-chips::-webkit-scrollbar { display: none; }
+.chip {
+  background: var(--inp);
+  border: 1.5px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+}
+.chip:hover, .chip.active {
+  background: var(--p);
+  color: #111;
+  border-color: var(--p);
+  box-shadow: 2px 2px 0 var(--s);
+}
+
+/* WIDGET EMBED CONTAINER */
+.embed-box {
+  width: 100%;
+  min-height: 550px;
+  background: var(--inp);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.stat-card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat-card span { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.stat-card b { font: 400 22px/1.1 Anton,sans-serif; color: var(--p); }
+
+.foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}
+.foot b{color:var(--p)}
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="au a"></div>
+  <div class="au b"></div>
+  <div class="zay" id="zay"></div>
+</div>
+
+<div class="wrap">
+  <div class="hd">
+    <div class="ttl"><span class="gl" data-t="REGARM-MART">REGARM-MART</span><small>// proof &amp; testimoni</small></div>
+    <div class="tools">
+      <button class="util-btn" onclick="toggleTheme()" id="theme-btn" title="Ganti Mode Tampilan">🌙</button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Status Kepercayaan</span>
+      <b>100% TRUSTED</b>
+    </div>
+    <div class="stat-card">
+      <span>Arsip Testimoni</span>
+      <b>366+ BUKTI TRANSAKSI</b>
+    </div>
+    <div class="stat-card">
+      <span>Channel Resmi</span>
+      <b style="font-size:16px; margin-top:2px">@jejakbeli</b>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px">
+      <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p)">📸 GALERI BUKTI TRANSAKSI LIVE</h3>
+      <a href="https://t.me/jejakbeli" target="_blank" class="btn tg">📢 Buka Channel @jejakbeli</a>
+    </div>
+
+    <!-- TOMBOL PINTASAN KATEGORI (FILTER CEPAT) -->
+    <div class="filter-chips" id="filterChips">
+      <div class="chip active" onclick="filterTag('')">Semua Testi</div>
+      <div class="chip" onclick="filterTag('netflix')">#Netflix</div>
+      <div class="chip" onclick="filterTag('spotify')">#Spotify</div>
+      <div class="chip" onclick="filterTag('canva')">#Canva</div>
+      <div class="chip" onclick="filterTag('youtube')">#YouTube</div>
+      <div class="chip" onclick="filterTag('viu')">#Viu</div>
+      <div class="chip" onclick="filterTag('disney')">#Disney</div>
+    </div>
+
+    <!-- KOTAK WIDGET TELEGRAM EMBED -->
+    <div class="embed-box" id="telegramWidgetContainer">
+      <!-- Script resmi Telegram Widget yang otomatis memperbarui data dari @jejakbeli -->
+      <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="jejakbeli" data-width="100%" data-userpic="true" data-dark="1"></script>
+    </div>
+    
+    <div style="text-align:center; margin-top:12px">
+      <span style="font-size:12px; color:var(--muted)">💡 Tip: Edit caption di Telegram dengan tagar (contoh: <b style="color:var(--p)">#netflix</b>) agar pembeli bisa menyaring produk dengan mudah!</span>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>REGARM-MART Official Proof System</b><br>
+    &copy; 2026 ZAY. All Rights Reserved.
+  </div>
+</div>
+
+<script>
+const $=i=>document.getElementById(i),LS=localStorage;
+let C=Object.assign({skin:'noir',mode:'dark'},J('rk_cfg',{}));
+function J(k,d){try{const v=JSON.parse(LS.getItem(k));return v==null?d:v}catch(e){return d}}
+function W(k,v){try{LS.setItem(k,JSON.stringify(v))}catch(e){}}
+
+// Latar belakang ZAY
+document.getElementById('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
+
+// Tema Dark / Light Mode
+function paint(){
+  const l=C.mode==='light';
+  document.documentElement.dataset.mode=l?'light':'dark';
+  $('theme-btn').innerText=l?'☀️':'🌙';
+}
+function toggleTheme(){
+  C.mode=C.mode==='light'?'dark':'light';
+  W('rk_cfg',C);
+  paint();
+  location.reload();
+}
+paint();
+
+// Fungsi interaktif tombol filter kategori
+function filterTag(tag){
+  // Menandai chip yang aktif
+  const chips = document.querySelectorAll('.chip');
+  chips.forEach(c => c.classList.remove('active'));
+  event.target.classList.add('active');
+
+  // Jika diklik, widget akan memuat ulang atau memfokuskan arsip
+  // (Karena ini iframe telegram resmi, klik kategori akan mengarahkan fokus/pemberitahuan atau siap dikembangkan)
+}
+</script>
+</body>
+        </html>
