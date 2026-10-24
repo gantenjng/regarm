@@ -24,13 +24,13 @@ body {
 }
 button,input,select,textarea{font-family:inherit;color:inherit}
 
-/* BACKGROUND PATTERN ZAY KHAS WEB UTAMAMU */
+/* BACKGROUND PATTERN "ZAY" PERSIS SEPERTI WEB UTAMAMU */
 .bg-pattern {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.04;
   background-image: repeating-linear-gradient(45deg, var(--p) 0, var(--p) 2px, transparent 0, transparent 50px),
                     repeating-linear-gradient(-45deg, var(--p) 0, var(--p) 2px, transparent 0, transparent 50px);
   background-size: 100px 100px;
@@ -39,19 +39,17 @@ button,input,select,textarea{font-family:inherit;color:inherit}
   content: "ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY";
   position: absolute;
   inset: -20px;
-  font: 900 32px/1.8 Anton, sans-serif;
+  font: 900 36px/1.6 Anton, sans-serif;
   color: var(--p);
   word-break: break-all;
   overflow: hidden;
-  letter-spacing: 12px;
+  letter-spacing: 14px;
 }
 
 .wrap{position:relative;z-index:2;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
 .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-
-/* JUDUL ATAS DENGAN GAYA KUNING KHAS REGARM-MART */
-.ttl{font:400 clamp(22px,5vw,32px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase;color:var(--p);text-shadow:2px 2px 0 var(--s)}
-.ttl small{font:400 .5em/1 sans-serif;color:var(--text);letter-spacing:1px;margin-left:6px;background:rgba(255,212,0,.15);padding:3px 6px;border-radius:4px;border:1px solid rgba(255,212,0,0.3)}
+.ttl{font:400 clamp(22px,5vw,32px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl small{font:400 .5em/1 sans-serif;color:var(--ac);letter-spacing:1px;margin-left:6px;background:rgba(255,212,0,.1);padding:3px 6px;border-radius:4px}
 
 .card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
 .form-grid{display:grid;grid-template-columns:1fr;gap:12px}
@@ -156,6 +154,7 @@ textarea{resize:vertical;min-height:70px}
     <div id="visualCard" class="visual-receipt">
       <div class="vr-header">
         <div>
+          <!-- Logo disesuaikan pakai Anton & warna kuning khas REGARM-MART -->
           <div class="vr-logo">REGARM-MART</div>
           <div style="font-size:10px; color:#9a978f; font-weight:700; letter-spacing:1px">YOUR ONE-STOP PREMIUM STORE</div>
         </div>
@@ -173,6 +172,7 @@ textarea{resize:vertical;min-height:70px}
           <div class="vr-creds" id="vCreds">-</div>
         </div>
       </div>
+      <!-- Catatan bawah diganti jadi lebih rapi & profesional -->
       <div class="vr-footer">
         🐺 TERIMA KASIH TELAH ORDER DI REGARM-MART 🐺
       </div>
@@ -202,6 +202,7 @@ function generateOutput(){
   const inv = document.getElementById('invId').value || '#INV-001';
   const creds = document.getElementById('accDetails').value || 'Data akun belum diisi';
 
+  // Update Model A (Teks Struk)
   const textFormat = `🐺 *REGARM-MART INVOICE* 🐺
 📜 *No:* ${inv}
 👤 *To:* ${buyer}
@@ -222,6 +223,7 @@ Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
 
   document.getElementById('textOutput').innerText = textFormat;
 
+  // Update Model B (Visual Card)
   document.getElementById('vBuyer').innerText = buyer;
   document.getElementById('vProd').innerText = prod;
   document.getElementById('vPrice').innerText = price;
