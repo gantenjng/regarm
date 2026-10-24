@@ -38,8 +38,8 @@ a{color:inherit;text-decoration:none}
 .btn.pri:hover:not(:disabled){box-shadow:6px 6px 0 var(--s)}
 .btn-sm{padding:8px;font-size:11px;width:auto;flex:1}
 
-input[type="file"], input[type="text"], textarea{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
-input[type="text"]:focus, textarea:focus{border-color:var(--p)}
+input[type="file"], textarea{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
+textarea:focus{border-color:var(--p)}
 input[type="range"]{width:100%;accent-color:var(--p)}
 
 .f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
@@ -56,6 +56,7 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
 #toast{position:fixed;left:50%;bottom:-70px;transform:translateX(-50%);background:var(--card);border:2px solid var(--p);box-shadow:4px 4px 0 var(--s);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:700;z-index:90;transition:bottom .35s;white-space:nowrap}
 #toast.show{bottom:20px}
 .foot{text-align:center;font-size:12px;color:var(--muted);margin-top:10px}
+.reset-btn{color:var(--bad); font-size:11px; text-decoration:underline; cursor:pointer; background:none; border:none; margin-top:10px;}
 </style>
 </head>
 <body>
@@ -75,17 +76,12 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
 
   <div class="card">
     <div class="f">
-      <label style="color:var(--p)">1. Upload Stiker ZAY (Satu kali saja)</label>
-      <input type="file" id="uploadSticker" accept="image/png, image/webp, image/jpeg">
-    </div>
-
-    <div class="f">
-      <label>2. Upload Bukti Testimoni/Mutasi (Bisa pilih > 1 foto sekaligus)</label>
+      <label style="color:var(--p)">1. Upload Bukti Testimoni/Mutasi (Bisa pilih banyak sekaligus)</label>
       <input type="file" id="uploadImg" accept="image/*" multiple>
     </div>
 
     <div class="f">
-      <label>3. Caption Telegram (Opsional)</label>
+      <label>2. Caption Telegram (Opsional)</label>
       <textarea id="captionText" rows="2" placeholder="Tulis caption untuk dikirim bersama gambar..."></textarea>
     </div>
 
@@ -101,10 +97,10 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
       <span style="color:var(--p)">@jejakbeli</span>
     </div>
     
-    <div class="badge-info">👆 Usap foto untuk menyensor nomor HP (Coretan Hitam)</div>
+    <div class="badge-info">👆 Usap foto untuk menyensor info rahasia (Coretan Hitam)</div>
     
     <div style="display:flex; gap:8px; margin-bottom:12px">
-      <button class="btn btn-sm" id="btnUndo">⏪ Undo</button>
+      <button class="btn btn-sm" id="btnUndo">⏪ Undo Coretan</button>
       <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Coretan</button>
     </div>
 
@@ -112,18 +108,36 @@ canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0
       <canvas id="canvas"></canvas>
     </div>
 
-    <button type="button" class="btn pri" id="btnSend" style="margin-top:16px;">🚀 KIRIM & LANJUT KE FOTO BERIKUTNYA</button>
+    <button type="button" class="btn pri" id="btnSend" style="margin-top:16px;">🚀 KIRIM & LANJUT FOTO BERIKUTNYA</button>
   </div>
   
-  <div class="foot"><b>API Connected: @jejakbeli</b><br>&copy; 2026 ZAY. All Rights Reserved.</div>
+  <div class="foot">
+    <b>API Connected: @jejakbeli</b><br>
+    &copy; 2026 ZAY. All Rights Reserved.<br>
+    <button class="reset-btn" onclick="resetToken()">Ganti API Token</button>
+  </div>
 </div>
 
 <script>
-const BOT_TOKEN = "8853619727:AAEFC4kPTCu9K9RbT79fTFEqjhLgxIqGTuk";
-const CHAT_ID = "@jejakbeli"; // Ganti dengan ID grup/channel jika private
+// SISTEM KEAMANAN TOKEN LOKAL (Tidak ditulis di kodingan)
+let BOT_TOKEN = localStorage.getItem('regarm_bot_token');
+if (!BOT_TOKEN) {
+  BOT_TOKEN = prompt("Sistem Keamanan: Masukkan API Token dari @BotFather (Hanya perlu diisi 1x):");
+  if (BOT_TOKEN) {
+    localStorage.setItem('regarm_bot_token', BOT_TOKEN);
+  } else {
+    alert("Web tidak bisa digunakan tanpa Token API.");
+  }
+}
+
+function resetToken() {
+  localStorage.removeItem('regarm_bot_token');
+  location.reload();
+}
+
+const CHAT_ID = "@jejakbeli"; 
 
 const uploadImg = document.getElementById('uploadImg');
-const uploadSticker = document.getElementById('uploadSticker');
 const captionText = document.getElementById('captionText');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
@@ -135,7 +149,10 @@ const wmOpacity = document.getElementById('wmOpacity');
 const valSize = document.getElementById('valSize');
 const valOpac = document.getElementById('valOpac');
 
-let stickerObj = null;
+// AUTO-LOAD STIKER DARI GITHUB
+let stickerObj = new Image();
+stickerObj.src = 'stiker.png'; // Menarik otomatis dari file stiker.png di folder yang sama
+
 let imageQueue = [];
 let currentIndex = 0;
 let currentImageObj = null;
@@ -150,19 +167,6 @@ function toast(m){
   t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2500);
 }
-
-// Load Stiker
-uploadSticker.addEventListener('change', e => {
-  const file = e.target.files[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    stickerObj = new Image();
-    stickerObj.onload = () => { toast('✅ Stiker berhasil dimuat!'); drawCanvas(); };
-    stickerObj.src = ev.target.result;
-  }
-  r.readAsDataURL(file);
-});
 
 // Load Bulk Foto
 uploadImg.addEventListener('change', e => {
@@ -217,14 +221,14 @@ function drawCanvas() {
   });
 
   if (currentPath.length > 0) {
-    ctx.lineWidth = 30; // Default brush size
+    ctx.lineWidth = 30; // Tebal coretan
     ctx.beginPath();
     currentPath.forEach((pt, i) => i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y));
     ctx.stroke();
   }
 
   // Draw Sticker Pattern
-  if (stickerObj) {
+  if (stickerObj && stickerObj.complete && stickerObj.naturalWidth !== 0) {
     const size = parseInt(wmSize.value);
     const opacity = parseInt(wmOpacity.value) / 100;
     const ratio = stickerObj.height / stickerObj.width;
@@ -245,6 +249,9 @@ function drawCanvas() {
     ctx.restore();
   }
 }
+
+// Re-draw saat stiker baru selesai di-load di latar belakang
+stickerObj.onload = () => { drawCanvas(); };
 
 // Sensor Logic
 function getPos(e) {
@@ -270,7 +277,7 @@ document.getElementById('btnClearStrokes').onclick = () => { strokes = []; drawC
 
 // Telegram Sender API
 btnSend.addEventListener('click', () => {
-  if (!currentImageObj) return;
+  if (!currentImageObj || !BOT_TOKEN) return;
   btnSend.disabled = true;
   btnSend.innerText = "⏳ MENGIRIM KE TELEGRAM...";
 
@@ -294,12 +301,16 @@ btnSend.addEventListener('click', () => {
         loadNextImage();
       } else {
         alert('Gagal mengirim: ' + data.description);
+        // Jika unauthorized, hapus token karena kemungkinan token salah/dicabut
+        if(data.error_code === 401) {
+            resetToken();
+        }
       }
     })
     .catch(err => alert('Error jaringan: ' + err))
     .finally(() => {
       btnSend.disabled = false;
-      btnSend.innerText = "🚀 KIRIM & LANJUT KE FOTO BERIKUTNYA";
+      btnSend.innerText = "🚀 KIRIM & LANJUT FOTO BERIKUTNYA";
     });
   }, 'image/jpeg', 0.85);
 });
