@@ -4,163 +4,187 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="index,follow">
+<meta name="theme-color" content="#050507">
 <title>Admin Invoice Generator | REGARM-MART</title>
 <link rel="icon" href="../ava.png">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+/* Tema dibaca dari penyimpanan yang SAMA dengan web toko (kunci "skin" & "theme"),
+   jadi memilih tema di salah satu web otomatis berlaku di web lainnya. Dijalankan lebih awal agar tidak berkedip. */
+window.SK={noir:['⚡ ZAY Noir','#ffd400','#e11d2e','#c1121f','#050507','#ebe7dc'],pink:['🌸 Pink Angel','#ff7eb6','#b388ff','#d6246e','#150a11','#fff1f6'],cloud:['☁️ Cloud Dream','#6ec1ff','#c4a5ff','#1f6fd1','#09111a','#eef7ff'],violet:['🌙 Midnight Violet','#a78bfa','#f472b6','#6d28d9','#0d0a17','#f4efff'],mint:['🍃 Matcha Mint','#5eead4','#a3e635','#0f766e','#08130f','#ecfbf6'],sunset:['🔥 Sunset Fire','#ff8a3d','#ff4d6d','#c2410c','#150c07','#fff3e8']};
+window.paintTheme=function(){
+  var skin='noir',light=false;
+  try{skin=localStorage.getItem('skin')||'noir';light=localStorage.getItem('theme')==='light'}catch(e){}
+  var k=SK[skin]||SK.noir,r=document.documentElement;
+  var h=k[1].replace('#',''),rgb=[0,2,4].map(function(i){return parseInt(h.substr(i,2),16)}).join(',');
+  r.dataset.mode=light?'light':'dark';r.dataset.skin=SK[skin]?skin:'noir';
+  [['--p',k[1]],['--s',k[2]],['--ac',light?k[3]:k[1]],['--bg',light?k[5]:k[4]],['--pa','rgba('+rgb+',.09)'],['--pb','rgba('+rgb+',.14)']].forEach(function(x){r.style.setProperty(x[0],x[1])});
+  var m=document.querySelector('meta[name=theme-color]');if(m)m.content=light?k[5]:k[4];
+  var g=document.getElementById('tg');if(g)[].forEach.call(g.children,function(b){b.classList.toggle('on',b.dataset.k===r.dataset.skin)});
+};
+paintTheme();
+</script>
 <style>
-:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--hard:var(--p);color-scheme:dark}
-[data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#e2e8f0;--inp:#f8fafc;--hard:#111;--ok:#15803d;color-scheme:light}
+:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--hard:var(--p);--pa:rgba(255,212,0,.09);--pb:rgba(255,212,0,.14);color-scheme:dark}
+[data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#d9d4c7;--inp:#f8fafc;--hard:#111;--ok:#15803d;color-scheme:light}
 
-* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body {
-  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  padding:18px 14px 70px;
-  min-height:100vh;
-  position:relative;
-  overflow-x:hidden;
-}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:18px 14px 70px;min-height:100vh;position:relative;overflow-x:hidden}
 button,input,select,textarea{font-family:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
 
-/* BACKGROUND PATTERN "ZAY" PERSIS SEPERTI WEB UTAMAMU */
-.bg-pattern {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.04;
-  background-image: repeating-linear-gradient(45deg, var(--p) 0, var(--p) 2px, transparent 0, transparent 50px),
-                    repeating-linear-gradient(-45deg, var(--p) 0, var(--p) 2px, transparent 0, transparent 50px);
-  background-size: 100px 100px;
-}
-.bg-pattern::after {
-  content: "ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY ZAY";
-  position: absolute;
-  inset: -20px;
-  font: 900 36px/1.6 Anton, sans-serif;
-  color: var(--p);
-  word-break: break-all;
-  overflow: hidden;
-  letter-spacing: 14px;
-}
+/* LATAR SAMA SEPERTI TOKO & REKAP: aurora + tulisan ZAY besar miring */
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.au{position:absolute;border-radius:50%;filter:blur(70px);opacity:.2;animation:dr 26s ease-in-out infinite alternate}
+[data-mode=light] .au{opacity:.4}
+.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
+@keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+.zay{position:absolute;left:-25%;top:-25%;width:150%;height:150%;display:flex;flex-direction:column;justify-content:space-around;transform:rotate(-9deg)}
+.zay div{display:flex;justify-content:space-around}.zay div:nth-child(even){margin-left:-9vw}
+.zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 24%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 14%,transparent)}
+.zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 8%,transparent)}
+@media (prefers-reduced-motion:reduce){.au{animation:none}.gl::before,.gl::after{animation:none}}
 
 .wrap{position:relative;z-index:2;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
 .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.ttl{font:400 clamp(22px,5vw,32px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
-.ttl small{font:400 .5em/1 sans-serif;color:var(--ac);letter-spacing:1px;margin-left:6px;background:rgba(255,212,0,.1);padding:3px 6px;border-radius:4px}
+.ttl{font:400 clamp(26px,7vw,42px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px;text-transform:none}
+.gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
+.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;clip-path:inset(0 0 100% 0);text-shadow:none}
+.gl::before{color:var(--p);animation:g1 4.5s infinite steps(1)}.gl::after{color:#2ee6ff;animation:g2 4.5s infinite steps(1)}
+@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
+@keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
 
-.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
+/* NAVIGASI ANTAR WEB */
+.navs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.navs::-webkit-scrollbar{display:none}
+.navs a{flex:none;padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:12px;font-weight:800;letter-spacing:.3px}
+.navs a:hover{border-color:var(--p)}
+.navs a.on{background:var(--p);color:#111;border-color:#111;box-shadow:3px 3px 0 var(--s)}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;box-shadow:6px 6px 0 rgba(0,0,0,.4);width:100%}
+[data-mode=light] .card{box-shadow:6px 6px 0 var(--hard)}
 .form-grid{display:grid;grid-template-columns:1fr;gap:12px}
 @media(min-width:550px){.form-grid{grid-template-columns:1fr 1fr}}
-
-.field{display:flex;flex-direction:column;gap:5px}
-.field.full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}
 label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
 input,textarea{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;transition:border-color .2s}
 input:focus,textarea:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+[data-mode=light] input:focus,[data-mode=light] textarea:focus{border-color:#111;box-shadow:3px 3px 0 #111}
 textarea{resize:vertical;min-height:70px}
 
 .btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
 .btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
+.btn.sm{padding:6px 12px;font-size:12px}
 
-/* MODEL A: PREVIEW TEKS STRUK */
+.section-title{font:400 16px/1 Anton,sans-serif;color:var(--ac);margin-bottom:10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.hint{font-size:12px;color:var(--muted);margin-bottom:10px}
+
+/* MODEL A */
 .preview-box{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-family:'Space Mono',monospace;font-size:12px;white-space:pre-wrap;line-height:1.5;color:var(--text);max-height:220px;overflow-y:auto}
 
-/* MODEL B: KARTU NOTA VISUAL */
-.visual-receipt {
-  background: #0b0b0f;
-  border: 3px solid var(--p);
-  border-radius: 14px;
-  padding: 22px;
-  color: #f4f2ec;
-  font-family:'Plus Jakarta Sans',sans-serif;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  position: relative;
-  overflow: hidden;
-}
-.visual-receipt::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:rgba(255,212,0,0.07);border-radius:50%;pointer-events:none}
-.vr-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px dashed #22222a;padding-bottom:14px;margin-bottom:14px}
+/* MODEL B: kartu nota (selalu gelap agar hasil PNG konsisten, aksen mengikuti skin) */
+.visual-receipt{background:#0b0b0f;border:3px solid var(--p);border-radius:14px;padding:22px;color:#f4f2ec;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.6);position:relative;overflow:hidden}
+.visual-receipt::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:var(--pb);border-radius:50%;pointer-events:none}
+.vr-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:2px dashed #22222a;padding-bottom:14px;margin-bottom:14px}
 .vr-logo{font:400 26px/1 Anton,sans-serif;color:var(--p);letter-spacing:1.5px;text-shadow:2px 2px 0 var(--s)}
+.vr-sub{font-size:10px;color:#9a978f;font-weight:700;letter-spacing:1px}
 .vr-inv{text-align:right;font-size:11px;color:#9a978f;font-weight:700}
 .vr-body{display:flex;flex-direction:column;gap:10px;font-size:13px;margin-bottom:14px}
 .vr-row{display:flex;justify-content:space-between;gap:10px}
 .vr-row span:first-child{color:#9a978f;font-weight:600}
 .vr-row span:last-child{font-weight:700;text-align:right}
-.vr-creds{background:#15151b;border:1.5px solid #282833;border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:12px;color:var(--p);word-break:break-all}
+.vr-creds{background:#15151b;border:1.5px solid #282833;border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:12px;color:var(--p);word-break:break-all;white-space:pre-wrap}
 .vr-footer{text-align:center;border-top:2px dashed #22222a;padding-top:12px;font-size:11.5px;color:var(--p);font-weight:700;letter-spacing:.5px}
 
-.section-title{font:400 16px/1 Anton,sans-serif;color:var(--p);margin-bottom:10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+.foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}.foot b{color:var(--ac)}
 
-.foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}
-.foot b{color:var(--p)}
+/* PEMILIH TEMA */
+.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.65)}.modal.on{display:flex}
+.modal .box{width:100%;max-width:420px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:18px;box-shadow:8px 8px 0 var(--hard)}
+.modal h3{font:400 20px/1 Anton,sans-serif;letter-spacing:1px;margin-bottom:12px}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.tgrid button{display:flex;align-items:center;gap:8px;padding:11px 12px;border:2px solid var(--line);border-radius:10px;background:var(--inp);font-size:12.5px;font-weight:800;cursor:pointer;text-align:left}
+.tgrid button.on{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+.tgrid i{display:flex;flex:none}.tgrid i b{width:12px;height:12px;border-radius:50%;border:1px solid rgba(0,0,0,.4)}.tgrid i b+b{margin-left:-4px}
+
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:60;max-width:90%;padding:11px 16px;border-radius:10px;background:var(--p);color:#111;border:2px solid #111;font-weight:800;font-size:13px;opacity:0;pointer-events:none;transition:.25s}
+#toast.s{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
 
-<div class="bg-pattern"></div>
+<div class="bg"><div class="au a"></div><div class="au b"></div><div class="zay" id="zay"></div></div>
 
 <div class="wrap">
   <div class="hd">
-    <div class="ttl">REGARM-MART <small>Admin Generator</small></div>
-    <a href="../" class="btn" style="padding:6px 12px; font-size:12px">🏠 Menu Utama</a>
+    <div class="ttl"><span class="gl" data-t="REGARM-MART">REGARM-MART</span><small>// invoice</small></div>
+    <div class="tools">
+      <button class="btn sm" id="btnTema" type="button">🎨 Tema</button>
+      <button class="btn sm" id="btnMode" type="button">◐ Mode</button>
+    </div>
   </div>
+
+  <nav class="navs" aria-label="Web admin">
+    <a href="../">🏠 Toko</a>
+    <a href="../rekap/">📒 Rekap</a>
+    <a href="../refund/">↩️ Refund</a>
+    <a href="./" class="on">🧾 Invoice</a>
+  </nav>
 
   <!-- FORM INPUT ADMIN -->
   <div class="card">
     <div class="section-title">📝 1. Masukkan Detail Transaksi</div>
     <div class="form-grid">
       <div class="field">
-        <label>Nama Pembeli</label>
+        <label for="buyerName">Nama Pembeli</label>
         <input type="text" id="buyerName" placeholder="Contoh: Kak Budi" oninput="generateOutput()">
       </div>
       <div class="field">
-        <label>Nama Produk</label>
+        <label for="prodName">Nama Produk</label>
         <input type="text" id="prodName" placeholder="Contoh: Netflix 1 Bulan (Sharing)" oninput="generateOutput()">
       </div>
       <div class="field">
-        <label>Harga (Opsional)</label>
+        <label for="prodPrice">Harga (Opsional)</label>
         <input type="text" id="prodPrice" placeholder="Contoh: Rp 35.000" oninput="generateOutput()">
       </div>
       <div class="field">
-        <label>No. Invoice / ID</label>
+        <label for="invId">No. Invoice / ID</label>
         <input type="text" id="invId" placeholder="Auto / Ketik manual" oninput="generateOutput()">
       </div>
       <div class="field full">
-        <label>Detail Akun / Data Login / Catatan</label>
+        <label for="accDetails">Detail Akun / Data Login / Catatan</label>
         <textarea id="accDetails" placeholder="Email: xxx@gmail.com&#10;Pass: xxx123&#10;Profil: 1" oninput="generateOutput()"></textarea>
       </div>
     </div>
   </div>
 
-  <!-- HASIL MODEL A: FORMAT TEKS STRUK WHATSAPP -->
+  <!-- MODEL A: FORMAT TEKS STRUK WHATSAPP -->
   <div class="card">
     <div class="section-title">💬 Model A: Format Teks Struk WhatsApp</div>
-    <p style="font-size:12px; color:var(--muted); margin-bottom:10px">Cocok buat dikirim langsung via chat WA. Tinggal klik tombol salin di bawah.</p>
+    <p class="hint">Cocok buat dikirim langsung via chat WA. Tinggal klik tombol salin di bawah.</p>
     <div class="preview-box" id="textOutput">Isi form di atas terlebih dahulu...</div>
-    <div style="margin-top:10px; display:flex; justify-content:flex-end">
-      <button class="btn pri" onclick="copyTextOutput()">📋 Salin Teks Struk</button>
+    <div style="margin-top:10px;display:flex;justify-content:flex-end">
+      <button class="btn pri" type="button" onclick="copyTextOutput()">📋 Salin Teks Struk</button>
     </div>
   </div>
 
-  <!-- HASIL MODEL B: KARTU NOTA VISUAL -->
+  <!-- MODEL B: KARTU NOTA VISUAL -->
   <div class="card">
     <div class="section-title">🖼️ Model B: Kartu Nota Visual (Gambar)</div>
-    <p style="font-size:12px; color:var(--muted); margin-bottom:12px">Berbentuk kartu estetik dengan gaya font & warna khas REGARM-MART siap di-download.</p>
-    
-    <!-- Kotak Visual Nota -->
+    <p class="hint" style="margin-bottom:12px">Berbentuk kartu estetik dengan gaya font &amp; warna khas REGARM-MART (aksen mengikuti tema yang dipilih), siap di-download.</p>
+
     <div id="visualCard" class="visual-receipt">
       <div class="vr-header">
         <div>
-          <!-- Logo disesuaikan pakai Anton & warna kuning khas REGARM-MART -->
           <div class="vr-logo">REGARM-MART</div>
-          <div style="font-size:10px; color:#9a978f; font-weight:700; letter-spacing:1px">YOUR ONE-STOP PREMIUM STORE</div>
+          <div class="vr-sub">YOUR ONE-STOP PREMIUM STORE</div>
         </div>
         <div class="vr-inv">
           <div id="vInvNo">#INV-20261024</div>
-          <div id="vDate" style="color:#f4f2ec; font-weight:normal">24 Okt 2026</div>
+          <div id="vDate" style="color:#f4f2ec;font-weight:normal">24 Okt 2026</div>
         </div>
       </div>
       <div class="vr-body">
@@ -168,42 +192,66 @@ textarea{resize:vertical;min-height:70px}
         <div class="vr-row"><span>Produk:</span> <span id="vProd">-</span></div>
         <div class="vr-row"><span>Total:</span> <span id="vPrice" style="color:var(--p)">-</span></div>
         <div style="margin-top:4px">
-          <div style="font-size:11px; color:#9a978f; margin-bottom:4px; font-weight:600">DETAIL AKSES / AKUN:</div>
+          <div style="font-size:11px;color:#9a978f;margin-bottom:4px;font-weight:600">DETAIL AKSES / AKUN:</div>
           <div class="vr-creds" id="vCreds">-</div>
         </div>
       </div>
-      <!-- Catatan bawah diganti jadi lebih rapi & profesional -->
-      <div class="vr-footer">
-        🐺 TERIMA KASIH TELAH ORDER DI REGARM-MART 🐺
-      </div>
+      <div class="vr-footer">🐺 TERIMA KASIH TELAH ORDER DI REGARM-MART 🐺</div>
     </div>
 
-    <div style="margin-top:12px; display:flex; justify-content:flex-end">
-      <button class="btn pri" onclick="downloadReceiptImage()">📥 Download Nota (Gambar PNG)</button>
+    <div style="margin-top:12px;display:flex;justify-content:flex-end">
+      <button class="btn pri" id="btnDl" type="button" onclick="downloadReceiptImage()">📥 Download Nota (Gambar PNG)</button>
     </div>
   </div>
 
-  <div class="foot">
-    <b>REGARM-MART Admin</b> &bull; Dibuat khusus untuk efisiensi transaksi ZAY.
-  </div>
+  <div class="foot"><b>REGARM-MART Admin</b> &bull; Dibuat khusus untuk efisiensi transaksi ZAY.</div>
 </div>
 
+<!-- PEMILIH TEMA -->
+<div class="modal" id="tm"><div class="box">
+  <h3>Pilih Tema 🎨</h3>
+  <div class="tgrid" id="tg"></div>
+  <p class="hint">Tema ini sama dengan web toko: kalau kamu ganti di sini, web lainnya ikut berubah.</p>
+  <button class="btn" type="button" id="tmClose" style="width:100%">Tutup</button>
+</div></div>
+
+<div id="toast"></div>
+
 <script>
-const today = new Date();
-const dateCode = today.getFullYear().toString() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
-document.getElementById('invId').value = '#INV-' + dateCode + '-01';
-document.getElementById('vInvNo').innerText = '#INV-' + dateCode + '-01';
-document.getElementById('vDate').innerText = today.toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'});
+const $=id=>document.getElementById(id);
+let tt;const toast=m=>{const e=$('toast');e.textContent=m;e.classList.add('s');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('s'),2200)};
+
+/* ===== TEMA (penyimpanan sama dengan web toko: "skin" & "theme") ===== */
+Object.keys(SK).forEach(k=>{
+  const b=document.createElement('button');b.type='button';b.dataset.k=k;
+  const sw=document.createElement('i');[SK[k][1],SK[k][2]].forEach(c=>{const d=document.createElement('b');d.style.background=c;sw.appendChild(d)});
+  b.append(sw,SK[k][0]);
+  b.onclick=()=>{try{localStorage.setItem('skin',k)}catch(e){}paintTheme()};
+  $('tg').appendChild(b);
+});
+$('btnTema').onclick=()=>$('tm').classList.add('on');
+$('tmClose').onclick=()=>$('tm').classList.remove('on');
+$('tm').onclick=e=>{if(e.target===$('tm'))$('tm').classList.remove('on')};
+$('btnMode').onclick=()=>{let l=false;try{l=localStorage.getItem('theme')==='light';localStorage.setItem('theme',l?'dark':'light')}catch(e){}paintTheme()};
+addEventListener('storage',e=>{if(e.key==='skin'||e.key==='theme')paintTheme()});
+paintTheme();
+$('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
+
+/* ===== INVOICE ===== */
+const today=new Date();
+const dateCode=today.getFullYear().toString()+String(today.getMonth()+1).padStart(2,'0')+String(today.getDate()).padStart(2,'0');
+$('invId').value='#INV-'+dateCode+'-01';
+$('vInvNo').innerText='#INV-'+dateCode+'-01';
+$('vDate').innerText=today.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
 
 function generateOutput(){
-  const buyer = document.getElementById('buyerName').value || 'Kak...';
-  const prod = document.getElementById('prodName').value || 'Nama Produk';
-  const price = document.getElementById('prodPrice').value || '-';
-  const inv = document.getElementById('invId').value || '#INV-001';
-  const creds = document.getElementById('accDetails').value || 'Data akun belum diisi';
+  const buyer=$('buyerName').value||'Kak...';
+  const prod=$('prodName').value||'Nama Produk';
+  const price=$('prodPrice').value||'-';
+  const inv=$('invId').value||'#INV-001';
+  const creds=$('accDetails').value||'Data akun belum diisi';
 
-  // Update Model A (Teks Struk)
-  const textFormat = `🐺 *REGARM-MART INVOICE* 🐺
+  const textFormat=`🐺 *REGARM-MART INVOICE* 🐺
 📜 *No:* ${inv}
 👤 *To:* ${buyer}
 📦 *Item:* ${prod}
@@ -221,40 +269,32 @@ ${creds}
 
 Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
 
-  document.getElementById('textOutput').innerText = textFormat;
-
-  // Update Model B (Visual Card)
-  document.getElementById('vBuyer').innerText = buyer;
-  document.getElementById('vProd').innerText = prod;
-  document.getElementById('vPrice').innerText = price;
-  document.getElementById('vInvNo').innerText = inv;
-  document.getElementById('vCreds').innerText = creds;
+  $('textOutput').innerText=textFormat;
+  $('vBuyer').innerText=buyer;
+  $('vProd').innerText=prod;
+  $('vPrice').innerText=price;
+  $('vInvNo').innerText=inv;
+  $('vCreds').innerText=creds;
 }
-
 generateOutput();
 
 function copyTextOutput(){
-  const text = document.getElementById('textOutput').innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    alert('✅ Format teks struk berhasil disalin! Tinggal paste ke WhatsApp.');
-  });
+  const text=$('textOutput').innerText;
+  if(navigator.clipboard)navigator.clipboard.writeText(text).then(()=>toast('✅ Teks struk disalin! Tinggal paste ke WhatsApp.'));
+  else toast('Salin manual: browser tidak mengizinkan');
 }
 
 function downloadReceiptImage(){
-  const element = document.getElementById('visualCard');
-  const btn = event.target;
-  btn.innerText = '⏳ Sedang merproses gambar...';
-  
-  html2canvas(element, {scale: 2, backgroundColor: '#0b0b0f'}).then(canvas => {
-    const link = document.createElement('a');
-    link.download = 'Nota-REGARM-MART.png';
-    link.href = canvas.toDataURL('image/png');
+  const btn=$('btnDl'),label='📥 Download Nota (Gambar PNG)';
+  if(typeof html2canvas==='undefined'){toast('Pustaka gambar belum termuat. Cek koneksi lalu coba lagi.');return}
+  btn.innerText='⏳ Sedang memproses gambar...';
+  html2canvas($('visualCard'),{scale:2,backgroundColor:'#0b0b0f'}).then(canvas=>{
+    const link=document.createElement('a');
+    link.download='Nota-REGARM-MART.png';
+    link.href=canvas.toDataURL('image/png');
     link.click();
-    btn.innerText = '📥 Download Nota (Gambar PNG)';
-  }).catch(err => {
-    alert('Gagal mendownload gambar. Coba lagi ya!');
-    btn.innerText = '📥 Download Nota (Gambar PNG)';
-  });
+    btn.innerText=label;
+  }).catch(()=>{toast('Gagal mendownload gambar. Coba lagi ya!');btn.innerText=label});
 }
 </script>
 </body>
