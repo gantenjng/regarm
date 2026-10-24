@@ -7,7 +7,6 @@
 <title>Admin Invoice Generator | REGARM-MART</title>
 <link rel="icon" href="../ava.png">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<!-- Library html2canvas untuk mengubah preview kartu nota menjadi file gambar PNG secara instan -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 :root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--hard:var(--p);color-scheme:dark}
@@ -53,7 +52,7 @@ textarea{resize:vertical;min-height:70px}
 /* MODEL A: PREVIEW TEKS STRUK */
 .preview-box{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-family:'Space Mono',monospace;font-size:12px;white-space:pre-wrap;line-height:1.5;color:var(--text);max-height:220px;overflow-y:auto}
 
-/* MODEL B: KARTU NOTA VISUAL (UNTUK DI-RENDER JADI GAMBAR) */
+/* MODEL B: KARTU NOTA VISUAL */
 .visual-receipt {
   background: #0b0b0f;
   border: 3px solid var(--p);
@@ -67,14 +66,14 @@ textarea{resize:vertical;min-height:70px}
 }
 .visual-receipt::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:rgba(255,212,0,0.07);border-radius:50%;pointer-events:none}
 .vr-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px dashed #22222a;padding-bottom:14px;margin-bottom:14px}
-.vr-logo{font:400 24px/1 Anton,sans-serif;color:var(--p);letter-spacing:1px}
+.vr-logo{font:400 26px/1 Anton,sans-serif;color:var(--p);letter-spacing:1.5px;text-shadow:2px 2px 0 var(--s)}
 .vr-inv{text-align:right;font-size:11px;color:#9a978f;font-weight:700}
 .vr-body{display:flex;flex-direction:column;gap:10px;font-size:13px;margin-bottom:14px}
 .vr-row{display:flex;justify-content:space-between;gap:10px}
 .vr-row span:first-child{color:#9a978f;font-weight:600}
 .vr-row span:last-child{font-weight:700;text-align:right}
 .vr-creds{background:#15151b;border:1.5px solid #282833;border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:12px;color:var(--p);word-break:break-all}
-.vr-footer{text-align:center;border-top:2px dashed #22222a;padding-top:12px;font-size:11px;color:#9a978f}
+.vr-footer{text-align:center;border-top:2px dashed #22222a;padding-top:12px;font-size:11.5px;color:var(--p);font-weight:700;letter-spacing:.5px}
 
 .section-title{font:400 16px/1 Anton,sans-serif;color:var(--p);margin-bottom:10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
 
@@ -132,17 +131,18 @@ textarea{resize:vertical;min-height:70px}
     </div>
   </div>
 
-  <!-- HASIL MODEL B: KARTU NOTA VISUAL (DI-DOWNLOAD JADI GAMBAR) -->
+  <!-- HASIL MODEL B: KARTU NOTA VISUAL -->
   <div class="card">
     <div class="section-title">🖼️ Model B: Kartu Nota Visual (Gambar)</div>
-    <p style="font-size:12px; color:var(--muted); margin-bottom:12px">Berbentuk kartu estetik yang di-render jadi gambar PNG siap kirim ke galeri WA.</p>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:12px">Berbentuk kartu estetik dengan gaya font & warna khas REGARM-MART siap di-download.</p>
     
-    <!-- Kotak Visual Nota yang akan diubah jadi gambar -->
+    <!-- Kotak Visual Nota -->
     <div id="visualCard" class="visual-receipt">
       <div class="vr-header">
         <div>
+          <!-- Logo disesuaikan pakai Anton & warna kuning khas REGARM-MART -->
           <div class="vr-logo">REGARM-MART</div>
-          <div style="font-size:10px; color:#9a978f">DIGITAL STORE OFFICIAL</div>
+          <div style="font-size:10px; color:#9a978f; font-weight:700; letter-spacing:1px">OFFICIAL DIGITAL STORE</div>
         </div>
         <div class="vr-inv">
           <div id="vInvNo">#INV-20261024</div>
@@ -158,8 +158,9 @@ textarea{resize:vertical;min-height:70px}
           <div class="vr-creds" id="vCreds">-</div>
         </div>
       </div>
+      <!-- Catatan bawah diganti jadi lebih rapi & profesional -->
       <div class="vr-footer">
-        Terima kasih sudah order di REGARM-MART! Garansi aman full.
+        🐺 TERIMA KASIH TELAH ORDER DI REGARM-MART 🐺
       </div>
     </div>
 
@@ -169,12 +170,11 @@ textarea{resize:vertical;min-height:70px}
   </div>
 
   <div class="foot">
-    <b>REGARM-MART Admin Tool</b> &bull; Dibuat khusus untuk efisiensi transaksi ZAY.
+    <b>REGARM-MART Admin</b> &bull; Dibuat khusus untuk efisiensi transaksi ZAY.
   </div>
 </div>
 
 <script>
-// Auto-generate Nomor Invoice default berdasarkan tanggal hari ini
 const today = new Date();
 const dateCode = today.getFullYear().toString() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
 document.getElementById('invId').value = '#INV-' + dateCode + '-01';
@@ -189,7 +189,7 @@ function generateOutput(){
   const creds = document.getElementById('accDetails').value || 'Data akun belum diisi';
 
   // Update Model A (Teks Struk)
-  const textFormat = `✨ *REGARM-MART INVOICE* ✨
+  const textFormat = `🐺 *REGARM-MART INVOICE* 🐺
 📜 *No:* ${inv}
 👤 *To:* ${buyer}
 📦 *Item:* ${prod}
@@ -200,9 +200,9 @@ function generateOutput(){
 ${creds}
 \`\`\`
 
-📌 *Catatan Garansi:*
-• Garansi full sesuai durasi pesanan
-• Dilarang mengganti email/password utama
+📌 *Catatan:*
+• Garansi full sesuai durasi pesanan jika taat snk.
+• Dilarang otak atik apapun pada akun.
 • Ada kendala langsung chat ke sini ya kak!
 
 Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
@@ -217,10 +217,8 @@ Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
   document.getElementById('vCreds').innerText = creds;
 }
 
-// Jalankan saat awal buka
 generateOutput();
 
-// Fungsi Tombol Salin Model A
 function copyTextOutput(){
   const text = document.getElementById('textOutput').innerText;
   navigator.clipboard.writeText(text).then(() => {
@@ -228,7 +226,6 @@ function copyTextOutput(){
   });
 }
 
-// Fungsi Tombol Download Gambar Model B menggunakan html2canvas
 function downloadReceiptImage(){
   const element = document.getElementById('visualCard');
   const btn = event.target;
@@ -247,4 +244,4 @@ function downloadReceiptImage(){
 }
 </script>
 </body>
-  </html>
+</html>
