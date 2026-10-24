@@ -50,8 +50,6 @@ button,input,select{font-family:inherit;color:inherit}
 .card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;transition:background .3s,border-color .3s;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
 .btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
-.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
-.btn.pri:hover{box-shadow:6px 6px 0 var(--s)}
 .btn.tg{background:#229ed9;color:#fff;border-color:#111;box-shadow:4px 4px 0 #1577a8;font-weight:800}
 .btn.tg:hover{box-shadow:6px 6px 0 #1577a8}
 
@@ -59,7 +57,7 @@ button,input,select{font-family:inherit;color:inherit}
 .util-btn{background:var(--card);border:2px solid var(--line);color:var(--ac);width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px}
 .util-btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}
 
-/* TOMBOL FILTER KATEGORI (CHIPS) */
+/* KATEGORI TAGAR (CHIPS) YANG RAPI & LENGKAP */
 .filter-chips {
   display: flex;
   gap: 8px;
@@ -77,15 +75,11 @@ button,input,select{font-family:inherit;color:inherit}
   font-size: 12px;
   font-weight: 700;
   color: var(--muted);
-  cursor: pointer;
   white-space: nowrap;
-  transition: all .2s;
 }
-.chip:hover, .chip.active {
-  background: var(--p);
-  color: #111;
+.chip.highlight {
   border-color: var(--p);
-  box-shadow: 2px 2px 0 var(--s);
+  color: var(--p);
 }
 
 /* WIDGET EMBED CONTAINER */
@@ -162,14 +156,18 @@ button,input,select{font-family:inherit;color:inherit}
       <a href="https://t.me/jejakbeli" target="_blank" class="btn tg">📢 Buka Channel @jejakbeli</a>
     </div>
 
-    <!-- KATEGORI TAGAR (MENDUKUNG HURUF BESAR #NETFLIX, #NOKTEL, #CGTC, DLL) -->
-    <div class="filter-chips" id="filterChips">
-      <div class="chip active">🔄 Semua Live Feed</div>
+    <!-- DAFTAR TAGAR UTAMA SESUAI PRICELIST + NOKTEL & CGTC -->
+    <div class="filter-chips">
+      <div class="chip highlight">📌 Tagar Aktif Pricelist:</div>
       <div class="chip">#NETFLIX</div>
       <div class="chip">#SPOTIFY</div>
       <div class="chip">#CANVA</div>
-      <div class="chip">#NOKTEL</div>
-      <div class="chip">#CGTC</div>
+      <div class="chip">#YOUTUBE</div>
+      <div class="chip">#VIU</div>
+      <div class="chip">#DISNEY</div>
+      <div class="chip" style="border-color:var(--s); color:var(--p)">#NOKTEL</div>
+      <div class="chip" style="border-color:var(--s); color:var(--p)">#CGTC</div>
+      <div class="chip">#APLIKASILAINNYA</div>
     </div>
 
     <!-- KOTAK WIDGET TELEGRAM EMBED -->
@@ -178,7 +176,7 @@ button,input,select{font-family:inherit;color:inherit}
     </div>
     
     <div style="text-align:center; margin-top:12px">
-      <span style="font-size:12px; color:var(--muted)">💡 Setiap postingan baru atau editan caption di <b style="color:var(--text)">@jejakbeli</b> akan otomatis tampil di sini.</span>
+      <span style="font-size:12px; color:var(--muted)">💡 Terus selesaikan edit caption di <b style="color:var(--text)">@jejakbeli</b> pakai tagar di atas biar arsip tokomu makin rapi!</span>
     </div>
   </div>
 
