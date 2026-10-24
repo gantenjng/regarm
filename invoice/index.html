@@ -10,8 +10,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-/* Tema dibaca dari penyimpanan yang SAMA dengan web toko (kunci "skin" & "theme"),
-   jadi memilih tema di salah satu web otomatis berlaku di web lainnya. Dijalankan lebih awal agar tidak berkedip. */
 window.SK={noir:['⚡ ZAY Noir','#ffd400','#e11d2e','#c1121f','#050507','#ebe7dc'],pink:['🌸 Pink Angel','#ff7eb6','#b388ff','#d6246e','#150a11','#fff1f6'],cloud:['☁️ Cloud Dream','#6ec1ff','#c4a5ff','#1f6fd1','#09111a','#eef7ff'],violet:['🌙 Midnight Violet','#a78bfa','#f472b6','#6d28d9','#0d0a17','#f4efff'],mint:['🍃 Matcha Mint','#5eead4','#a3e635','#0f766e','#08130f','#ecfbf6'],sunset:['🔥 Sunset Fire','#ff8a3d','#ff4d6d','#c2410c','#150c07','#fff3e8']};
 window.paintTheme=function(){
   var skin='noir',light=false;
@@ -34,7 +32,6 @@ body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);c
 button,input,select,textarea{font-family:inherit;color:inherit}
 a{color:inherit;text-decoration:none}
 
-/* LATAR SAMA SEPERTI TOKO & REKAP: aurora + tulisan ZAY besar miring */
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .au{position:absolute;border-radius:50%;filter:blur(70px);opacity:.2;animation:dr 26s ease-in-out infinite alternate}
 [data-mode=light] .au{opacity:.4}
@@ -44,20 +41,14 @@ a{color:inherit;text-decoration:none}
 .zay div{display:flex;justify-content:space-around}.zay div:nth-child(even){margin-left:-9vw}
 .zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 24%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 14%,transparent)}
 .zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 8%,transparent)}
-@media (prefers-reduced-motion:reduce){.au{animation:none}.gl::before,.gl::after{animation:none}}
 
 .wrap{position:relative;z-index:2;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
 .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .ttl{font:400 clamp(26px,7vw,42px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
 .ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px;text-transform:none}
 .gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
-.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;clip-path:inset(0 0 100% 0);text-shadow:none}
-.gl::before{color:var(--p);animation:g1 4.5s infinite steps(1)}.gl::after{color:#2ee6ff;animation:g2 4.5s infinite steps(1)}
-@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
-@keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
 .tools{display:flex;gap:8px;flex-wrap:wrap}
 
-/* NAVIGASI ANTAR WEB */
 .navs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.navs::-webkit-scrollbar{display:none}
 .navs a{flex:none;padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:12px;font-weight:800;letter-spacing:.3px}
 .navs a:hover{border-color:var(--p)}
@@ -74,18 +65,22 @@ input:focus,textarea:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
 [data-mode=light] input:focus,[data-mode=light] textarea:focus{border-color:#111;box-shadow:3px 3px 0 #111}
 textarea{resize:vertical;min-height:70px}
 
+/* ITEM DINAMIS MULTI-PRODUK */
+.items-container{display:flex;flex-direction:column;gap:10px;grid-column:1/-1}
+.item-row{display:grid;grid-template-columns:1fr 140px 42px;gap:8px;align-items:center}
+@media(max-width:480px){.item-row{grid-template-columns:1fr 100px 38px}}
+
 .btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
 .btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
 .btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
 .btn.sm{padding:6px 12px;font-size:12px}
+.btn.danger{background:rgba(225,29,46,.15);border-color:var(--s);color:#ff6b6b}
 
 .section-title{font:400 16px/1 Anton,sans-serif;color:var(--ac);margin-bottom:10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
 .hint{font-size:12px;color:var(--muted);margin-bottom:10px}
 
-/* MODEL A */
 .preview-box{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-family:'Space Mono',monospace;font-size:12px;white-space:pre-wrap;line-height:1.5;color:var(--text);max-height:220px;overflow-y:auto}
 
-/* MODEL B: kartu nota (selalu gelap agar hasil PNG konsisten, aksen mengikuti skin) */
 .visual-receipt{background:#0b0b0f;border:3px solid var(--p);border-radius:14px;padding:22px;color:#f4f2ec;font-family:'Plus Jakarta Sans',sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.6);position:relative;overflow:hidden}
 .visual-receipt::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:var(--pb);border-radius:50%;pointer-events:none}
 .vr-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;border-bottom:2px dashed #22222a;padding-bottom:14px;margin-bottom:14px}
@@ -101,7 +96,6 @@ textarea{resize:vertical;min-height:70px}
 
 .foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}.foot b{color:var(--ac)}
 
-/* PEMILIH TEMA */
 .modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.65)}.modal.on{display:flex}
 .modal .box{width:100%;max-width:420px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:18px;box-shadow:8px 8px 0 var(--hard)}
 .modal h3{font:400 20px/1 Anton,sans-serif;letter-spacing:1px;margin-bottom:12px}
@@ -136,27 +130,31 @@ textarea{resize:vertical;min-height:70px}
 
   <!-- FORM INPUT ADMIN -->
   <div class="card">
-    <div class="section-title">📝 1. Masukkan Detail Transaksi</div>
+    <div class="section-title">📝 1. Masukkan Detail Transaksi (Multi-Produk)</div>
     <div class="form-grid">
       <div class="field">
         <label for="buyerName">Nama Pembeli</label>
         <input type="text" id="buyerName" placeholder="Contoh: Kak Budi" oninput="generateOutput()">
       </div>
       <div class="field">
-        <label for="prodName">Nama Produk</label>
-        <input type="text" id="prodName" placeholder="Contoh: Netflix 1 Bulan (Sharing)" oninput="generateOutput()">
-      </div>
-      <div class="field">
-        <label for="prodPrice">Harga (Opsional)</label>
-        <input type="text" id="prodPrice" placeholder="Contoh: Rp 35.000" oninput="generateOutput()">
-      </div>
-      <div class="field">
         <label for="invId">No. Invoice / ID</label>
         <input type="text" id="invId" placeholder="Auto / Ketik manual" oninput="generateOutput()">
       </div>
+
+      <!-- DAFTAR ITEM PESANAN BISA LEBIH DARI SATU -->
       <div class="field full">
-        <label for="accDetails">Detail Akun / Data Login / Catatan</label>
-        <textarea id="accDetails" placeholder="Email: xxx@gmail.com&#10;Pass: xxx123&#10;Profil: 1" oninput="generateOutput()"></textarea>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <label>Daftar Produk / Layanan yang Dibeli</label>
+          <button class="btn sm pri" type="button" onclick="addItemRow()">➕ Tambah Produk</button>
+        </div>
+        <div class="items-container" id="itemsContainer">
+          <!-- Baris item dinamis akan muncul di sini -->
+        </div>
+      </div>
+
+      <div class="field full">
+        <label for="accDetails">Detail Akun / Data Login / Catatan Akses</label>
+        <textarea id="accDetails" placeholder="Email Netflix: xxx@gmail.com / Pass: xxx&#10;Email Canva: yyy@gmail.com / Pass: yyy" oninput="generateOutput()"></textarea>
       </div>
     </div>
   </div>
@@ -174,7 +172,7 @@ textarea{resize:vertical;min-height:70px}
   <!-- MODEL B: KARTU NOTA VISUAL -->
   <div class="card">
     <div class="section-title">🖼️ Model B: Kartu Nota Visual (Gambar)</div>
-    <p class="hint" style="margin-bottom:12px">Berbentuk kartu estetik dengan gaya font &amp; warna khas REGARM-MART (aksen mengikuti tema yang dipilih), siap di-download.</p>
+    <p class="hint" style="margin-bottom:12px">Berbentuk kartu estetik dengan gaya font &amp; warna khas REGARM-MART, siap di-download.</p>
 
     <div id="visualCard" class="visual-receipt">
       <div class="vr-header">
@@ -189,8 +187,8 @@ textarea{resize:vertical;min-height:70px}
       </div>
       <div class="vr-body">
         <div class="vr-row"><span>Pembeli:</span> <span id="vBuyer">-</span></div>
-        <div class="vr-row"><span>Produk:</span> <span id="vProd">-</span></div>
-        <div class="vr-row"><span>Total:</span> <span id="vPrice" style="color:var(--p)">-</span></div>
+        <div class="vr-row"><span>Item Pesanan:</span> <span id="vProdList" style="text-align:right">-</span></div>
+        <div class="vr-row"><span>Total Harga:</span> <span id="vPrice" style="color:var(--p)">-</span></div>
         <div style="margin-top:4px">
           <div style="font-size:11px;color:#9a978f;margin-bottom:4px;font-weight:600">DETAIL AKSES / AKUN:</div>
           <div class="vr-creds" id="vCreds">-</div>
@@ -221,7 +219,7 @@ textarea{resize:vertical;min-height:70px}
 const $=id=>document.getElementById(id);
 let tt;const toast=m=>{const e=$('toast');e.textContent=m;e.classList.add('s');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('s'),2200)};
 
-/* ===== TEMA (penyimpanan sama dengan web toko: "skin" & "theme") ===== */
+/* ===== TEMA ===== */
 Object.keys(SK).forEach(k=>{
   const b=document.createElement('button');b.type='button';b.dataset.k=k;
   const sw=document.createElement('i');[SK[k][1],SK[k][2]].forEach(c=>{const d=document.createElement('b');d.style.background=c;sw.appendChild(d)});
@@ -237,25 +235,75 @@ addEventListener('storage',e=>{if(e.key==='skin'||e.key==='theme')paintTheme()})
 paintTheme();
 $('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
 
-/* ===== INVOICE ===== */
+/* ===== INVOICE & MULTI-ITEM LOGIC ===== */
 const today=new Date();
 const dateCode=today.getFullYear().toString()+String(today.getMonth()+1).padStart(2,'0')+String(today.getDate()).padStart(2,'0');
 $('invId').value='#INV-'+dateCode+'-01';
 $('vInvNo').innerText='#INV-'+dateCode+'-01';
 $('vDate').innerText=today.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'});
 
+// Tambah baris item baru
+function addItemRow(name='', price=''){
+  const container = $('itemsContainer');
+  const row = document.createElement('div');
+  row.className = 'item-row';
+  row.innerHTML = `
+    <input type="text" class="item-name" placeholder="Nama Produk (Cth: Netflix 1 Bulan)" value="${name}" oninput="generateOutput()">
+    <input type="text" class="item-price" placeholder="Harga (Cth: 35000)" value="${price}" oninput="generateOutput()">
+    <button class="btn danger sm" type="button" onclick="removeItemRow(this)" title="Hapus item">✕</button>
+  `;
+  container.appendChild(row);
+  generateOutput();
+}
+
+function removeItemRow(btn){
+  const container = $('itemsContainer');
+  if(container.children.length > 1){
+    btn.closest('.item-row').remove();
+    generateOutput();
+  } else {
+    toast('Minimal harus ada 1 produk!');
+  }
+}
+
+// Inisialisasi awal 1 baris kosong
+addItemRow();
+
 function generateOutput(){
   const buyer=$('buyerName').value||'Kak...';
-  const prod=$('prodName').value||'Nama Produk';
-  const price=$('prodPrice').value||'-';
   const inv=$('invId').value||'#INV-001';
   const creds=$('accDetails').value||'Data akun belum diisi';
+
+  // Ambil semua item produk
+  const rows = document.querySelectorAll('.item-row');
+  let itemsList = [];
+  let totalNum = 0;
+
+  rows.forEach(r => {
+    const n = r.querySelector('.item-name').value.trim();
+    const pInput = r.querySelector('.item-price').value.trim();
+    if(n || pInput){
+      itemsList.push({name: n || 'Produk', price: pInput});
+      // Coba hitung total jika harga berupa angka/format rupiah
+      let cleanP = parseInt(pInput.replace(/[^0-9]/g, '')) || 0;
+      totalNum += cleanP;
+    }
+  });
+
+  if(itemsList.length === 0){
+    itemsList.push({name: 'Nama Produk', price: '-'});
+  }
+
+  // Format teks untuk WhatsApp (Model A)
+  let itemsTextWA = itemsList.map(i => `• ${i.name} (${i.price ? 'Rp ' + i.price : '-'})`).join('\n');
+  let formattedTotal = totalNum > 0 ? 'Rp ' + totalNum.toLocaleString('id-ID') : (itemsList.length === 1 ? itemsList[0].price : 'Cek Rincian');
 
   const textFormat=`🐺 *REGARM-MART INVOICE* 🐺
 📜 *No:* ${inv}
 👤 *To:* ${buyer}
-📦 *Item:* ${prod}
-💰 *Total:* ${price}
+📦 *Items:*
+${itemsTextWA}
+💰 *Total:* ${formattedTotal}
 
 🔐 *DETAIL AKUN / AKSES:*
 \`\`\`
@@ -270,13 +318,17 @@ ${creds}
 Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
 
   $('textOutput').innerText=textFormat;
+
+  // Format untuk Kartu Visual (Model B)
   $('vBuyer').innerText=buyer;
-  $('vProd').innerText=prod;
-  $('vPrice').innerText=price;
   $('vInvNo').innerText=inv;
   $('vCreds').innerText=creds;
+  $('vPrice').innerText=formattedTotal;
+
+  // Tampilkan list produk di kartu visual
+  let itemsHtmlVisual = itemsList.map(i => `${i.name} (${i.price})`).join('<br>');
+  $('vProdList').innerHTML = itemsHtmlVisual;
 }
-generateOutput();
 
 function copyTextOutput(){
   const text=$('textOutput').innerText;
