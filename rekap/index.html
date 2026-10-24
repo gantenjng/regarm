@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Rekapan | REGARM-MART</title>
-<link rel="icon" href="ava.png">
+<link rel="icon" href="../ava.png">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#08080a;--text:#f4f2ec;--muted:#9a978f;--card:color-mix(in srgb,var(--bg) 90%,#fff);--line:color-mix(in srgb,var(--bg) 78%,#fff);--inp:color-mix(in srgb,var(--bg) 84%,#fff);--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
@@ -288,7 +288,7 @@ function clearAll(){if(!T.length)return toast('⚠️ Data sudah kosong');if(con
 function setTarget(){const v=prompt('Target untung bulan ini (Rp), contoh 1500000. Kosongkan untuk menghapus:',C.target||'');if(v===null)return;C.target=Math.max(0,Math.round(+String(v).replace(/\D/g,'')||0));cfgDirty();render()}
 
 /* ===== PRODUK dari produk.json (autocomplete + harga otomatis) ===== */
-fetch('produk.json',{cache:'no-cache'}).then(r=>r.ok?r.json():0).then(j=>{if(!j)return;for(const c in j)for(const a in j[c])j[c][a].forEach(p=>{const q=p.replace(/\[(HOT|PROMO|BARU|HABIS)\]/gi,'').replace(/\s+/g,' ').trim().split(' - '),m=(q[1]||'').match(/Rp([\d.]+)/);if(!m)return;const k=a+' '+q[0].trim();PROD[k]={jual:+m[1].replace(/\./g,''),days:dd(q[0])};const o=document.createElement('option');o.value=k;$('pl').append(o)})}).catch(()=>{});
+fetch('../produk.json',{cache:'no-cache'}).then(r=>r.ok?r.json():0).then(j=>{if(!j)return;for(const c in j)for(const a in j[c])j[c][a].forEach(p=>{const q=p.replace(/\[(HOT|PROMO|BARU|HABIS)\]/gi,'').replace(/\s+/g,' ').trim().split(' - '),m=(q[1]||'').match(/Rp([\d.]+)/);if(!m)return;const k=a+' '+q[0].trim();PROD[k]={jual:+m[1].replace(/\./g,''),days:dd(q[0])};const o=document.createElement('option');o.value=k;$('pl').append(o)})}).catch(()=>{});
 
 /* ===== ISI OTOMATIS DARI PESAN ORDER WEB ===== */
 function fromOrder(t){const g=r=>{const m=t.match(r);return m?m[1].trim():''},pr=g(/Produk:\s*(.+)/);if(!pr)return false;
@@ -432,7 +432,7 @@ copyRekap=function(){const p=$('per').value,P=A.filter(t=>inP(t,p)),st=stat(P),p
   const top=Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>k+' ('+rp(v)+')').join(', ');
   const d=(c,o)=>pv?' ('+dlt(c,o)[0].replace(' vs periode lalu','')+')':'';
   clip(`📒 LAPORAN REGARM-MART — ${PL[p]}\nTransaksi: ${st.n}${pv?d(st.n,pv.n):''}\nOmzet: ${rp(st.om)}${pv?d(st.om,pv.om):''}\nModal & biaya: ${rp(st.mo)}\nUntung bersih: ${rp(st.pr)}${pv?d(st.pr,pv.pr):''}\nMargin: ${st.om?(st.pr/st.om*100).toFixed(1):0}%\nBelum dibayar: ${rp(st.pend)}`+(top?`\nUntung terbesar: ${top}`:'')+(pv?'\n(▲▼ = dibanding periode sebelumnya)':''))};
-fetch('produk.json',{cache:'no-cache'}).then(r=>r.ok?r.json():0).then(j=>{if(!j)return;APPS=[];for(const c in j)for(const a in j[c])APPS.push(a);render()}).catch(()=>{});
+fetch('../produk.json',{cache:'no-cache'}).then(r=>r.ok?r.json():0).then(j=>{if(!j)return;APPS=[];for(const c in j)for(const a in j[c])APPS.push(a);render()}).catch(()=>{});
 render();
 })();
 </script>
