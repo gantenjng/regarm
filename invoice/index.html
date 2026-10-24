@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="index,follow">
+<title>Admin Invoice Generator | REGARM-MART</title>
+<link rel="icon" href="../ava.png">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Library html2canvas untuk mengubah preview kartu nota menjadi file gambar PNG secara instan -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--hard:var(--p);color-scheme:dark}
+[data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#e2e8f0;--inp:#f8fafc;--hard:#111;--ok:#15803d;color-scheme:light}
+
+* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body {
+  font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  padding:18px 14px 70px;
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+button,input,select,textarea{font-family:inherit;color:inherit}
+
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.au{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:dr 26s ease-in-out infinite alternate}
+.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s)}
+@keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+
+.wrap{position:relative;z-index:2;max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ttl{font:400 clamp(22px,5vw,32px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl small{font:400 .5em/1 sans-serif;color:var(--ac);letter-spacing:1px;margin-left:6px;background:rgba(255,212,0,.1);padding:3px 6px;border-radius:4px}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:18px;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%}
+.form-grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:550px){.form-grid{grid-template-columns:1fr 1fr}}
+
+.field{display:flex;flex-direction:column;gap:5px}
+.field.full{grid-column:1/-1}
+label{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+input,textarea{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;transition:border-color .2s}
+input:focus,textarea:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+textarea{resize:vertical;min-height:70px}
+
+.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:transform .2s,box-shadow .2s;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}.btn:active{transform:translate(1px,1px);box-shadow:none}
+.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s);font-weight:800}
+
+/* MODEL A: PREVIEW TEKS STRUK */
+.preview-box{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-family:'Space Mono',monospace;font-size:12px;white-space:pre-wrap;line-height:1.5;color:var(--text);max-height:220px;overflow-y:auto}
+
+/* MODEL B: KARTU NOTA VISUAL (UNTUK DI-RENDER JADI GAMBAR) */
+.visual-receipt {
+  background: #0b0b0f;
+  border: 3px solid var(--p);
+  border-radius: 14px;
+  padding: 22px;
+  color: #f4f2ec;
+  font-family:'Plus Jakarta Sans',sans-serif;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  position: relative;
+  overflow: hidden;
+}
+.visual-receipt::before{content:'';position:absolute;top:-50px;right:-50px;width:150px;height:150px;background:rgba(255,212,0,0.07);border-radius:50%;pointer-events:none}
+.vr-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px dashed #22222a;padding-bottom:14px;margin-bottom:14px}
+.vr-logo{font:400 24px/1 Anton,sans-serif;color:var(--p);letter-spacing:1px}
+.vr-inv{text-align:right;font-size:11px;color:#9a978f;font-weight:700}
+.vr-body{display:flex;flex-direction:column;gap:10px;font-size:13px;margin-bottom:14px}
+.vr-row{display:flex;justify-content:space-between;gap:10px}
+.vr-row span:first-child{color:#9a978f;font-weight:600}
+.vr-row span:last-child{font-weight:700;text-align:right}
+.vr-creds{background:#15151b;border:1.5px solid #282833;border-radius:8px;padding:10px;font-family:'Space Mono',monospace;font-size:12px;color:var(--p);word-break:break-all}
+.vr-footer{text-align:center;border-top:2px dashed #22222a;padding-top:12px;font-size:11px;color:#9a978f}
+
+.section-title{font:400 16px/1 Anton,sans-serif;color:var(--p);margin-bottom:10px;letter-spacing:1px;display:flex;align-items:center;gap:8px}
+
+.foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}
+.foot b{color:var(--p)}
+</style>
+</head>
+<body>
+
+<div class="bg">
+  <div class="au a"></div>
+  <div class="au b"></div>
+</div>
+
+<div class="wrap">
+  <div class="hd">
+    <div class="ttl">REGARM-MART <small>Admin Generator</small></div>
+    <a href="../" class="btn" style="padding:6px 12px; font-size:12px">🏠 Menu Utama</a>
+  </div>
+
+  <!-- FORM INPUT ADMIN -->
+  <div class="card">
+    <div class="section-title">📝 1. Masukkan Detail Transaksi</div>
+    <div class="form-grid">
+      <div class="field">
+        <label>Nama Pembeli</label>
+        <input type="text" id="buyerName" placeholder="Contoh: Kak Budi" oninput="generateOutput()">
+      </div>
+      <div class="field">
+        <label>Nama Produk</label>
+        <input type="text" id="prodName" placeholder="Contoh: Netflix 1 Bulan (Sharing)" oninput="generateOutput()">
+      </div>
+      <div class="field">
+        <label>Harga (Opsional)</label>
+        <input type="text" id="prodPrice" placeholder="Contoh: Rp 35.000" oninput="generateOutput()">
+      </div>
+      <div class="field">
+        <label>No. Invoice / ID</label>
+        <input type="text" id="invId" placeholder="Auto / Ketik manual" oninput="generateOutput()">
+      </div>
+      <div class="field full">
+        <label>Detail Akun / Data Login / Catatan</label>
+        <textarea id="accDetails" placeholder="Email: xxx@gmail.com&#10;Pass: xxx123&#10;Profil: 1" oninput="generateOutput()"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- HASIL MODEL A: FORMAT TEKS STRUK WHATSAPP -->
+  <div class="card">
+    <div class="section-title">💬 Model A: Format Teks Struk WhatsApp</div>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:10px">Cocok buat dikirim langsung via chat WA. Tinggal klik tombol salin di bawah.</p>
+    <div class="preview-box" id="textOutput">Isi form di atas terlebih dahulu...</div>
+    <div style="margin-top:10px; display:flex; justify-content:flex-end">
+      <button class="btn pri" onclick="copyTextOutput()">📋 Salin Teks Struk</button>
+    </div>
+  </div>
+
+  <!-- HASIL MODEL B: KARTU NOTA VISUAL (DI-DOWNLOAD JADI GAMBAR) -->
+  <div class="card">
+    <div class="section-title">🖼️ Model B: Kartu Nota Visual (Gambar)</div>
+    <p style="font-size:12px; color:var(--muted); margin-bottom:12px">Berbentuk kartu estetik yang di-render jadi gambar PNG siap kirim ke galeri WA.</p>
+    
+    <!-- Kotak Visual Nota yang akan diubah jadi gambar -->
+    <div id="visualCard" class="visual-receipt">
+      <div class="vr-header">
+        <div>
+          <div class="vr-logo">REGARM-MART</div>
+          <div style="font-size:10px; color:#9a978f">DIGITAL STORE OFFICIAL</div>
+        </div>
+        <div class="vr-inv">
+          <div id="vInvNo">#INV-20261024</div>
+          <div id="vDate" style="color:#f4f2ec; font-weight:normal">24 Okt 2026</div>
+        </div>
+      </div>
+      <div class="vr-body">
+        <div class="vr-row"><span>Pembeli:</span> <span id="vBuyer">-</span></div>
+        <div class="vr-row"><span>Produk:</span> <span id="vProd">-</span></div>
+        <div class="vr-row"><span>Total:</span> <span id="vPrice" style="color:var(--p)">-</span></div>
+        <div style="margin-top:4px">
+          <div style="font-size:11px; color:#9a978f; margin-bottom:4px; font-weight:600">DETAIL AKSES / AKUN:</div>
+          <div class="vr-creds" id="vCreds">-</div>
+        </div>
+      </div>
+      <div class="vr-footer">
+        Terima kasih sudah order di REGARM-MART! Garansi aman full.
+      </div>
+    </div>
+
+    <div style="margin-top:12px; display:flex; justify-content:flex-end">
+      <button class="btn pri" onclick="downloadReceiptImage()">📥 Download Nota (Gambar PNG)</button>
+    </div>
+  </div>
+
+  <div class="foot">
+    <b>REGARM-MART Admin Tool</b> &bull; Dibuat khusus untuk efisiensi transaksi ZAY.
+  </div>
+</div>
+
+<script>
+// Auto-generate Nomor Invoice default berdasarkan tanggal hari ini
+const today = new Date();
+const dateCode = today.getFullYear().toString() + String(today.getMonth()+1).padStart(2,'0') + String(today.getDate()).padStart(2,'0');
+document.getElementById('invId').value = '#INV-' + dateCode + '-01';
+document.getElementById('vInvNo').innerText = '#INV-' + dateCode + '-01';
+document.getElementById('vDate').innerText = today.toLocaleDateString('id-ID', {day:'2-digit', month:'short', year:'numeric'});
+
+function generateOutput(){
+  const buyer = document.getElementById('buyerName').value || 'Kak...';
+  const prod = document.getElementById('prodName').value || 'Nama Produk';
+  const price = document.getElementById('prodPrice').value || '-';
+  const inv = document.getElementById('invId').value || '#INV-001';
+  const creds = document.getElementById('accDetails').value || 'Data akun belum diisi';
+
+  // Update Model A (Teks Struk)
+  const textFormat = `✨ *REGARM-MART INVOICE* ✨
+📜 *No:* ${inv}
+👤 *To:* ${buyer}
+📦 *Item:* ${prod}
+💰 *Total:* ${price}
+
+🔐 *DETAIL AKUN / AKSES:*
+\`\`\`
+${creds}
+\`\`\`
+
+📌 *Catatan Garansi:*
+• Garansi full sesuai durasi pesanan
+• Dilarang mengganti email/password utama
+• Ada kendala langsung chat ke sini ya kak!
+
+Terima kasih sudah order di REGARM-MART! Ditunggu next ordernya ya kak 🙏✨`;
+
+  document.getElementById('textOutput').innerText = textFormat;
+
+  // Update Model B (Visual Card)
+  document.getElementById('vBuyer').innerText = buyer;
+  document.getElementById('vProd').innerText = prod;
+  document.getElementById('vPrice').innerText = price;
+  document.getElementById('vInvNo').innerText = inv;
+  document.getElementById('vCreds').innerText = creds;
+}
+
+// Jalankan saat awal buka
+generateOutput();
+
+// Fungsi Tombol Salin Model A
+function copyTextOutput(){
+  const text = document.getElementById('textOutput').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    alert('✅ Format teks struk berhasil disalin! Tinggal paste ke WhatsApp.');
+  });
+}
+
+// Fungsi Tombol Download Gambar Model B menggunakan html2canvas
+function downloadReceiptImage(){
+  const element = document.getElementById('visualCard');
+  const btn = event.target;
+  btn.innerText = '⏳ Sedang merproses gambar...';
+  
+  html2canvas(element, {scale: 2, backgroundColor: '#0b0b0f'}).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'Nota-REGARM-MART.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    btn.innerText = '📥 Download Nota (Gambar PNG)';
+  }).catch(err => {
+    alert('Gagal mendownload gambar. Coba lagi ya!');
+    btn.innerText = '📥 Download Nota (Gambar PNG)';
+  });
+}
+</script>
+</body>
+  </html>
