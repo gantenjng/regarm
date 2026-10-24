@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="noindex,nofollow">
-<title>Auto Watermark | REGARM-MART</title>
+<title>Auto Watermark & Sensor | REGARM-MART</title>
 <link rel="icon" href="../ava.png">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -13,7 +13,7 @@
 
 * {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body {font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:16px 12px 60px;min-height:100vh;position:relative;overflow-x:hidden;}
-button,input{font-family:inherit;color:inherit}
+button,input,select{font-family:inherit;color:inherit}
 a{color:inherit;text-decoration:none}
 
 .bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
@@ -42,11 +42,11 @@ a{color:inherit;text-decoration:none}
 .btn.pri:hover{box-shadow:6px 6px 0 var(--s)}
 .btn-sm{padding:8px;font-size:11px;width:auto;flex:1}
 
-input[type="text"], input[type="file"]{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;outline:none;color:var(--text)}
-input[type="text"]:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+input[type="text"], input[type="file"], select{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;outline:none;color:var(--text)}
+input[type="text"]:focus, select:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
 
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
-.f{display:flex;flex-direction:column;gap:6px}
+.f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
 .f label{font-size:12px;font-weight:700;color:var(--muted)}
 .f span.val{color:var(--p);font-weight:800;font-family:monospace}
 input[type="range"]{width:100%;accent-color:var(--p);cursor:pointer}
@@ -81,22 +81,37 @@ canvas {max-width:100%; height:auto; border-radius:6px; box-shadow:0 4px 12px rg
   </nav>
 
   <div class="card">
-    <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p);margin-bottom:12px">🛡️ GENERATOR WATERMARK & SENSOR</h3>
+    <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p);margin-bottom:12px">🛡️ WM STIKER & SENSOR</h3>
     
-    <div class="f" style="margin-bottom:12px">
-      <label>1. Upload Screenshot Testimoni / Mutasi</label>
+    <div class="f">
+      <label>1. Upload Foto Chat / Mutasi</label>
       <input type="file" id="uploadImg" accept="image/*">
     </div>
 
     <div class="f">
-      <label>2. Teks Watermark</label>
+      <label>2. Tipe Watermark</label>
+      <select id="wmType">
+        <option value="text">Teks Biasa</option>
+        <option value="image">Gunakan Stiker / Logo</option>
+      </select>
+    </div>
+
+    <!-- Kotak Input Teks -->
+    <div class="f" id="boxText">
+      <label>Teks Watermark</label>
       <input type="text" id="wmText" value="REGARM-MART | @jejakbeli">
     </div>
 
+    <!-- Kotak Input Stiker -->
+    <div class="f" id="boxImage" style="display:none;">
+      <label style="color:var(--p)">Upload Stiker WM (Save dr Tele ke Galeri sbg PNG/Webp)</label>
+      <input type="file" id="uploadSticker" accept="image/png, image/jpeg, image/webp">
+    </div>
+
     <div class="g2">
-      <div class="f"><label>Ukuran Teks: <span id="valSize" class="val">45</span>px</label><input type="range" id="wmSize" min="15" max="150" value="45"></div>
-      <div class="f"><label>Transparansi: <span id="valOpac" class="val">30</span>%</label><input type="range" id="wmOpacity" min="5" max="100" value="30"></div>
-      <div class="f"><label>Kerapatan: <span id="valGap" class="val">200</span>px</label><input type="range" id="wmGap" min="50" max="400" value="200"></div>
+      <div class="f"><label>Ukuran WM: <span id="valSize" class="val">80</span>px</label><input type="range" id="wmSize" min="15" max="400" value="80"></div>
+      <div class="f"><label>Transparansi: <span id="valOpac" class="val">50</span>%</label><input type="range" id="wmOpacity" min="5" max="100" value="50"></div>
+      <div class="f"><label>Kerapatan: <span id="valGap" class="val">200</span>px</label><input type="range" id="wmGap" min="50" max="600" value="200"></div>
       <div class="f"><label>Tebal Coretan: <span id="valBrush" class="val">30</span>px</label><input type="range" id="brushSize" min="10" max="100" value="30"></div>
     </div>
 
@@ -104,10 +119,10 @@ canvas {max-width:100%; height:auto; border-radius:6px; box-shadow:0 4px 12px rg
       <div id="placeholderText" style="color:var(--muted);font-weight:600;font-size:13px">Preview gambar akan muncul di sini...</div>
       
       <div id="toolPanel" style="display:none; width:100%; margin-bottom:10px;">
-        <div class="badge-info">👆 Usap foto untuk mencoret/menyensor nomor HP</div>
+        <div class="badge-info">👆 Usap foto untuk mencoret/menyensor info rahasia</div>
         <div style="display:flex; gap:8px">
           <button class="btn btn-sm" id="btnUndo">⏪ Undo Coretan</button>
-          <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Semua Coretan</button>
+          <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Coretan</button>
         </div>
       </div>
       
@@ -125,6 +140,7 @@ canvas {max-width:100%; height:auto; border-radius:6px; box-shadow:0 4px 12px rg
 document.getElementById('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
 
 const uploadImg = document.getElementById('uploadImg');
+const uploadSticker = document.getElementById('uploadSticker');
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const btnDownload = document.getElementById('btnDownload');
@@ -132,6 +148,10 @@ const placeholder = document.getElementById('placeholderText');
 const toolPanel = document.getElementById('toolPanel');
 const btnUndo = document.getElementById('btnUndo');
 const btnClearStrokes = document.getElementById('btnClearStrokes');
+
+const wmType = document.getElementById('wmType');
+const boxText = document.getElementById('boxText');
+const boxImage = document.getElementById('boxImage');
 
 const wmText = document.getElementById('wmText');
 const wmSize = document.getElementById('wmSize');
@@ -145,7 +165,8 @@ const valGap = document.getElementById('valGap');
 const valBrush = document.getElementById('valBrush');
 
 let imageObj = null;
-let strokes = []; // Simpan path coretan sensor
+let stickerObj = null;
+let strokes = []; 
 let currentPath = [];
 let isDrawing = false;
 
@@ -161,6 +182,19 @@ function updateLabels() {
   valBrush.innerText = brushSize.value;
 }
 
+// Ganti Tab Teks/Stiker
+wmType.addEventListener('change', () => {
+  if (wmType.value === 'text') {
+    boxText.style.display = 'block';
+    boxImage.style.display = 'none';
+  } else {
+    boxText.style.display = 'none';
+    boxImage.style.display = 'block';
+  }
+  drawCanvas();
+});
+
+// Load Foto Utama
 uploadImg.addEventListener('change', function(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -182,7 +216,20 @@ uploadImg.addEventListener('change', function(e) {
   reader.readAsDataURL(file);
 });
 
-// FUNGSI UTAMA RENDER CANVAS
+// Load Foto Stiker Watermark
+uploadSticker.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    stickerObj = new Image();
+    stickerObj.onload = function() { drawCanvas(); }
+    stickerObj.src = event.target.result;
+  }
+  reader.readAsDataURL(file);
+});
+
+// RENDER CANVAS UTAMA
 function drawCanvas() {
   if (!imageObj) return;
   
@@ -193,7 +240,7 @@ function drawCanvas() {
   // 2. Gambar Coretan Sensor (Layer Tengah)
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#111111'; // Warna Sensor
+  ctx.strokeStyle = '#111111'; // Warna coretan hitam
   
   strokes.forEach(pathObj => {
     ctx.lineWidth = pathObj.width;
@@ -205,7 +252,6 @@ function drawCanvas() {
     ctx.stroke();
   });
 
-  // Gambar path yang sedang aktif ditarik
   if (currentPath.length > 0) {
     ctx.lineWidth = brushSize.value;
     ctx.beginPath();
@@ -216,44 +262,58 @@ function drawCanvas() {
     ctx.stroke();
   }
 
-  // 3. Gambar Teks Watermark (Layer Atas)
-  const text = wmText.value;
+  // 3. Gambar Teks / Stiker Watermark (Layer Atas)
   const size = parseInt(wmSize.value);
   const opacity = parseInt(wmOpacity.value) / 100;
   const gap = parseInt(wmGap.value);
   const angle = -35 * Math.PI / 180;
-
-  ctx.font = `800 ${size}px 'Plus Jakarta Sans', sans-serif`;
-  ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.shadowColor = `rgba(0,0,0, ${opacity})`;
-  ctx.shadowBlur = 4;
-
   const diag = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+
   ctx.save();
   ctx.translate(canvas.width / 2, canvas.height / 2);
   ctx.rotate(angle);
 
-  for (let x = -diag; x <= diag; x += gap) {
-    for (let y = -diag; y <= diag; y += gap) {
-      ctx.fillText(text, x, y);
+  // Jika pilih teks
+  if (wmType.value === 'text') {
+    const text = wmText.value;
+    ctx.font = `800 ${size}px 'Plus Jakarta Sans', sans-serif`;
+    ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.shadowColor = `rgba(0,0,0, ${opacity})`;
+    ctx.shadowBlur = 4;
+
+    for (let x = -diag; x <= diag; x += gap) {
+      for (let y = -diag; y <= diag; y += gap) {
+        ctx.fillText(text, x, y);
+      }
     }
+  } 
+  // Jika pilih stiker
+  else if (wmType.value === 'image' && stickerObj) {
+    const ratio = stickerObj.height / stickerObj.width;
+    const w = size;
+    const h = size * ratio;
+    
+    ctx.globalAlpha = opacity;
+    for (let x = -diag; x <= diag; x += gap) {
+      for (let y = -diag; y <= diag; y += gap) {
+        ctx.drawImage(stickerObj, x - w/2, y - h/2, w, h);
+      }
+    }
+    ctx.globalAlpha = 1.0;
   }
   ctx.restore();
 }
 
-// FUNGSI CORETAN SENSOR (MOUSE & TOUCH)
+// FUNGSI SENSOR CORET
 function getPos(e) {
   const rect = canvas.getBoundingClientRect();
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
   const clientX = e.touches ? e.touches[0].clientX : e.clientX;
   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-  return {
-    x: (clientX - rect.left) * scaleX,
-    y: (clientY - rect.top) * scaleY
-  };
+  return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
 }
 
 function startDraw(e) {
@@ -298,6 +358,7 @@ btnClearStrokes.addEventListener('click', () => { strokes = []; drawCanvas(); })
   input.addEventListener('input', () => { updateLabels(); drawCanvas(); });
 });
 
+// DOWNLOAD
 btnDownload.addEventListener('click', () => {
   if (!imageObj) return;
   const link = document.createElement('a');
