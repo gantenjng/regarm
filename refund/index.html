@@ -99,6 +99,29 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
 
 .foot{text-align:center;font-size:12px;color:var(--muted);line-height:1.7;margin-top:10px}
 .foot b{color:var(--p)}
+
+/* ===== TAB & MENU HITUNG HARI (BARU) ===== */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tabs button{padding:12px;border:2px solid var(--line);border-radius:10px;background:var(--card);color:var(--text);font-weight:800;font-size:14px;cursor:pointer;transition:all .25s}
+.tabs button:hover{border-color:var(--p)}
+.tabs button.on{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s)}
+.tab{display:none;flex-direction:column;gap:16px}
+.tab.on{display:flex;animation:tin .4s cubic-bezier(.16,1,.3,1)}
+@keyframes tin{from{opacity:0;transform:translateY(12px)}}
+#tab-hari .f{margin-bottom:12px}
+#tab-hari label.l{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.hh{font-family:'Anton',sans-serif;font-size:17px;margin-bottom:6px;letter-spacing:1px;color:var(--p);font-weight:400}
+.mut{color:var(--muted);font-size:12.5px;line-height:1.6}
+.big{font:400 40px/1.1 Anton,sans-serif;color:var(--p);margin:6px 0;letter-spacing:1px;text-shadow:2px 2px 0 var(--s)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.kv div{background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:9px;text-align:left}
+.kv span{display:block;font-size:11px;color:var(--muted);font-weight:700}.kv b{font-size:13px}
+.pb{height:12px;border-radius:7px;background:var(--inp);border:2px solid var(--line);overflow:hidden;margin:10px 0 4px}
+.pb i{display:block;height:100%;background:var(--p);width:0;transition:width .8s cubic-bezier(.16,1,.3,1)}
+.st{display:inline-block;font-size:12px;font-weight:800;padding:4px 10px;border-radius:6px;border:1.5px solid currentColor}
+.st.ok{color:var(--ok)}.st.no{color:var(--bad)}.st.wr{color:#f59e0b}
+.rw{display:flex;gap:8px;flex-wrap:wrap}.rw .btn{flex:1}
+.lnk{background:none;border:none;color:var(--ac);font-weight:700;font-size:12.5px;cursor:pointer;text-decoration:underline;padding:0}
 </style>
 </head>
 <body>
@@ -118,6 +141,13 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
     </div>
   </div>
 
+  <div class="tabs">
+    <button type="button" id="tb-refund" class="on" onclick="tab('refund')">💸 Refund</button>
+    <button type="button" id="tb-hari" onclick="tab('hari')">📅 Hitung Hari</button>
+  </div>
+
+  <!-- ================= TAB REFUND (KODE ASLI) ================= -->
+  <section class="tab on" id="tab-refund">
   <div class="card">
     <h3 style="font-family:'Anton',sans-serif;font-size:17px;margin-bottom:12px;letter-spacing:1px;color:var(--p)">⚙️ KALKULATOR PRORATA REFUND</h3>
     
@@ -154,6 +184,7 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
           <div class="f" style="margin-bottom:8px"><label>Tgl Selesai</label><input type="date" id="tglSelesai"></div>
         </div>
         <button type="button" class="btn" style="width:100%;margin-top:4px" onclick="hitungHariAkurat()">⚡ Hitung Otomatis Total & Sisa Hari</button>
+        <div class="mut" style="margin-top:10px">Tidak tahu tanggal selesainya? <button type="button" class="lnk" onclick="tab('hari')">Hitung dari durasi di menu Hitung Hari →</button></div>
       </div>
 
       <div class="g2">
@@ -195,6 +226,44 @@ form label{display:block;font-size:12px;color:var(--muted);font-weight:700;margi
     <br>
     <b>📌 Rumus Resmi:</b> <code>(Harga Beli × Sisa Hari ÷ Total Hari) × Service Fee = Nominal Refund</code>
   </div>
+  </section>
+
+  <!-- ================= TAB HITUNG HARI (BARU) ================= -->
+  <section class="tab" id="tab-hari">
+    <div class="card">
+      <h3 class="hh">⏳ SISA HARI LANGGANAN</h3>
+      <div class="mut" style="margin-bottom:12px">Isi tanggal beli dan durasi, hasilnya langsung muncul.</div>
+      <div class="g2">
+        <div class="f"><label class="l">Tanggal beli</label><input type="date" id="d1b"></div>
+        <div class="f"><label class="l">Cek per tanggal</label><input type="date" id="d1c"></div>
+      </div>
+      <div class="g2">
+        <div class="f"><label class="l">Durasi</label><input type="number" id="d1n" inputmode="numeric" min="1" placeholder="Contoh: 30"></div>
+        <div class="f"><label class="l">Satuan</label><select id="d1u"><option value="hari">Hari</option><option value="minggu">Minggu</option><option value="bulan" selected>Bulan</option><option value="tahun">Tahun</option></select></div>
+      </div>
+      <label class="l" style="display:flex;gap:8px;align-items:center;font-weight:600;cursor:pointer"><input type="checkbox" id="d1k" style="width:auto"> <span>Hitung bulan/tahun sesuai kalender <span class="mut">(default: 1 bulan = 30 hari, 1 tahun = 365 hari)</span></span></label>
+      <div id="o1" style="margin-top:14px"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="hh">↔️ SELISIH DUA TANGGAL</h3>
+      <div class="g2">
+        <div class="f"><label class="l">Dari</label><input type="date" id="d2a"></div>
+        <div class="f"><label class="l">Sampai</label><input type="date" id="d2b"></div>
+      </div>
+      <div id="o2"></div>
+    </div>
+
+    <div class="card">
+      <h3 class="hh">🗓️ TANGGAL SETELAH / SEBELUM N HARI</h3>
+      <div class="g2">
+        <div class="f"><label class="l">Mulai dari</label><input type="date" id="d3a"></div>
+        <div class="f"><label class="l">Jumlah hari</label><input type="number" id="d3n" inputmode="numeric" min="0" placeholder="Contoh: 30"></div>
+      </div>
+      <div class="f"><label class="l">Arah</label><select id="d3d"><option value="1">Setelah (ke depan)</option><option value="-1">Sebelum (mundur)</option></select></div>
+      <div id="o3"></div>
+    </div>
+  </section>
 
   <div class="foot">
     <b>REGARM-MART Official Refund System</b><br>
@@ -224,9 +293,9 @@ function toggleTheme(){
 }
 paint();
 
-// Set default tanggal hari ini ke tanggal kendala
-const iso=d=>d.toISOString().split('T')[0];
-$('tglKendala').value = iso(new Date());
+// Tanggal hari ini (zona waktu perangkat, bukan UTC, supaya tidak mundur sehari di WIB)
+const todayStr=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+$('tglKendala').value = todayStr();
 
 function toast(m){
   const t=$('toast');t.textContent=m;t.classList.add('show');
@@ -285,6 +354,70 @@ function kirimKeWA(){
   const urlWA = `https://wa.me/${noWA}?text=${encodeURIComponent(rincianTeks)}`;
   window.open(urlWA, '_blank');
 }
+
+/* =====================================================
+   MENU HITUNG HARI (BARU) — semua hitungan memakai UTC
+   supaya tidak meleset karena zona waktu / jam musim.
+   ===================================================== */
+function tab(id){
+  ['refund','hari'].forEach(k=>{
+    $('tab-'+k).classList.toggle('on',k===id);
+    $('tb-'+k).classList.toggle('on',k===id);
+  });
+  history.replaceState(null,'',id==='hari'?'#hari':location.pathname+location.search);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const U=s=>s?new Date(s+'T00:00:00Z'):null;
+const dAdd=(d,n)=>{const x=new Date(d);x.setUTCDate(x.getUTCDate()+n);return x};
+const dDiff=(a,b)=>Math.round((b-a)/864e5);
+const mAdd=(d,n)=>{const x=new Date(d),day=x.getUTCDate();x.setUTCDate(1);x.setUTCMonth(x.getUTCMonth()+n);const last=new Date(Date.UTC(x.getUTCFullYear(),x.getUTCMonth()+1,0)).getUTCDate();x.setUTCDate(Math.min(day,last));return x};
+const fD=d=>d.toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'UTC'});
+const isoU=d=>d.toISOString().slice(0,10);
+
+function endDate(b,n,u,kal){return u==='hari'?dAdd(b,n):u==='minggu'?dAdd(b,n*7):u==='bulan'?(kal?mAdd(b,n):dAdd(b,n*30)):(kal?mAdd(b,n*12):dAdd(b,n*365))}
+function sisaHari(b,n,u,kal,c){const e=endDate(b,n,u,kal),total=dDiff(b,e),left=dDiff(c,e);return{e,total,left,sisa:Math.min(total,Math.max(0,left)),used:Math.min(total,Math.max(0,dDiff(b,c)))}}
+
+function salin(txt){
+  (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).catch(()=>{
+    const a=document.createElement('textarea');a.value=txt;document.body.append(a);a.select();document.execCommand('copy');a.remove();
+  }).then(()=>toast('✅ Berhasil disalin ke clipboard!'));
+}
+
+function c1(){
+  const b=U($('d1b').value),n=+$('d1n').value,c=U($('d1c').value)||U(todayStr());
+  if(!b||!(n>0)){$('o1').innerHTML='<p class="mut">Isi tanggal beli &amp; durasi dulu ya ✨</p>';return}
+  const u=$('d1u').value,r=sisaHari(b,n,u,$('d1k').checked,c),pct=r.total?Math.round(r.used/r.total*100):0;
+  const stt=r.left>0?'<span class="st ok">Masih aktif</span>':r.left===0?'<span class="st wr">Berakhir hari ini</span>':`<span class="st no">Sudah berakhir ${-r.left} hari lalu</span>`;
+  $('o1').innerHTML=`<div style="text-align:center"><div class="mut">Sisa hari</div><div class="big">${r.sisa} hari</div>${stt}</div>
+  <div class="pb"><i style="width:${pct}%"></i></div><div class="mut" style="text-align:center">${pct}% sudah terpakai</div>
+  <div class="kv"><div><span>Berakhir pada</span><b>${fD(r.e)}</b></div><div><span>Total durasi</span><b>${r.total} hari</b></div><div><span>Sudah terpakai</span><b>${r.used} hari</b></div><div><span>Dicek per</span><b>${fD(c)}</b></div></div>
+  <div class="rw"><button type="button" class="btn" id="o1c">📋 Salin hasil</button><button type="button" class="btn pri" id="o1u">Pakai di Refund →</button></div>`;
+  $('o1c').onclick=()=>salin(`📅 HITUNG HARI — REGARM-MART\nBeli: ${fD(b)}\nDurasi: ${n} ${u} (${r.total} hari)\nBerakhir: ${fD(r.e)}\nDicek per: ${fD(c)}\nTerpakai: ${r.used} hari\nSisa: ${r.sisa} hari`);
+  $('o1u').onclick=()=>{
+    $('th').value=r.total;$('sh').value=r.sisa;
+    if(c>=b&&c<=r.e){$('tglBeli').value=isoU(b);$('tglKendala').value=isoU(c);$('tglSelesai').value=isoU(r.e)}
+    tab('refund');toast(r.sisa>0?'✅ Total & sisa hari terisi di kalkulator refund':'ℹ️ Sisa hari 0, tidak ada nominal yang bisa direfund');
+  };
+}
+function c2(){
+  const a=U($('d2a').value),b=U($('d2b').value);
+  if(!a||!b){$('o2').innerHTML='<p class="mut">Isi kedua tanggal.</p>';return}
+  const d=dDiff(a,b),ab=Math.abs(d);
+  $('o2').innerHTML=`<div style="text-align:center"><div class="big">${ab} hari</div><div class="mut">${d<0?'Tanggal "Sampai" lebih awal dari "Dari". ':''}≈ ${(ab/7).toFixed(1)} minggu ≈ ${(ab/30).toFixed(1)} bulan</div></div>`;
+}
+function c3(){
+  const a=U($('d3a').value),raw=$('d3n').value,n=+raw;
+  if(!a||raw===''||!(n>=0)){$('o3').innerHTML='<p class="mut">Isi tanggal mulai &amp; jumlah hari.</p>';return}
+  $('o3').innerHTML=`<div style="text-align:center"><div class="mut">Hasilnya jatuh pada</div><div class="big" style="font-size:24px">${fD(dAdd(a,n*(+$('d3d').value)))}</div></div>`;
+}
+['d1b','d1c','d1n','d1u','d1k'].forEach(i=>$(i).addEventListener('input',c1));
+['d2a','d2b'].forEach(i=>$(i).addEventListener('input',c2));
+['d3a','d3n','d3d'].forEach(i=>$(i).addEventListener('input',c3));
+['d1b','d1c','d2a','d2b','d3a'].forEach(i=>$(i).value=todayStr());
+c1();c2();c3();
+
+if(location.hash==='#hari')tab('hari');
 </script>
 </body>
 </html>
