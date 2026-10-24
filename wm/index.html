@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id" data-mode="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<title>Auto Watermark | REGARM-MART</title>
+<link rel="icon" href="../ava.png">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
+[data-mode=light]{--text:#111;--muted:#5d5a52;--card:#fff;--line:#e2e8f0;--inp:#f8fafc;--hard:#111;--ok:#15803d;--bad:#c1121f;color-scheme:light}
+
+* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body {font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);padding:16px 12px 60px;min-height:100vh;position:relative;overflow-x:hidden;}
+button,input{font-family:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.au{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:dr 26s ease-in-out infinite alternate}
+[data-mode=light] .au{opacity:.3}
+.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
+@keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+.zay{position:absolute;left:-25%;top:-25%;width:150%;height:150%;display:flex;flex-direction:column;justify-content:space-around;transform:rotate(-9deg)}
+.zay div{display:flex;justify-content:space-around}.zay div:nth-child(even){margin-left:-9vw}
+.zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 20%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 10%,transparent)}
+
+.wrap{position:relative;z-index:2;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ttl{font:400 clamp(22px,5vw,34px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
+.ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px}
+.gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
+
+.navs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}.navs::-webkit-scrollbar{display:none}
+.navs a{flex:none;padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:12px;font-weight:800;transition:background .2s,border-color .2s}
+.navs a.on{background:var(--p);color:#111;border-color:#111;box-shadow:3px 3px 0 var(--s)}
+
+.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:16px;box-shadow:6px 6px 0 rgba(0,0,0,0.4);width:100%;}
+.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13px;font-weight:800;cursor:pointer;display:block;text-align:center;width:100%;transition:transform .25s,box-shadow .25s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}
+.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s)}
+.btn.pri:hover{box-shadow:6px 6px 0 var(--s)}
+.btn-sm{padding:8px;font-size:11px;width:auto;flex:1}
+
+input[type="text"], input[type="file"]{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;outline:none;color:var(--text)}
+input[type="text"]:focus{border-color:var(--p);box-shadow:3px 3px 0 var(--p)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+.f{display:flex;flex-direction:column;gap:6px}
+.f label{font-size:12px;font-weight:700;color:var(--muted)}
+.f span.val{color:var(--p);font-weight:800;font-family:monospace}
+input[type="range"]{width:100%;accent-color:var(--p);cursor:pointer}
+
+.preview-box {background:var(--inp);border:2px dashed var(--line);border-radius:10px;padding:8px;margin-top:16px;text-align:center;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.canvas-container {width:100%; max-width:100%; overflow:auto; display:flex; justify-content:center;}
+canvas {max-width:100%; height:auto; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,0.5); cursor:crosshair; touch-action:none;}
+
+.badge-info {display:inline-flex; align-items:center; gap:6px; background:var(--card); border:1.5px solid var(--line); padding:6px 10px; border-radius:6px; font-size:11px; font-weight:700; color:var(--muted); margin-bottom:10px;}
+.foot{text-align:center;font-size:12px;color:var(--muted);margin-top:10px}
+.foot b{color:var(--p)}
+#toast{position:fixed;left:50%;bottom:-70px;transform:translateX(-50%);background:var(--card);border:2px solid var(--p);box-shadow:4px 4px 0 var(--s);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:700;z-index:90;transition:bottom .35s}
+#toast.show{bottom:20px}
+</style>
+</head>
+<body>
+
+<div class="bg"><div class="au a"></div><div class="au b"></div><div class="zay" id="zay"></div></div>
+<div id="toast">✅ Gambar berhasil didownload!</div>
+
+<div class="wrap">
+  <div class="hd">
+    <div class="ttl"><span class="gl" data-t="REGARM-MART">REGARM-MART</span><small>// wm & sensor</small></div>
+  </div>
+
+  <nav class="navs" aria-label="Web admin">
+    <a href="../">🏠 Toko</a>
+    <a href="../rekap/">📒 Rekap</a>
+    <a href="../invoice/">🧾 Invoice</a>
+    <a href="../refund/">↩️ Refund</a>
+    <a href="./" class="on">🛡️ WM & Sensor</a>
+  </nav>
+
+  <div class="card">
+    <h3 style="font-family:'Anton',sans-serif;font-size:18px;letter-spacing:1px;color:var(--p);margin-bottom:12px">🛡️ GENERATOR WATERMARK & SENSOR</h3>
+    
+    <div class="f" style="margin-bottom:12px">
+      <label>1. Upload Screenshot Testimoni / Mutasi</label>
+      <input type="file" id="uploadImg" accept="image/*">
+    </div>
+
+    <div class="f">
+      <label>2. Teks Watermark</label>
+      <input type="text" id="wmText" value="REGARM-MART | @jejakbeli">
+    </div>
+
+    <div class="g2">
+      <div class="f"><label>Ukuran Teks: <span id="valSize" class="val">45</span>px</label><input type="range" id="wmSize" min="15" max="150" value="45"></div>
+      <div class="f"><label>Transparansi: <span id="valOpac" class="val">30</span>%</label><input type="range" id="wmOpacity" min="5" max="100" value="30"></div>
+      <div class="f"><label>Kerapatan: <span id="valGap" class="val">200</span>px</label><input type="range" id="wmGap" min="50" max="400" value="200"></div>
+      <div class="f"><label>Tebal Coretan: <span id="valBrush" class="val">30</span>px</label><input type="range" id="brushSize" min="10" max="100" value="30"></div>
+    </div>
+
+    <div class="preview-box">
+      <div id="placeholderText" style="color:var(--muted);font-weight:600;font-size:13px">Preview gambar akan muncul di sini...</div>
+      
+      <div id="toolPanel" style="display:none; width:100%; margin-bottom:10px;">
+        <div class="badge-info">👆 Usap foto untuk mencoret/menyensor nomor HP</div>
+        <div style="display:flex; gap:8px">
+          <button class="btn btn-sm" id="btnUndo">⏪ Undo Coretan</button>
+          <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Semua Coretan</button>
+        </div>
+      </div>
+      
+      <div class="canvas-container">
+        <canvas id="canvas" style="display:none;"></canvas>
+      </div>
+    </div>
+
+    <button type="button" class="btn pri" id="btnDownload" style="margin-top:16px; display:none;">📥 DOWNLOAD GAMBAR AMAN</button>
+  </div>
+  <div class="foot"><b>REGARM-MART Anti-Theft System</b><br>&copy; 2026 ZAY. All Rights Reserved.</div>
+</div>
+
+<script>
+document.getElementById('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
+
+const uploadImg = document.getElementById('uploadImg');
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const btnDownload = document.getElementById('btnDownload');
+const placeholder = document.getElementById('placeholderText');
+const toolPanel = document.getElementById('toolPanel');
+const btnUndo = document.getElementById('btnUndo');
+const btnClearStrokes = document.getElementById('btnClearStrokes');
+
+const wmText = document.getElementById('wmText');
+const wmSize = document.getElementById('wmSize');
+const wmOpacity = document.getElementById('wmOpacity');
+const wmGap = document.getElementById('wmGap');
+const brushSize = document.getElementById('brushSize');
+
+const valSize = document.getElementById('valSize');
+const valOpac = document.getElementById('valOpac');
+const valGap = document.getElementById('valGap');
+const valBrush = document.getElementById('valBrush');
+
+let imageObj = null;
+let strokes = []; // Simpan path coretan sensor
+let currentPath = [];
+let isDrawing = false;
+
+function toast(m){
+  const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function updateLabels() {
+  valSize.innerText = wmSize.value;
+  valOpac.innerText = wmOpacity.value;
+  valGap.innerText = wmGap.value;
+  valBrush.innerText = brushSize.value;
+}
+
+uploadImg.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    imageObj = new Image();
+    imageObj.onload = function() {
+      canvas.width = imageObj.width;
+      canvas.height = imageObj.height;
+      placeholder.style.display = 'none';
+      canvas.style.display = 'block';
+      toolPanel.style.display = 'block';
+      btnDownload.style.display = 'block';
+      strokes = [];
+      drawCanvas();
+    }
+    imageObj.src = event.target.result;
+  }
+  reader.readAsDataURL(file);
+});
+
+// FUNGSI UTAMA RENDER CANVAS
+function drawCanvas() {
+  if (!imageObj) return;
+  
+  // 1. Gambar Base Foto
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(imageObj, 0, 0);
+
+  // 2. Gambar Coretan Sensor (Layer Tengah)
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#111111'; // Warna Sensor
+  
+  strokes.forEach(pathObj => {
+    ctx.lineWidth = pathObj.width;
+    ctx.beginPath();
+    pathObj.points.forEach((pt, i) => {
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    });
+    ctx.stroke();
+  });
+
+  // Gambar path yang sedang aktif ditarik
+  if (currentPath.length > 0) {
+    ctx.lineWidth = brushSize.value;
+    ctx.beginPath();
+    currentPath.forEach((pt, i) => {
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    });
+    ctx.stroke();
+  }
+
+  // 3. Gambar Teks Watermark (Layer Atas)
+  const text = wmText.value;
+  const size = parseInt(wmSize.value);
+  const opacity = parseInt(wmOpacity.value) / 100;
+  const gap = parseInt(wmGap.value);
+  const angle = -35 * Math.PI / 180;
+
+  ctx.font = `800 ${size}px 'Plus Jakarta Sans', sans-serif`;
+  ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = `rgba(0,0,0, ${opacity})`;
+  ctx.shadowBlur = 4;
+
+  const diag = Math.sqrt(canvas.width * canvas.width + canvas.height * canvas.height);
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate(angle);
+
+  for (let x = -diag; x <= diag; x += gap) {
+    for (let y = -diag; y <= diag; y += gap) {
+      ctx.fillText(text, x, y);
+    }
+  }
+  ctx.restore();
+}
+
+// FUNGSI CORETAN SENSOR (MOUSE & TOUCH)
+function getPos(e) {
+  const rect = canvas.getBoundingClientRect();
+  const scaleX = canvas.width / rect.width;
+  const scaleY = canvas.height / rect.height;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  return {
+    x: (clientX - rect.left) * scaleX,
+    y: (clientY - rect.top) * scaleY
+  };
+}
+
+function startDraw(e) {
+  if(!imageObj) return;
+  e.preventDefault();
+  isDrawing = true;
+  currentPath = [getPos(e)];
+  drawCanvas();
+}
+
+function moveDraw(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  currentPath.push(getPos(e));
+  drawCanvas();
+}
+
+function endDraw(e) {
+  if (!isDrawing) return;
+  e.preventDefault();
+  isDrawing = false;
+  if(currentPath.length > 0) {
+    strokes.push({points: currentPath, width: parseInt(brushSize.value)});
+  }
+  currentPath = [];
+  drawCanvas();
+}
+
+canvas.addEventListener('mousedown', startDraw);
+canvas.addEventListener('mousemove', moveDraw);
+canvas.addEventListener('mouseup', endDraw);
+canvas.addEventListener('mouseout', endDraw);
+
+canvas.addEventListener('touchstart', startDraw, {passive: false});
+canvas.addEventListener('touchmove', moveDraw, {passive: false});
+canvas.addEventListener('touchend', endDraw, {passive: false});
+
+btnUndo.addEventListener('click', () => { strokes.pop(); drawCanvas(); });
+btnClearStrokes.addEventListener('click', () => { strokes = []; drawCanvas(); });
+
+[wmText, wmSize, wmOpacity, wmGap, brushSize].forEach(input => {
+  input.addEventListener('input', () => { updateLabels(); drawCanvas(); });
+});
+
+btnDownload.addEventListener('click', () => {
+  if (!imageObj) return;
+  const link = document.createElement('a');
+  link.download = `SAFE_TESTI_${Date.now()}.jpg`;
+  link.href = canvas.toDataURL('image/jpeg', 0.9);
+  link.click();
+  toast('✅ Testimoni berhasil disensor & didownload!');
+});
+</script>
+</body>
+</html>
