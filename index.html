@@ -2631,5 +2631,160 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     setInterval(() => { if (document.hidden) return; ambil().then(terapkanLive).catch(() => { if (window.TOKO) terapkanLive(window.TOKO); }); }, 60000);
   })();
 </script>
+  <!-- ================= MULAI LAYAR MASUK ================= -->
+<style>
+  #layar-masuk-kustom {
+    position: fixed; 
+    inset: 0; 
+    z-index: 9999999; 
+    background: 
+      radial-gradient(circle at 50% 30%, rgba(255, 212, 0, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(225, 29, 46, 0.1) 0%, transparent 50%),
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      #07080d;
+    background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px, 100% 100%;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    padding: 24px;
+  }
+  
+  @keyframes munculMasuk { 
+    0% { transform: translateY(20px) scale(0.9); opacity: 0; } 
+    100% { transform: translateY(0) scale(1); opacity: 1; } 
+  }
+  @keyframes muterCincin { 
+    to { transform: rotate(360deg); } 
+  }
+  
+  .masuk-avatar-wrap { 
+    position: relative; 
+    margin-bottom: 24px; 
+    animation: munculMasuk 0.8s 0.1s both; 
+  }
+  .masuk-avatar-wrap::before { 
+    content: ''; 
+    position: absolute; 
+    inset: -15px; 
+    border-radius: 50%; 
+    background: conic-gradient(from 0deg, transparent 0 30%, #ffd400, #e11d2e, transparent 85%); 
+    animation: muterCincin 3s linear infinite; 
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); 
+    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); 
+  }
+  .masuk-avatar { 
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    position: relative; 
+    z-index: 1; 
+    border: 4px solid #07080d; 
+    background: #111; 
+  }
+  
+  .masuk-title { 
+    font-family: 'Anton', sans-serif; 
+    font-size: clamp(40px, 8vw, 64px); 
+    font-weight: 400; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    color: #fff; 
+    margin-bottom: 8px; 
+    text-shadow: 4px 4px 0 #e11d2e, -2px -2px 0 #ffd400;
+    animation: munculMasuk 0.8s 0.3s both; 
+  }
+  
+  .masuk-subtitle { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    font-size: 12px; 
+    color: #ffd400; 
+    margin-bottom: 48px; 
+    letter-spacing: 3px; 
+    text-transform: uppercase; 
+    font-weight: 700; 
+    animation: munculMasuk 0.8s 0.4s both; 
+  }
+  
+  .masuk-btn { 
+    padding: 16px 48px; 
+    border-radius: 8px; 
+    background: #ffd400; 
+    color: #111; 
+    font-weight: 800; 
+    font-size: 16px; 
+    font-family: 'Anton', sans-serif; 
+    border: 2px solid #111; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    letter-spacing: 1px; 
+    box-shadow: 6px 6px 0 #e11d2e;
+    transition: transform 0.2s, box-shadow 0.2s; 
+    animation: munculMasuk 0.8s 0.5s both; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+  }
+  .masuk-btn:hover { 
+    transform: translate(-2px, -2px); 
+    box-shadow: 8px 8px 0 #e11d2e; 
+  }
+  .masuk-btn:active { 
+    transform: translate(2px, 2px); 
+    box-shadow: 0 0 0 #e11d2e; 
+  }
+  
+  .masuk-footer { 
+    position: absolute; 
+    bottom: 30px; 
+    left: 0; 
+    right: 0; 
+    font-size: 11px; 
+    color: #666; 
+    letter-spacing: 1px; 
+    font-weight: 600; 
+    animation: munculMasuk 0.8s 0.6s both; 
+  }
+</style>
+
+<div id="layar-masuk-kustom">
+  <div class="masuk-avatar-wrap">
+    <img src="ava.png" class="masuk-avatar" alt="Logo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
+  </div>
+  <h1 class="masuk-title">REGARM-MART</h1>
+  <p class="masuk-subtitle">Premium Apps Store</p>
+  
+  <button class="masuk-btn" onclick="prosesMasukToko()">
+    MASUK 
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+  
+  <div class="masuk-footer">&copy; 2026 ZAY.</div>
+</div>
+
+<script>
+  function prosesMasukToko() {
+    // Getaran kecil di HP (opsional)
+    if (navigator.vibrate) navigator.vibrate(20);
+    
+    // Cari elemen layar masuk
+    const layar = document.getElementById('layar-masuk-kustom');
+    
+    if (layar) {
+      // Animasi memudar
+      layar.style.transition = 'opacity 0.5s ease';
+      layar.style.opacity = '0';
+      
+      // Hapus total dari halaman setelah 0.5 detik (Dijamin gak akan stuck!)
+      setTimeout(() => {
+        layar.remove(); 
+      }, 500);
+    }
+  }
+</script>
+<!-- ================= AKHIR LAYAR MASUK ================= -->
 </body>
 </html>
