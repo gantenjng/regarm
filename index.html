@@ -216,7 +216,7 @@ svg{display:block}
 @keyframes marq{to{transform:translateX(-50%)}}
 
 /* ---------- MENU (BENTO) ---------- */
-.menu-group{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.menu-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin-top:4px;box-sizing:border-box}
 .span-2{grid-column:span 2}
 .action-btn,.menu-card{
   position:relative;overflow:hidden;width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
@@ -299,120 +299,348 @@ svg{display:block}
 .toast-time{color:var(--muted);font-size:10px;margin-top:2px}
 
 /* ---------- DRAWER / BOTTOM SHEET ---------- */
-.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(4,5,10,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:99;justify-content:center;align-items:center;padding:14px;animation:ovIn .3s ease}
-@keyframes ovIn{from{opacity:0}}
-.drawer-content{width:100%;max-width:600px;background:var(--modal-bg);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border:1px solid var(--card-border);border-radius:28px;padding:0 20px 24px;max-height:88vh;overflow-y:auto;box-shadow:0 40px 90px -20px rgba(0,0,0,.7);animation:sheetIn .5s cubic-bezier(.16,1,.3,1)}
-@keyframes sheetIn{from{opacity:0;transform:translateY(34px) scale(.97)}}
-@keyframes sheetUp{from{transform:translateY(100%)}}
-.drawer-content::-webkit-scrollbar{width:5px}
-.drawer-content::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:10px}
-.view-panel{animation:panelIn .45s cubic-bezier(.16,1,.3,1)}
-@keyframes panelIn{from{opacity:0;transform:translateX(18px)}}
+/* ---------- DRAWER / BOTTOM SHEET (EDITORIAL SPEC) ---------- */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(18, 18, 20, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  animation: ovIn .2s ease;
+}
+.drawer-content {
+  width: 100%;
+  max-width: 520px;
+  background: #fffdf9;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 8px 8px 0 #121214;
+  padding: 0 18px 24px;
+  max-height: 88vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #fffdf9;
+  padding: 18px 0 12px;
+  margin-bottom: 14px;
+  border-bottom: 2px solid #121214;
+}
+.drawer-header h3 {
+  flex: 1;
+  font-family: 'Anton', sans-serif;
+  font-size: 19px;
+  letter-spacing: 1px;
+  color: #121214;
+  text-transform: uppercase;
+}
+.nav-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  border: 2px solid #121214;
+  background: #ffffff;
+  box-shadow: 2px 2px 0 #121214;
+  color: #121214;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .15s, background .15s;
+}
+.nav-btn:hover {
+  background: var(--yellow);
+  transform: translate(-1px, -1px);
+}
+.nav-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 0 0 0 #121214;
+}
 
-.drawer-header{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:10;background:var(--modal-bg);padding:20px 0 14px;margin-bottom:16px;border-bottom:1px solid var(--card-border)}
-.drawer-header h3{flex:1;font-family:'Bricolage Grotesque','Plus Jakarta Sans',sans-serif;font-size:16.5px;color:var(--text-color);font-weight:700;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
-.nav-btn{width:36px;height:36px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;background:var(--input-bg);border:1px solid var(--card-border);color:var(--muted);font-size:18px;line-height:1;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1),color .2s,border-color .2s}
-.nav-btn:hover{color:var(--accent-color);border-color:var(--accent-color);transform:scale(1.1)}
-.nav-btn:active{transform:scale(.9)}
+/* SEARCH & FILTER CHIPS */
+.search-box {
+  margin-bottom: 12px;
+}
+.search-box input {
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  color: #121214;
+  padding: 12px 14px 12px 42px;
+  font-size: 13.5px;
+  font-weight: 600;
+  outline: none;
+  box-shadow: 3px 3px 0 #121214;
+  box-sizing: border-box;
+}
+.search-box input:focus {
+  border-color: #121214;
+  box-shadow: 4px 4px 0 #ff5722;
+}
+.filter-tools {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+@media(min-width: 480px) {
+  .filter-tools {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+.category-chips {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.category-chips::-webkit-scrollbar {
+  display: none;
+}
+.chip {
+  background: #ffffff;
+  border: 1.5px solid #121214;
+  border-radius: 4px;
+  color: #121214;
+  padding: 6px 12px;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 #121214;
+  white-space: nowrap;
+  transition: transform .15s, background .15s;
+}
+.chip:hover {
+  background: #f0ebe1;
+  transform: translate(-1px, -1px);
+}
+.chip.active {
+  background: var(--yellow) !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+}
+.sort-select {
+  background: #ffffff;
+  border: 1.5px solid #121214;
+  border-radius: 4px;
+  color: #121214;
+  padding: 7px 12px;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  box-shadow: 2px 2px 0 #121214;
+  cursor: pointer;
+  outline: none;
+}
 
-.hot-label{background:var(--grad);color:var(--on-accent);font-size:9.5px;font-weight:800;padding:3px 7px;border-radius:7px;margin-left:6px;vertical-align:middle;letter-spacing:.3px;white-space:nowrap}
-
-.search-box{margin-bottom:12px}
-.search-box input{width:100%;background:var(--input-bg);border:1px solid var(--card-border);color:var(--text-color);padding:14px 16px 14px 44px;border-radius:16px;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;
-  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239d9aae' stroke-width='2' stroke-linecap='round'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>");background-repeat:no-repeat;background-position:15px center;background-size:18px}
-.search-box input::placeholder{color:var(--muted)}
-.search-box input:focus{border-color:var(--accent-color);box-shadow:0 0 0 4px var(--ring)}
-
-.filter-tools{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
-@media(min-width:480px){.filter-tools{flex-direction:row;justify-content:space-between;align-items:center}}
-.category-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;width:100%;scrollbar-width:none}
-.category-chips::-webkit-scrollbar{display:none}
-.chip{background:var(--input-bg);border:1px solid var(--card-border);color:var(--muted);padding:8px 16px;border-radius:30px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .25s cubic-bezier(.34,1.56,.64,1),background .25s,color .25s,border-color .25s,box-shadow .25s}
-.chip:hover{border-color:var(--accent-color);color:var(--accent-color)}
-.chip:active{transform:scale(.93)}
-.chip.active{background:var(--grad);color:var(--on-accent);border-color:transparent;box-shadow:0 8px 18px -8px rgba(239,138,164,.8)}
-.chip-accent{border-color:var(--accent-color);color:var(--accent-color);background:var(--soft)}
-
-.sort-select{background:var(--input-bg);border:1px solid var(--card-border);color:var(--text-color);padding:9px 14px;border-radius:30px;font-size:12px;font-weight:700;outline:none;cursor:pointer;width:100%;transition:border-color .2s}
-.sort-select:focus{border-color:var(--accent-color)}
-@media(min-width:480px){.sort-select{width:auto}}
-
-.hint-box{font-size:12px;color:var(--muted);background:var(--soft);border:1px dashed var(--card-border);padding:11px 14px;border-radius:14px;margin-bottom:12px;line-height:1.6}
-.hint-box b{color:var(--accent-color)}
-
-.product-list{display:flex;flex-direction:column;gap:9px}
-.product-item{position:relative;display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card-bg);border:1px solid var(--card-border);padding:13px 15px;border-radius:16px;cursor:pointer;color:var(--text-color);font-size:13.5px;font-weight:600;
-  transition:transform .3s cubic-bezier(.34,1.56,.64,1),border-color .2s,background .25s,box-shadow .25s;animation:itemIn .55s cubic-bezier(.16,1,.3,1) both}
-@keyframes itemIn{from{opacity:0;transform:translateY(14px)}}
-.product-item:hover{border-color:var(--accent-color);background:var(--card-hover);transform:translateY(-2px) scale(1.01);box-shadow:var(--shadow)}
-.product-item:active{transform:scale(.97)}
-.product-item:hover .arrow-icon{transform:translateX(3px);background:var(--accent-color);color:var(--on-accent)}
-.item-left{display:flex;align-items:center;gap:12px;overflow:hidden}
-.app-logo{width:30px;height:30px;border-radius:9px;object-fit:contain;background:#fff;padding:4px;flex-shrink:0;box-shadow:0 4px 10px -4px rgba(0,0,0,.35)}
-.fav-icon{font-size:17px;filter:grayscale(100%) opacity(.35);transition:filter .25s,transform .35s cubic-bezier(.34,1.56,.64,1);cursor:pointer;flex-shrink:0}
-.fav-icon:hover{filter:grayscale(30%) opacity(.8);transform:scale(1.2)}
-.fav-icon.active{filter:none;transform:scale(1.25);text-shadow:0 0 12px var(--accent-color);animation:favPop .5s cubic-bezier(.34,1.56,.64,1)}
-@keyframes favPop{40%{transform:scale(1.6) rotate(-12deg)}}
-.prod-price{color:var(--accent-color);font-weight:800;text-align:right;flex-shrink:0;margin-left:8px;font-variant-numeric:tabular-nums;font-size:13.5px}
-.product-list .product-item:nth-child(1){animation-delay:38ms}
-.product-list .product-item:nth-child(2){animation-delay:76ms}
-.product-list .product-item:nth-child(3){animation-delay:114ms}
-.product-list .product-item:nth-child(4){animation-delay:152ms}
-.product-list .product-item:nth-child(5){animation-delay:190ms}
-.product-list .product-item:nth-child(6){animation-delay:228ms}
-.product-list .product-item:nth-child(7){animation-delay:266ms}
-.product-list .product-item:nth-child(8){animation-delay:304ms}
-.product-list .product-item:nth-child(9){animation-delay:342ms}
-.product-list .product-item:nth-child(10){animation-delay:380ms}
-.product-list .product-item:nth-child(11){animation-delay:418ms}
-.product-list .product-item:nth-child(12){animation-delay:456ms}
-.product-list .product-item:nth-child(13){animation-delay:494ms}
-.product-list .product-item:nth-child(14){animation-delay:532ms}
+/* DAFTAR ITEM PRODUK & PAKET */
+.product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  border: 1.5px solid #121214;
+  border-radius: 4px;
+  padding: 11px 14px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 #121214;
+  transition: transform .15s, box-shadow .15s;
+}
+.product-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #ff5722;
+  background: #fffdf9;
+}
+.product-item:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #121214;
+}
+.app-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  border: 1.5px solid #121214;
+  padding: 2px;
+  background: #fff;
+  object-fit: contain;
+}
+.prod-price {
+  font-family: 'Anton', sans-serif;
+  font-size: 14.5px;
+  letter-spacing: 0.5px;
+  color: #ff5722;
+}
+.hint-box {
+  font-size: 11px;
+  color: #6c6962;
+  background: #f0ebe1;
+  border: 1.5px dashed #121214;
+  border-radius: 4px;
+  padding: 9px 12px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
 
 /* ---------- FORM ---------- */
-.order-form{display:flex;flex-direction:column;gap:16px}
-.form-box label{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:7px;display:block;letter-spacing:.3px}
-.form-box input,.form-box select{width:100%;background:var(--input-bg);border:1px solid var(--card-border);color:var(--text-color);padding:14px 16px;border-radius:14px;font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s}
-.form-box input:focus,.form-box select:focus{border-color:var(--accent-color);box-shadow:0 0 0 4px var(--ring)}
-.form-box input::placeholder{color:var(--muted);opacity:.7}
-.form-box input[readonly]{color:var(--accent-color);font-weight:700;background:var(--soft)}
-.info-note{font-size:12.5px;color:var(--text-color);background:var(--soft);padding:13px 15px;border-radius:14px;border-left:3px solid var(--accent-color);line-height:1.6}
-.info-note b{color:var(--accent-color)}
+/* ---------- FORM & NOTA (RECEIPT TAPE) ---------- */
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.form-box label {
+  font-family: 'Anton', sans-serif;
+  font-size: 11.5px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #121214;
+  margin-bottom: 6px;
+  display: block;
+}
+.form-box input,
+.form-box select {
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  color: #121214;
+  padding: 12px 14px;
+  font-size: 13.5px;
+  font-weight: 600;
+  outline: none;
+  box-shadow: 3px 3px 0 #121214;
+  box-sizing: border-box;
+}
+.form-box input[readonly] {
+  background: #f0ebe1;
+  color: #121214;
+  font-weight: 700;
+}
+.info-note {
+  font-size: 11.5px;
+  color: #121214;
+  background: #fffdf9;
+  border: 1.5px solid #121214;
+  border-left: 5px solid var(--yellow);
+  border-radius: 4px;
+  padding: 10px 12px;
+  line-height: 1.5;
+}
+.submit-btn {
+  background: var(--yellow);
+  color: #121214;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  font-family: 'Anton', sans-serif;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 14px;
+  box-shadow: 4px 4px 0 #ff5722;
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.submit-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #ff5722;
+  background: #ff5722;
+  color: #ffffff;
+}
+.submit-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 #ff5722;
+}
 
-.snk-container{display:flex;flex-direction:column;gap:14px}
-.snk-box{background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;padding:18px}
-.snk-title{color:var(--accent-color);font-family:'Bricolage Grotesque','Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;margin-bottom:12px;text-align:center;border-bottom:1px dashed var(--card-border);padding-bottom:10px;letter-spacing:.5px}
-.snk-text p{font-size:12.5px;color:var(--text-color);opacity:.88;line-height:1.75;margin-bottom:5px}
-
-.submit-btn,.copy-btn{position:relative;overflow:hidden;background:var(--grad);color:var(--on-accent);font-weight:800;border:none;padding:15px;border-radius:16px;font-size:13px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;
-  box-shadow:0 14px 28px -14px rgba(239,138,164,.9);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
-.submit-btn::after,.copy-btn::after{content:'';position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-20deg);transition:left .7s ease}
-.submit-btn:hover,.copy-btn:hover{transform:translateY(-2px);box-shadow:0 20px 34px -14px rgba(239,138,164,1)}
-.submit-btn:hover::after,.copy-btn:hover::after{left:130%}
-.submit-btn:active,.copy-btn:active{transform:scale(.96)}
-.copy-btn.ghost{background:var(--soft);color:var(--accent-color);border:1px dashed var(--accent-color);box-shadow:none}
-
-.ask-btn{background:transparent;color:var(--muted);border:1px solid var(--card-border);padding:13px;border-radius:16px;font-size:12.5px;font-weight:700;cursor:pointer;text-align:center;width:100%;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s,color .2s,border-color .2s}
-.ask-btn:hover{background:var(--soft);color:var(--accent-color);border-color:var(--accent-color)}
-.ask-btn:active{transform:scale(.97)}
-
-/* ---------- NOTA DIGITAL ---------- */
-.receipt-wrapper{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:20px;padding:24px 20px 20px;margin-bottom:16px;font-family:'JetBrains Mono',monospace;color:var(--text-color);overflow:hidden;animation:printIn 1s cubic-bezier(.16,1,.3,1) both}
-.receipt-wrapper::before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:var(--grad)}
-@keyframes printIn{from{clip-path:inset(0 0 100% 0);transform:translateY(-14px)}to{clip-path:inset(0 0 0 0);transform:none}}
-.receipt-header{text-align:center;font-weight:700;color:var(--accent-color);font-size:16px;letter-spacing:3px;margin-bottom:14px;border-bottom:2px dashed var(--card-border);padding-bottom:12px}
-.receipt-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:9px;font-size:12.5px}
-.receipt-row span:first-child{color:var(--muted)}
-.receipt-row span:last-child{color:var(--text-color);font-weight:700;text-align:right;max-width:60%}
-.receipt-total{margin-top:14px;padding-top:14px;border-top:2px dashed var(--card-border);color:var(--accent-color);font-weight:800;font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.copy-pill{background:var(--grad);color:var(--on-accent);font-size:10.5px;font-weight:700;padding:6px 11px;border-radius:9px;cursor:pointer;border:none;font-family:inherit;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
-.copy-pill:hover{transform:scale(1.08)}
-.copy-pill:active{transform:scale(.92)}
-
-.faq-item{margin-bottom:14px;border-bottom:1px solid var(--card-border);padding-bottom:12px}
-.faq-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.faq-q{font-weight:700;color:var(--accent-color);font-size:13.5px;line-height:1.5}
-.faq-a{font-size:12.5px;color:var(--text-color);opacity:.8;margin-top:6px;line-height:1.7}
+/* STRUK NOTA KASIR EDITORIAL */
+.receipt-wrapper {
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  padding: 20px 16px;
+  margin-bottom: 14px;
+  box-shadow: 5px 5px 0 #121214;
+  position: relative;
+}
+.receipt-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(-45deg, #121214 0 6px, var(--yellow) 6px 12px);
+}
+.receipt-header {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  letter-spacing: 3px;
+  text-align: center;
+  color: #121214;
+  padding-bottom: 10px;
+  border-bottom: 2px dashed #121214;
+  margin-bottom: 12px;
+}
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.receipt-row span:first-child {
+  color: #6c6962;
+  font-weight: 600;
+}
+.receipt-row span:last-child {
+  color: #121214;
+  font-weight: 700;
+  text-align: right;
+}
+.receipt-total {
+  border-top: 2px dashed #121214;
+  padding-top: 10px;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+.copy-pill {
+  background: #121214;
+  color: #ffffff;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
 
 /* ---------- MOBILE: BOTTOM SHEET ---------- */
 @media(max-width:640px){
@@ -422,9 +650,124 @@ svg{display:block}
   .drawer-header::before{content:'';position:absolute;top:9px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:4px;background:var(--card-border)}
 }
 @media(max-width:380px){.menu-card .mc-text small{display:none}.menu-card{min-height:100px}}
+
+
 </style>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap"></noscript>
-  <style>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ========================================================
+   FULL-BLEED EDITORIAL WALLPAPER (MENGISI PENUH SISI KOSONG)
+   ======================================================== */
+.desktop-side-left,
+.desktop-side-right {
+  display: none;
+}
+
+@media (min-width: 960px) {
+  body {
+    position: relative !important;
+    min-height: 100vh !important;
+  }
+
+  /* SAYAP KIRI: MENGISI PENUH DARI TEPI LAYAR SAMPAI KARTU TENGAH */
+  .desktop-side-left {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 24px;
+    bottom: 24px;
+    left: 24px;
+    right: calc(50% + 260px); /* Melebar penuh sampai batas kartu tengah */
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  /* SAYAP KANAN: MENGISI PENUH DARI KARTU TENGAH SAMPAI TEPI LAYAR */
+  .desktop-side-right {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    position: fixed;
+    top: 24px;
+    bottom: 24px;
+    left: calc(50% + 260px); /* Melebar penuh dari batas kartu tengah */
+    right: 24px;
+    z-index: 1;
+    pointer-events: none;
+    user-select: none;
+    box-sizing: border-box;
+  }
+
+  /* TIPOGRAFI POSTER BESAR & RESPONSIVE */
+  .side-big-outline {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(48px, 5.5vw, 92px);
+    line-height: 0.85;
+    letter-spacing: 2px;
+    color: transparent;
+    -webkit-text-stroke: 2px rgba(18, 18, 20, 0.22);
+    text-transform: uppercase;
+    margin: 6px 0;
+  }
+
+  /* KARTU STIKER ARSIP PADAT */
+  .side-card-dense {
+    background: #fffdf9;
+    border: 2px solid #121214;
+    border-radius: 4px;
+    box-shadow: 5px 5px 0 #121214;
+    padding: 12px 14px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* PITA LAKBAN KUNING / HITAM */
+  .side-tape-strip {
+    background: #ffc700;
+    color: #121214;
+    border: 2px solid #121214;
+    box-shadow: 3px 3px 0 #121214;
+    padding: 5px 12px;
+    font-family: 'Anton', sans-serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    width: fit-content;
+  }
+  .side-tape-strip.black {
+    background: #121214;
+    color: #ffc700;
+  }
+
+  /* GARIS STRIP HAZARD / CAUTION INDUSTRIAL */
+  .side-hazard-bar {
+    width: 100%;
+    height: 10px;
+    border: 1.5px solid #121214;
+    background: repeating-linear-gradient(-45deg, #121214 0 8px, #ffc700 8px 16px);
+    margin: 8px 0;
+  }
+
+  /* POSISI TOMBOL MENGAMBANG DIKUNCI RAPIS DI SEBELAH KARTU TENGAH */
+  .back-to-top {
+    right: calc(50% - 240px - 65px) !important;
+    bottom: 160px !important;
+  }
+  .cart-fab {
+    right: calc(50% - 240px - 65px) !important;
+    bottom: 95px !important;
+  }
+  .float-chat-container {
+    right: calc(50% - 240px - 65px) !important;
+    bottom: 24px !important;
+  }
+}
+
 /* =====================================================
    V2 — GRUNGE NOIR (se-vibes dengan avatar ZAY)
    hitam-putih kontras + kuning petir + merah outline
@@ -565,44 +908,116 @@ body::after{opacity:.12}
 
 /* drawer */
 .drawer-overlay{background:rgba(0,0,0,.78);backdrop-filter:blur(6px)}
-.drawer-content{border-radius:14px;border:2px solid var(--card-border);background:var(--modal-bg);backdrop-filter:none;box-shadow:9px 9px 0 var(--hard)}
-.drawer-header{border-bottom:2px solid var(--card-border);background:var(--modal-bg)}
-.drawer-header h3{font-family:'Anton',sans-serif;font-weight:400;font-size:20px;letter-spacing:1.2px;text-transform:uppercase}
-.nav-btn{border-radius:6px;border:2px solid var(--card-border);background:var(--input-bg);color:var(--text-color)}
-.nav-btn:hover{background:var(--yellow);color:#111;border-color:var(--card-border)}
-.hot-label{background:var(--yellow);color:#111;border-radius:3px;border:1.5px solid #111;rotate:-3deg;display:inline-block}
-.search-box input,.form-box input,.form-box select,.sort-select{border-radius:8px;border:2px solid var(--card-border);background-color:var(--input-bg);color:var(--text-color)}
-.search-box input:focus,.form-box input:focus,.form-box select:focus{border-color:var(--yellow);box-shadow:4px 4px 0 var(--yellow)}
-[data-theme="light"] .search-box input:focus,[data-theme="light"] .form-box input:focus,[data-theme="light"] .form-box select:focus{border-color:#111;box-shadow:4px 4px 0 var(--yellow)}
-.sort-select{border-radius:6px;text-transform:uppercase;font-size:11px;letter-spacing:.6px}
-.chip{border-radius:5px;border:2px solid var(--card-border);background:var(--input-bg);color:var(--text-color);text-transform:uppercase;letter-spacing:.8px;font-weight:800}
-.chip:hover{border-color:var(--yellow);color:var(--text-color);transform:translateY(-2px)}
-[data-theme="light"] .chip:hover{border-color:#111}
-.chip.active{background:var(--yellow);color:#111;border-color:#111;box-shadow:3px 3px 0 var(--red)}
-.chip-accent{background:var(--soft);color:var(--accent-color);border-color:var(--accent-color)}
-.hint-box{border-radius:6px;border:2px dashed var(--card-border);background:var(--soft)}
-.product-item{border-radius:8px;border:2px solid var(--card-border);background:var(--card-bg)}
-.product-item:hover{transform:translate(-3px,-3px);border-color:var(--card-border);box-shadow:5px 5px 0 var(--hard);background:var(--card-hover)}
-.product-item:active{transform:translate(2px,2px);box-shadow:none}
-.app-logo{border-radius:8px;border:1.5px solid #111;box-shadow:none}
-.prod-price{font-family:'Anton',sans-serif;font-weight:400;font-size:16px;letter-spacing:.6px}
-.info-note{border-radius:6px;border-left:5px solid var(--yellow);background:var(--soft)}
-.snk-box{border-radius:8px;border:2px solid var(--card-border);background:var(--card-bg)}
-.snk-title{font-family:'Anton',sans-serif;font-weight:400;font-size:17px;letter-spacing:1.2px;text-transform:uppercase;border-bottom:2px dashed var(--card-border)}
+.drawer-content {
+  border-radius: 8px 8px 0 0 !important;
+  border: 2px solid var(--card-border);
+  border-bottom: none;
+  background: #f7f3ea;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+  padding: 0 16px 24px;
+}
+.drawer-header {
+  border-bottom: 2px solid var(--card-border);
+  background: #f7f3ea;
+  padding: 16px 0 12px;
+}
+.drawer-header h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+.nav-btn {
+  border-radius: 4px;
+  border: 2px solid var(--card-border);
+  background: #ffffff;
+  box-shadow: 2px 2px 0 var(--hard);
+  color: var(--text-color);
+  font-weight: 800;
+}
+.nav-btn:hover {
+  background: var(--yellow);
+}
 
-.submit-btn,.copy-btn{background:var(--yellow);color:#111;border:2px solid #111;border-radius:8px;font-family:'Anton',sans-serif;font-weight:400;font-size:16px;letter-spacing:1.5px;padding:14px;box-shadow:5px 5px 0 var(--red);transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .25s}
-.submit-btn::after,.copy-btn::after{display:none}
-.submit-btn:hover,.copy-btn:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--red)}
-.submit-btn:active,.copy-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--red)}
-.copy-btn.ghost{background:var(--soft);color:var(--text-color);border:2px dashed var(--card-border);box-shadow:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800}
-.copy-btn.ghost:hover{border-color:var(--yellow);transform:none;box-shadow:none}
-.ask-btn{border-radius:8px;border:2px solid var(--card-border);color:var(--text-color)}
-.ask-btn:hover{background:var(--soft);border-color:var(--yellow);color:var(--text-color)}
+/* SEARCH BOX & FILTER CHIPS DI KATALOG */
+.search-box input {
+  border-radius: 4px !important;
+  border: 2px solid var(--card-border) !important;
+  background: #ffffff !important;
+  box-shadow: 3px 3px 0 var(--hard);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+}
+.search-box input:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 4px 4px 0 var(--accent-color) !important;
+}
+.chip {
+  border-radius: 4px !important;
+  border: 1.5px solid var(--card-border) !important;
+  background: #ffffff;
+  box-shadow: 2px 2px 0 var(--hard);
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+}
+.chip.active {
+  background: var(--yellow) !important;
+  color: #121214 !important;
+  box-shadow: 3px 3px 0 var(--hard) !important;
+}
 
-/* nota: kertas struk */
-.receipt-wrapper{background:#f4f1e6;color:#111;border:2px solid #111;border-radius:6px;box-shadow:6px 6px 0 var(--hard)}
-.receipt-wrapper::before{height:9px;background:repeating-linear-gradient(-45deg,#111 0 8px,#ffd400 8px 16px)}
-.receipt-header{font-family:'Anton',sans-serif;font-weight:400;font-size:24px;letter-spacing:5px;color:#111;border-bottom:2px dashed #111}
+/* KARTU ITEM PRODUK DI KATALOG */
+.product-item {
+  border-radius: 4px !important;
+  border: 1.5px solid var(--card-border) !important;
+  background: #ffffff !important;
+  box-shadow: 3px 3px 0 var(--hard);
+  margin-bottom: 8px;
+  padding: 12px 14px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.product-item:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 var(--accent-color) !important;
+  background: #fffdf9 !important;
+}
+.product-item:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 1px 1px 0 var(--hard) !important;
+}
+.app-logo {
+  border-radius: 4px !important;
+  border: 1.5px solid var(--card-border) !important;
+  box-shadow: 2px 2px 0 var(--hard);
+}
+.prod-price {
+  font-family: 'Anton', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  color: var(--accent-color);
+}
+
+/* NOTA DIGITAL GAYA STRUK KASIR ZINE */
+.receipt-wrapper {
+  background: #fffdf8;
+  color: #121214;
+  border: 2px solid var(--card-border);
+  border-radius: 4px !important;
+  box-shadow: 5px 5px 0 var(--hard);
+}
+.receipt-wrapper::before {
+  height: 7px;
+  background: repeating-linear-gradient(-45deg, #121214 0 6px, var(--yellow) 6px 12px);
+}
+.receipt-header {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  letter-spacing: 3px;
+  color: #121214;
+  border-bottom: 2px dashed var(--card-border);
+}
 .receipt-row span:first-child{color:#5d5a52}
 .receipt-row span:last-child{color:#111}
 .receipt-total{color:#111;border-top:2px dashed #111}
@@ -805,7 +1220,1495 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
 .hist-item{flex-direction:column;align-items:stretch}
 .hist-actions{display:flex;gap:8px;margin-top:8px}
 .hist-actions button{flex:1}
+
+/* ===== REGARM-MART STREET EDITORIAL REDESIGN ===== */
+:root{
+  --bg-color:#f0ebe1;
+  --text-color:#121214;
+  --muted:#6c6962;
+  --accent-color:#ff5722;
+  --accent-2:#2563eb;
+  --on-accent:#121214;
+  --yellow:#ffc700;
+  --red:#2563eb;
+  --hard:#121214;
+  --card-bg:#fffdf9;
+  --card-hover:#ffffff;
+  --card-border:#1a1a1c;
+  --modal-bg:#f5f0e6;
+  --input-bg:#ffffff;
+  --soft:rgba(255,87,34,.1);
+  --ring:rgba(37,99,235,.2);
+  --grad:linear-gradient(135deg,#ff5722,#ffc700);
+  --title-grad:none;
+  --blob-op:0;
+}
+[data-theme="light"]{
+  --bg-color:#f0ebe1;--text-color:#121214;--muted:#6c6962;--accent-color:#ff5722;--accent-2:#2563eb;--on-accent:#121214;
+  --yellow:#ffc700;--red:#2563eb;--hard:#121214;--card-bg:#fffdf9;--card-hover:#fff;--card-border:#1a1a1c;
+  --modal-bg:#f5f0e6;--input-bg:#ffffff;--soft:rgba(255,87,34,.1);--ring:rgba(37,99,235,.2);
+}
+body{
+  padding:28px 22px 56px;
+  background-color:var(--bg-color);
+  color:var(--text-color);
+  position:relative;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(rgba(18,18,20,0.08) 1.2px, transparent 1.2px),
+    linear-gradient(to right, rgba(18,18,20,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18,18,20,0.035) 1px, transparent 1px);
+  background-size:16px 16px, 80px 80px, 80px 80px;
+  background-position:0 0, -1px -1px, -1px -1px;
+}
+body::before{
+  content:"REGARM // ISSUE VOL. 03 — EDITORIAL GOODS";
+  position:fixed;
+  left:14px;
+  top:50%;
+  transform:translateY(-50%) rotate(-90deg);
+  transform-origin:left center;
+  font-family:'Anton',sans-serif;
+  font-size:11px;
+  letter-spacing:4px;
+  color:rgba(18,18,20,0.25);
+  pointer-events:none;
+  z-index:1;
+  white-space:nowrap;
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:8px;
+  border:1px dashed rgba(18,18,20,0.15);
+  pointer-events:none;
+  z-index:0;
+}
+#bouncing-container{opacity:.08}
+.aurora{display:none}
+
+/* KUNCI FIT SCREEN: Rata tengah & tegak lurus di semua HP/Laptop */
+.app-container {
+  width: 100% !important;
+  max-width: 480px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 16px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+/* HERO HEADER: 1 kolom lurus ke bawah, tidak membelah ke samping */
+.editorial-hero {
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  gap: 16px !important;
+  position: relative !important;
+  margin: 10px 0 12px !important;
+  padding: 20px 16px !important;
+  background: var(--card-bg) !important;
+  border: 2px solid var(--card-border) !important;
+  box-shadow: 5px 5px 0 var(--hard) !important;
+  box-sizing: border-box !important;
+}
+.editorial-hero::before {
+  content: "ISSUE VOL. 03 // DIGITAL APPS CATALOG";
+  position: absolute;
+  top: -12px;
+  left: 18px;
+  padding: 3px 10px;
+  background: var(--yellow);
+  color: #121214;
+  border: 2px solid var(--card-border);
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  box-shadow: 2px 2px 0 var(--hard);
+}
+.profile-section {
+  align-items: flex-start;
+  text-align: left;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.hero-top-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card-border);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 4px 8px;
+  margin-bottom: 12px;
+}
+.store-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(34px, 6vw, 54px);
+  line-height: 0.95;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.store-name {
+  text-shadow: 3px 3px 0 var(--yellow) !important;
+}
+.store-bio {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 380px;
+  margin-bottom: 14px;
+}
+.store-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1.5px solid var(--card-border);
+  background: #fff;
+  box-shadow: 2px 2px 0 var(--hard);
+  font-size: 11.5px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-top: auto;
+}
+.stat {
+  border: 1.5px solid var(--card-border) !important;
+  background: #fff;
+  box-shadow: 2px 2px 0 var(--hard);
+  padding: 8px 6px;
+  border-radius: 4px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.stat b {
+  font-family: 'Anton', sans-serif;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+.stat span:last-child {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+.hot-strip{width:100%;min-width:0;margin:0;align-self:stretch;padding:20px;background:#245bff;color:#fff;border:2px solid #171717;box-shadow:7px 7px 0 #ff6b2f;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.hot-strip .strip-title{font-size:25px;line-height:1.1;color:#fff;margin-bottom:18px;display:flex;align-items:flex-end;gap:12px}
+.hot-strip .strip-title::before{content:"★";display:grid;place-items:center;width:38px;height:38px;background:#ffb52e;color:#171717;border:2px solid #171717;rotate:-9deg;font-family:Arial,sans-serif;font-size:23px}
+.hot-strip .strip-title span:last-child{color:#fff;font-size:10px;background:#171717;padding:6px 8px;white-space:nowrap}
+.hot-strip .strip-row{gap:16px;margin:0;padding:8px 4px 18px}
+.app-chip{flex-basis:96px;color:#fff}
+.app-chip img{width:78px;height:78px;border:2px solid #171717;border-radius:8px;background:#fff;box-shadow:4px 4px 0 #ffb52e}
+.app-chip:nth-child(n) img{rotate:0deg}
+.app-chip:nth-child(odd) img{rotate:-2deg}.app-chip:nth-child(even) img{rotate:2deg}
+.app-chip span{color:#fff;font-size:12px}
+.maintenance-banner{display:none!important}
+.promo-marquee{margin:14px 0 20px;width:100%;rotate:-1.2deg;padding:11px 0;box-shadow:4px 4px 0 #121214;background:var(--yellow);border:2px solid #121214;z-index:2;overflow:hidden}
+.proof-strip{order:3}
+.menu-group{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:4px;align-items:stretch}
+/* SECTION HEADER RUBRIK MAJALAH */
+.sec-rubrik-tag {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 18px 0 8px;
+  border-bottom: 2px solid var(--card-border);
+  padding-bottom: 5px;
+}
+.sec-rubrik-tag b {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--text-color);
+  background: var(--yellow);
+  padding: 2px 8px;
+  border: 1.5px solid var(--card-border);
+  box-shadow: 2px 2px 0 var(--hard);
+}
+.sec-rubrik-tag span {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* KARTU MENU UTAMA (ZINE STYLE) */
+.menu-card {
+  position: relative;
+  min-height: 115px;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #fffdf9;
+  border: 2px solid var(--card-border);
+  box-shadow: 4px 4px 0 var(--hard);
+  border-radius: 4px !important;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  text-align: left;
+}
+.menu-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--accent-color);
+}
+.menu-card:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--hard);
+}
+
+/* SAMPUL UTAMA: KATALOG (COVER STORY) */
+.menu-card.featured {
+  grid-column: span 2;
+  min-height: 130px;
+  padding: 18px 16px;
+  background: var(--yellow) !important;
+  color: #121214 !important;
+  border: 2px solid var(--card-border);
+  box-shadow: 5px 5px 0 var(--accent-color);
+}
+.menu-card.featured .mc-badge-top {
+  display: inline-block;
+  font-family: 'Anton', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  background: #121214;
+  color: #fff;
+  padding: 2px 6px;
+  margin-bottom: 8px;
+}
+.menu-card.featured .mc-text b {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #121214;
+}
+.menu-card.featured .mc-text small {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2b2b2b;
+  margin-top: 4px;
+  display: block;
+}
+
+/* KARTU MENU REGULER */
+.mc-top-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mc-idx {
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.mc-icon-box {
+  font-size: 18px;
+}
+.menu-card .mc-text b {
+  font-family: 'Anton', sans-serif;
+  font-size: 15px;
+  line-height: 1.15;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  display: block;
+}
+.menu-card .mc-text small {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-top: 3px;
+  display: block;
+}
+.menu-card.wide.span-2:not(.featured) {
+  grid-column: span 2;
+  min-height: 75px;
+  padding: 12px 14px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+}
+.steps,.testi,.disclaimer-box,.share-web-btn,.copyright{width:100%;max-width:none}
+/* SECTION CARA ORDER: EDITORIAL INFOGRAPHIC */
+.steps {
+  padding: 20px 16px;
+  background: #fffdf9;
+  border: 2px solid var(--card-border);
+  box-shadow: 5px 5px 0 var(--hard);
+  border-radius: 4px !important;
+  box-sizing: border-box;
+  margin-top: 14px;
+}
+.steps h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin-bottom: 14px;
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.step {
+  padding: 12px 10px;
+  border-radius: 4px !important;
+  border: 1.5px solid var(--card-border);
+  background: #ffffff;
+  box-shadow: 2px 2px 0 var(--hard);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.step b {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  color: var(--accent-color);
+  line-height: 1;
+  margin-bottom: 6px;
+  border-bottom: 1.5px dashed var(--card-border);
+  padding-bottom: 4px;
+}
+.step strong {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin-bottom: 4px;
+  display: block;
+}
+.step span {
+  font-size: 10.5px;
+  color: var(--muted);
+  line-height: 1.4;
+  font-weight: 600;
+}
+
+/* SECTION TESTIMONI: KLIPING FEED */
+.testi {
+  padding: 20px 16px;
+  background: #fffdf9;
+  border: 2px solid var(--card-border);
+  box-shadow: 5px 5px 0 var(--accent-color);
+  border-radius: 4px !important;
+  box-sizing: border-box;
+  margin-top: 14px;
+}
+.testi-head h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+.testi-card {
+  border: 1.5px solid var(--card-border) !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  box-shadow: 3px 3px 0 var(--hard) !important;
+}
+.share-web-btn {
+  margin-top: 10px;
+  width: 100%;
+  justify-content: center;
+  background: var(--card-border);
+  color: #ffffff;
+  border: 2px solid var(--card-border);
+  box-shadow: 4px 4px 0 var(--yellow);
+  border-radius: 4px !important;
+  font-family: 'Anton', sans-serif;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 13px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.share-web-btn:hover {
+  background: var(--yellow);
+  color: #121214;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--hard);
+}
+.share-web-btn svg {
+  width: 16px;
+  height: 16px;
+}
+.disclaimer-box {
+  background: #fffdf9;
+  border: 2px solid var(--card-border);
+  border-left: 6px solid var(--yellow);
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0 var(--hard);
+  font-size: 11.5px;
+  line-height: 1.6;
+  padding: 12px 14px;
+  box-sizing: border-box;
+}
+.copyright{padding:20px 0 0;text-align:center}
+.top-utils{position:absolute;top:20px;right:20px}
+.util-btn{background:#fffaf0;box-shadow:3px 3px 0 #171717;border:2px solid #171717}
+@media(max-width:760px){
+ body{padding:22px 14px 40px}
+ body::before{display:none}
+ .app-container{gap:18px}
+ .editorial-hero{grid-template-columns:1fr;gap:20px;padding:22px 16px 18px;margin-top:14px;box-shadow:6px 6px 0 #245bff}
+ .editorial-hero::before{left:12px;font-size:8px;letter-spacing:1px}
+ .profile-section{align-items:flex-start}
+ .avatar-wrap{margin:8px 0 18px 8px}
+ .avatar{width:76px;height:76px}
+ .store-title{font-size:clamp(39px,11vw,60px)}
+ .store-bio{font-size:13px}
+ .stats-bar{gap:7px}
+ .stat{padding:10px 4px}
+ .stat b{font-size:15px}
+ .stat span:last-child{font-size:9px}
+ .hot-strip{padding:17px 13px;box-shadow:5px 5px 0 #ff6b2f}
+ .hot-strip .strip-title{font-size:22px;margin-bottom:12px}
+ .app-chip{flex-basis:82px}
+ .app-chip img{width:66px;height:66px}
+ .menu-group{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .menu-card{min-height:140px;padding:15px;gap:12px}
+ .menu-card.featured{grid-column:span 2;min-height:130px;padding:18px}
+ .menu-card.featured .mc-text b{font-size:24px}
+ .menu-card.wide.span-2:not(.featured){grid-column:span 2;min-height:100px}
+ .mc-text b{font-size:15px}
+ .mc-text small{font-size:11px}
+ .menu-card .mc-icon{width:40px;height:40px}
+ .steps,.testi{padding:18px}
+ .promo-marquee{margin:5px 0 8px;width:100%}
+}
+@media(max-width:380px){
+ .editorial-hero{padding:20px 12px 14px}
+ .store-title{font-size:36px}
+ .menu-group{gap:10px}
+ .menu-card{padding:12px;min-height:130px}
+ .menu-card.featured{padding:15px}
+ .menu-card.featured .mc-text b{font-size:21px}
+}
+@media(prefers-reduced-motion:reduce){.app-chip img,.menu-card,.stat,.avatar-wrap::before{animation:none!important;transition:none!important}}
+/* ===== FIX PACK: alur konten, visibilitas section, splash & toast ===== */
+/* Promo berjalan harus berada sesuai urutan DOM, bukan dipindah ke belakang halaman. */
+.promo-marquee,.proof-strip{position:relative;z-index:2}
+/* Fallback aman untuk section reveal: konten tidak boleh tetap transparan jika observer
+   gagal menandai section yang tinggi/panjang sebagai visible. */
+.js .reveal{opacity:1!important;transform:none!important}
+.js .rise{opacity:1}
+.steps,.testi{content-visibility:visible!important;contain-intrinsic-size:none!important}
+/* Drawer dan panel aktif selalu memakai warna yang kontras dengan tema editorial. */
+.drawer-overlay{z-index:999!important}
+.drawer-content{color:var(--text-color);background:var(--modal-bg);isolation:isolate}
+.view-panel{color:var(--text-color);visibility:visible}
+.view-panel[style*="display: block"]{display:block!important;opacity:1!important;transform:none!important}
+.view-panel .snk-box,.view-panel .faq-item,.view-panel .snk-text,.view-panel .faq-q,.view-panel .faq-a{visibility:visible;color:var(--text-color)}
+.view-panel .faq-q{color:#c94d1b!important;font-weight:900}
+.view-panel .faq-a{color:#393630!important;opacity:1!important}
+.drawer-header{background:var(--modal-bg)!important}
+.drawer-header h3{color:var(--text-color)!important}
+.nav-btn{color:var(--text-color)!important;border-color:var(--card-border)!important}
+/* Loading screen diselaraskan dengan tema kertas + aksen street magazine. */
+#splash-screen{background:#f3efe5!important;color:#171717;}
+#splash-screen::before{content:"REGARM / STREET EDITION";position:absolute;top:24px;left:20px;padding:6px 9px;border:2px solid #171717;background:#ffb52e;color:#171717;font-size:10px;font-weight:900;letter-spacing:1.5px;transform:rotate(-3deg)}
+.splash-orb::before{background:conic-gradient(from 0deg,transparent 0 22%,#ff6b2f,#245bff,transparent 85%)!important}
+.splash-orb::after{background:radial-gradient(circle,rgba(255,107,47,.20),transparent 65%)!important}
+.splash-logo{border:3px solid #171717;box-shadow:5px 5px 0 #245bff}
+.splash-text{font-family:'Anton','Bricolage Grotesque',sans-serif!important;font-size:clamp(20px,6vw,28px)!important;letter-spacing:3px!important;color:#171717!important;text-shadow:3px 3px 0 #ffb52e!important;animation:fadeUp .9s .25s both!important}
+.splash-bar{height:6px!important;border:1px solid #171717;background:#fffaf0!important;border-radius:0!important;box-shadow:3px 3px 0 #245bff}
+.splash-bar i{background:#ff6b2f!important}
+/* Toast informasi tidak menimpa tombol chat atau isi halaman pada HP. */
+.toast-notification{z-index:80;max-width:min(390px,calc(100% - 104px));}
+.toast-notification.show{bottom:calc(18px + env(safe-area-inset-bottom));left:12px;}
+.float-chat-container{bottom:18px!important;right:14px!important;}
+@media(max-width:640px){
+ body{padding-bottom:100px!important}
+ .toast-notification{padding:9px 10px!important;gap:8px!important;border:2px solid #171717!important;border-radius:10px!important;box-shadow:3px 3px 0 #245bff!important;background:#fffaf0!important}
+ .toast-icon{width:32px;height:32px;min-width:32px;border-radius:7px!important;background:#ffb52e!important}
+ .toast-title{color:#c94d1b!important}.toast-desc{color:#171717!important}.toast-time{color:#625f58!important}
+ .float-chat-container{bottom:18px!important;right:12px!important}
+ .main-chat-btn{width:54px!important;height:54px!important}
+ .editorial-hero{margin-bottom:8px}
+ .promo-marquee{margin:8px 0 12px!important;width:100%!important;rotate:-1deg}
+ .proof-strip{margin-bottom:18px}
+}
+@media(prefers-reduced-motion:reduce){#splash-screen *,.promo-marquee .marquee-track{animation:none!important}}
+/* FIX JARAK IKON & TEKS NAMA APLIKASI DI KATALOG */
+.product-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 12px 14px !important;
+  gap: 12px !important;
+}
+
+.item-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 14px !important;
+  min-width: 0 !important;
+  flex: 1 !important;
+  overflow: visible !important; /* Mencegah huruf i terpotong */
+}
+
+.app-logo {
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  flex-shrink: 0 !important;
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: 4px !important;
+  border: 1.5px solid #121214 !important;
+  padding: 2px !important;
+  box-sizing: border-box !important;
+  margin-right: 2px !important;
+}
+
+.item-left span {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  color: var(--text-color) !important;
+  overflow: visible !important;
+  white-space: normal !important;
+}
+/* FLOATING CHAT & CART BUTTONS (STREET EDITORIAL) */
+.float-chat-container {
+  bottom: 22px !important;
+  right: 18px !important;
+  z-index: 99 !important;
+}
+
+.main-chat-btn {
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 4px !important;
+  background: var(--yellow) !important;
+  border: 2px solid #121214 !important;
+  box-shadow: 4px 4px 0 #121214 !important;
+  transition: transform .15s, box-shadow .15s !important;
+}
+.main-chat-btn::after {
+  display: none !important; /* Hapus gelombang lingkaran bawaan */
+}
+.main-chat-btn:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0 #ff5722 !important;
+}
+.main-chat-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0 0 0 #121214 !important;
+}
+.main-chat-btn svg {
+  width: 26px !important;
+  height: 26px !important;
+  fill: #121214 !important;
+}
+
+/* SUB CHAT MENU (TELEGRAM & WHATSAPP) */
+.sub-chat-item {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 4px !important;
+  border: 2px solid #121214 !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+}
+.sub-chat-item:hover {
+  transform: translate(-2px, -2px) scale(1) !important;
+  box-shadow: 5px 5px 0 #121214 !important;
+}
+
+/* TOMBOL KERANJANG MENGAMBANG (CART FAB) */
+/* TOMBOL KERANJANG MENGAMBANG (POSISI AMAN & TIDAK TERTABRAK CHAT) */
+.cart-fab {
+  position: fixed !important;
+  bottom: 156px !important; /* Ditaruh di atas jangkauan menu chat */
+  right: 18px !important;
+  z-index: 95 !important;
+  width: 52px !important;
+  height: 52px !important;
+  border-radius: 4px !important;
+  background: #ffffff !important;
+  border: 2px solid #121214 !important;
+  box-shadow: 4px 4px 0 #121214 !important;
+  color: #121214 !important;
+  font-size: 22px !important;
+  cursor: pointer !important;
+  display: grid !important;
+  place-items: center !important;
+  transition: transform .15s, box-shadow .15s !important;
+}
+.cart-fab:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0 #ff5722 !important;
+  background: var(--yellow) !important;
+}
+.cart-fab:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0 0 0 #121214 !important;
+}
+.cart-fab span {
+  position: absolute !important;
+  top: -6px !important;
+  right: -6px !important;
+  min-width: 20px !important;
+  height: 20px !important;
+  padding: 0 5px !important;
+  border-radius: 2px !important;
+  border: 1.5px solid #121214 !important;
+  background: #ff5722 !important;
+  color: #ffffff !important;
+  font-family: 'Anton', sans-serif !important;
+  font-size: 11px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+/* WADAH CHAT TIDAK MENGHALANGI KLIK ELEMEN LAIN */
+.float-chat-container {
+  pointer-events: none !important;
+}
+.main-chat-btn,
+.sub-chat-item {
+  pointer-events: auto !important;
+}
+
+/* TOMBOL BACK TO TOP */
+.back-to-top {
+  bottom: 150px !important;
+  right: 22px !important;
+  border-radius: 4px !important;
+  border: 2px solid #121214 !important;
+  background: #ffffff !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  color: #121214 !important;
+}
+.back-to-top:hover {
+  background: var(--yellow) !important;
+  transform: translate(-2px, -2px) !important;
+}
+/* FOOTER: EDITORIAL COLOPHON / TECHNICAL IMPRINT */
+footer {
+  margin-top: 36px !important;
+  padding: 24px 16px 40px !important;
+  border-top: 2px dashed var(--card-border) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 14px !important;
+  text-align: center !important;
+}
+
+.footer-colophon-box {
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border: 1.5px solid var(--card-border);
+  box-shadow: 3px 3px 0 var(--hard);
+  border-radius: 4px;
+  padding: 14px 16px;
+  box-sizing: border-box;
+}
+
+.footer-colophon-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #d5d1c8;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1.5px;
+}
+
+.footer-brand-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+.footer-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.footer-barcode-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--text-color);
+  margin-top: 6px;
+  display: block;
+}
+
+.footer-copy {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+/* TAMPILAN LEMBAR DOKUMEN EDITORIAL (SNK, PRIVASI, GARANSI, FAQ) */
+.view-panel h3 {
+  font-family: 'Anton', sans-serif !important;
+  font-size: 20px !important;
+  letter-spacing: 1px !important;
+  color: var(--text-color) !important;
+  text-transform: uppercase !important;
+}
+
+/* KOTAK INFORMASI / DOKUMEN RESMI (SNK & PRIVASI) */
+.snk-box {
+  background: #ffffff !important;
+  border: 2px solid #121214 !important;
+  border-radius: 4px !important;
+  box-shadow: 4px 4px 0 #121214 !important;
+  padding: 16px !important;
+  margin-bottom: 14px !important;
+}
+.snk-box h4 {
+  font-family: 'Anton', sans-serif !important;
+  font-size: 14px !important;
+  letter-spacing: 1px !important;
+  color: #ff5722 !important;
+  text-transform: uppercase !important;
+  border-bottom: 1.5px dashed #121214 !important;
+  padding-bottom: 6px !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+.snk-text {
+  font-size: 12.5px !important;
+  line-height: 1.65 !important;
+  color: #2b2927 !important;
+  font-weight: 600 !important;
+}
+
+/* ITEM ACCORDION / FAQ (GAYA ARSIP PERTANYAAN) */
+.faq-item {
+  background: #ffffff !important;
+  border: 1.5px solid #121214 !important;
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  margin-bottom: 10px !important;
+  overflow: hidden !important;
+  transition: transform .15s, box-shadow .15s !important;
+}
+.faq-item:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0 #ff5722 !important;
+}
+.faq-q {
+  font-family: 'Anton', sans-serif !important;
+  font-size: 13.5px !important;
+  letter-spacing: 0.8px !important;
+  color: #121214 !important;
+  padding: 12px 14px !important;
+  background: #fffdf9 !important;
+  border-bottom: 1.5px dashed #121214 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+.faq-a {
+  padding: 12px 14px !important;
+  font-size: 12.5px !important;
+  line-height: 1.6 !important;
+  color: #393630 !important;
+  font-weight: 600 !important;
+  background: #ffffff !important;
+}
+
+/* FORMULIR KLAIM GARANSI & TRACKING */
+.claim-note, .warranty-banner {
+  background: var(--yellow) !important;
+  color: #121214 !important;
+  border: 1.5px solid #121214 !important;
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  padding: 10px 14px !important;
+  font-family: 'Anton', sans-serif !important;
+  font-size: 12px !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 12px !important;
+}
+/* TIKET ORDER & NOTA STRUK KASIR THERMAL */
+.order-sheet-box {
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 5px 5px 0 #121214;
+  padding: 16px;
+  margin-bottom: 14px;
+}
+.order-header-strip {
+  background: #121214;
+  color: #ffc700;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 6px 10px;
+  margin: -16px -16px 14px -16px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* STRUK NOTA KASIR DENGAN POLA GIGI GERGAJI */
+.thermal-receipt {
+  background: #fffdf9;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  padding: 20px 16px;
+  box-shadow: 6px 6px 0 #121214;
+  margin-bottom: 14px;
+  position: relative;
+}
+.thermal-receipt::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: repeating-linear-gradient(-45deg, #121214 0 6px, #ffd400 6px 12px);
+}
+.receipt-brand-meta {
+  text-align: center;
+  border-bottom: 2px dashed #121214;
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+}
+.receipt-store-name {
+  font-family: 'Anton', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  color: #121214;
+  margin-bottom: 2px;
+}
+.receipt-id-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: #ff5722;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.receipt-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 12.5px;
+  border-bottom: 1px dashed #e5e0d3;
+}
+.receipt-item-row .r-label {
+  color: #6c6962;
+  font-weight: 600;
+}
+.receipt-item-row .r-val {
+  color: #121214;
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+}
+.receipt-total-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px dashed #121214;
+  border-bottom: 2px dashed #121214;
+  padding: 10px 0;
+  margin: 12px 0 16px;
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #121214;
+}
+.receipt-total-bar .price-highlight {
+  color: #ff5722;
+  font-size: 18px;
+}
+/* MODAL TESTIMONI EDITORIAL LOVE NOTE */
+.theme-box {
+  background: #fffdf9 !important;
+  border: 2px solid #121214 !important;
+  border-radius: 4px !important;
+  box-shadow: 7px 7px 0 #121214 !important;
+  padding: 22px 18px !important;
+}
+.theme-head h3 {
+  font-family: 'Anton', sans-serif !important;
+  font-size: 20px !important;
+  letter-spacing: 1px !important;
+  color: #121214 !important;
+  text-transform: uppercase !important;
+}
+.theme-sub {
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  color: #6c6962 !important;
+  border-bottom: 1.5px dashed #121214 !important;
+  padding-bottom: 8px !important;
+  margin-bottom: 14px !important;
+}
+.stars {
+  background: #ffffff;
+  border: 1.5px solid #121214;
+  border-radius: 4px;
+  padding: 6px 12px;
+  width: fit-content;
+  box-shadow: 2px 2px 0 #121214;
+}
+.stars button {
+  color: #d1cdb8 !important;
+  font-size: 26px !important;
+  cursor: pointer !important;
+  transition: transform .15s !important;
+}
+.stars button.on {
+  color: #ffc700 !important;
+  text-shadow: 1px 1px 0 #121214;
+}
+
+/* KARTU PROFIL TENTANG TOKO (ARCHIVAL DOSSIER) */
+.about-dossier {
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 #121214;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.about-quote {
+  font-style: italic;
+  font-weight: 700;
+  color: #121214;
+  background: #ffc700;
+  border: 1.5px solid #121214;
+  border-radius: 3px;
+  padding: 10px 12px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  box-shadow: 2px 2px 0 #121214;
+}
+/* PANEL JADWAL OPERASIONAL (SHIFT ROSTER) */
+.schedule-roster-box {
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 #121214;
+  padding: 18px 16px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.schedule-badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #10b981;
+  color: #ffffff;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1.5px solid #121214;
+  box-shadow: 2px 2px 0 #121214;
+  margin-bottom: 12px;
+}
+.schedule-time-display {
+  font-family: 'Anton', sans-serif;
+  font-size: 24px;
+  letter-spacing: 1.5px;
+  color: #121214;
+  margin: 6px 0 12px;
+  border-top: 1.5px dashed #121214;
+  border-bottom: 1.5px dashed #121214;
+  padding: 10px 0;
+}
+
+/* PANEL KONTAK ADMIN (DISPATCH DIRECTORY) */
+.contact-dispatch-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.contact-dispatch-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 3px 3px 0 #121214;
+  text-decoration: none;
+  color: #121214;
+  font-weight: 700;
+  transition: transform .15s, box-shadow .15s;
+}
+.contact-dispatch-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 #ff5722;
+  background: #fffdf9;
+}
+.contact-dispatch-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 #121214;
+}
+
+/* TOMBOL SUDUT KANAN ATAS (INFO, TEMA, MODE GELAP) */
+.top-utils {
+  position: fixed !important;
+  top: 18px !important;
+  right: 18px !important;
+  display: flex !important;
+  gap: 8px !important;
+  z-index: 99 !important; /* Di atas hero dan konten utama */
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+}
+
+.util-btn {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 4px !important;
+  border: 2px solid #121214 !important;
+  background: #ffffff !important;
+  color: #121214 !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  display: grid !important;
+  place-items: center !important;
+  cursor: pointer !important;
+  transition: transform .15s, box-shadow .15s, background .15s !important;
+}
+.util-btn:hover {
+  background: var(--yellow) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #ff5722 !important;
+}
+.util-btn:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 0 0 0 #121214 !important;
+}
+.util-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* HANYA SEMBUNYIKAN SAAT LAYAR ROBEK SEGEL AMPLOP MASIH TAMPIL DI DEPAN */
+#layar-masuk-kustom ~ .top-utils,
+body:has(#layar-masuk-kustom) .top-utils {
+  display: none !important;
+}
+
+/* PANEL INFO APLIKASI (APPLICATION SPEC SHEET) */
+.app-info-card {
+  background: #ffffff;
+  border: 2px solid #121214;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 #121214;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.app-info-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: #121214;
+  border-bottom: 1.5px dashed #121214;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.app-info-desc {
+  font-size: 12.5px;
+  line-height: 1.7;
+  color: #2b2927;
+  font-weight: 600;
+}
+
+/* TOMBOL OPSI PADA FORM PEMESANAN (ADD TO CART & TANYA ADMIN) */
+.ask-btn {
+  background: #fffdf9 !important;
+  color: #121214 !important;
+  border: 2px solid #121214 !important;
+  border-radius: 4px !important;
+  font-family: 'Anton', sans-serif !important;
+  font-size: 12.5px !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  padding: 12px 14px !important;
+  margin-top: 8px !important;
+  cursor: pointer !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  transition: transform .15s, box-shadow .15s, background .15s !important;
+}
+.ask-btn:hover {
+  background: var(--yellow) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #ff5722 !important;
+}
+.ask-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0 0 0 #121214 !important;
+}
+/* MODAL PEMILIH TEMA (EDITORIAL PALETTE SELECTOR) */
+.theme-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  margin-bottom: 14px !important;
+}
+.theme-opt {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 10px 12px !important;
+  border-radius: 4px !important;
+  border: 2px solid #121214 !important;
+  background: #ffffff !important;
+  color: #121214 !important;
+  font-family: 'Anton', sans-serif !important;
+  font-size: 13px !important;
+  letter-spacing: 0.5px !important;
+  cursor: pointer !important;
+  box-shadow: 2px 2px 0 #121214 !important;
+  transition: transform .15s, box-shadow .15s !important;
+}
+.theme-opt:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 4px 4px 0 #ff5722 !important;
+}
+.theme-opt.on {
+  background: var(--yellow) !important;
+  box-shadow: 3px 3px 0 #121214 !important;
+  border-color: #121214 !important;
+}
+.theme-opt i {
+  width: 30px !important;
+  height: 30px !important;
+  border-radius: 3px !important;
+  border: 1.5px solid #121214 !important;
+  display: grid !important;
+  place-items: center !important;
+  font-style: normal !important;
+  font-size: 14px !important;
+  flex-shrink: 0 !important;
+}
+.theme-mode {
+  width: 100% !important;
+  padding: 12px !important;
+  border-radius: 4px !important;
+  border: 1.5px dashed #121214 !important;
+  background: #fbf9f5 !important;
+  color: #121214 !important;
+  font-family: 'Anton', sans-serif !important;
+  font-size: 12px !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  margin-top: 8px !important;
+  transition: background .15s !important;
+}
+.theme-mode:hover {
+  background: var(--yellow) !important;
+}
+
+/* LIGHTBOX BUKTI TRANSAKSI (EDITORIAL PROOF VIEWER) */
+#proof-lb {
+  background: rgba(18, 18, 20, 0.92) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  padding: 24px !important;
+  z-index: 999999 !important;
+}
+#proof-lb img {
+  border: 2px solid #ffffff !important;
+  border-radius: 4px !important;
+  box-shadow: 8px 8px 0 #ff5722 !important;
+}
+#proof-lb p {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 1.5px !important;
+  color: #ffc700 !important;
+  margin-top: 14px !important;
+  background: #121214;
+  padding: 6px 14px;
+  border-radius: 2px;
+  border: 1px solid #ffc700;
+}
+#proof-lb button {
+  position: absolute !important;
+  top: 18px !important;
+  right: 18px !important;
+  width: 36px !important;
+  height: 36px !important;
+  background: #ffffff !important;
+  color: #121214 !important;
+  border: 2px solid #121214 !important;
+  box-shadow: 2px 2px 0 #ff5722 !important;
+  border-radius: 4px !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  display: grid !important;
+  place-items: center !important;
+}
+/* KUNCI JUDUL REGARM-MART AGAR SELALU PAS DI SEMUA PERANGKAT */
+.store-title, 
+html[data-skin] .store-title, 
+html[data-lite] .store-title {
+  font-family: 'Anton', sans-serif !important;
+  font-size: clamp(35px, 10vw, 45px) !important;
+  letter-spacing: 1px !important;
+  line-height: 1 !important;
+  text-transform: uppercase !important;
+}
+
+.store-name {
+  font-family: 'Anton', sans-serif !important;
+  letter-spacing: 1px !important;
+}
+/* ========================================================
+   BERSIHKAN KOTAK HITAM KIRI & KUNCI TAMPILAN TENGAH DESKTOP
+   ======================================================== */
+#flash,
+#bouncing-container::before,
+.zay-wall,
+.aurora,
+.ember,
+#cursor-glow,
+#skin-fx,
+.decor {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* SETTING KHUSUS LAYAR DESKTOP / MONITOR LAPTOP */
+@media (min-width: 768px) {
+  body {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    padding: 30px 16px 80px !important;
+    min-height: 100vh !important;
+    background-position: center top !important;
+  }
+
+  .app-container {
+    max-width: 500px !important; /* Pas proporsional, layout tidak melar */
+    margin: 0 auto !important;
+    width: 100% !important;
+  }
+
+  /* Posisikan tombol mengambang tetap rapi di sisi kanan kartu */
+  .float-chat-container {
+    right: calc(50% - 250px - 70px) !important;
+  }
+  .cart-fab {
+    right: calc(50% - 250px - 70px) !important;
+  }
+}
+/* ================= SAYAP DESKTOP v2 — mengikuti gambar referensi =================
+   1u = 1 "piksel desain" (desain 1536x757). Semua ukuran ikut mengecil/membesar
+   mengikuti layar, jadi tampilan selalu sama persis di laptop 14", 15", maupun monitor. */
+.zm{display:none}
+@media (min-width:900px){
+  :root{--u:max(.5px,min(calc(100vh / 757),calc(100vw / 1536)));--gap:max(0px,calc(100vh - 757 * var(--u)))}
+  .zm{display:block;position:fixed;inset:0;z-index:1;pointer-events:none;user-select:none;overflow:hidden;
+      font-family:'JetBrains Mono','Consolas',monospace;color:#121214}
+  .zm>*{position:absolute;box-sizing:border-box}
+
+  /* lebar kartu tengah ikut skala (referensi: ±576px di layar 1536px) */
+  .app-container{max-width:max(440px,calc(var(--u)*576))!important}
+  .editorial-hero{background:#ffc700!important;margin-top:calc(var(--u)*34)!important}
+  .editorial-hero .stat,.editorial-hero .store-badge{background:#fffdf9}
+  .editorial-hero .stats-bar .stat{background:#ffc700!important}
+  .editorial-hero .stat b,.editorial-hero .stat span:last-child{color:#121214}
+  .editorial-hero .store-title{font-size:clamp(46px,calc(var(--u)*60),66px)!important}
+  .editorial-hero .store-name{text-shadow:none!important}
+  .editorial-hero .store-bio{color:#2b2927}
+  .editorial-hero .home-search input{border-radius:10px;border-color:#121214;background-color:#fff}
+
+  /* tombol melayang pindah ke tepi kanan layar (di atas sayap kanan) */
+  .back-to-top{right:28px!important;bottom:178px!important}
+  .cart-fab{right:28px!important;bottom:104px!important}
+  .float-chat-container{right:28px!important;bottom:24px!important}
+
+  /* ---------- elemen umum ---------- */
+  .zm-tape{background:#ffc700;border:calc(var(--u)*2) solid #121214;box-shadow:calc(var(--u)*3) calc(var(--u)*3) 0 #121214;
+    font-family:'Anton',sans-serif;letter-spacing:calc(var(--u)*1.5);text-transform:uppercase;white-space:nowrap;
+    font-size:calc(var(--u)*15);line-height:1;padding:calc(var(--u)*7) calc(var(--u)*14)}
+  .zm-tape.zm-black{background:#121214;color:#ffc700;box-shadow:calc(var(--u)*3) calc(var(--u)*3) 0 #ffc700}
+  .zm-big{font-family:'Anton',sans-serif;font-size:calc(var(--u)*84);line-height:1;letter-spacing:calc(var(--u)*9);
+    text-transform:uppercase;color:rgba(255,255,255,.82);-webkit-text-stroke:calc(var(--u)*2.4) #121214;
+    text-shadow:calc(var(--u)*4) calc(var(--u)*4) 0 rgba(18,18,20,.14);white-space:nowrap;z-index:2}
+  .zm-hazard{height:calc(var(--u)*11);border:calc(var(--u)*1.5) solid #121214;
+    background:repeating-linear-gradient(-45deg,#121214 0 calc(var(--u)*8),#ffc700 calc(var(--u)*8) calc(var(--u)*16))}
+  .zm-card{background:#fffdf9;border:calc(var(--u)*2.5) solid #121214;box-shadow:calc(var(--u)*5) calc(var(--u)*5) 0 #121214;
+    border-radius:calc(var(--u)*4);padding:calc(var(--u)*14) calc(var(--u)*18)}
+  .zm-cardh{font-size:calc(var(--u)*11.5);font-weight:800;color:#c2410c;letter-spacing:calc(var(--u)*.6);
+    border-bottom:calc(var(--u)*1) dashed #8a867c;padding-bottom:calc(var(--u)*9);margin-bottom:calc(var(--u)*10)}
+  .zm-cardh.zm-blue{color:#2563eb}
+  .zm-lines{font-size:calc(var(--u)*11.5);line-height:1.75;font-weight:700;color:#2b2927}
+  .zm-ticks{font-size:calc(var(--u)*13);letter-spacing:calc(var(--u)*7);margin-top:calc(var(--u)*8);
+    border-top:calc(var(--u)*1) dashed #8a867c;padding-top:calc(var(--u)*8);font-weight:800}
+  .zm-bar{height:calc(var(--u)*38);background:repeating-linear-gradient(90deg,#121214 0 calc(var(--u)*2),transparent calc(var(--u)*2) calc(var(--u)*4),
+    #121214 calc(var(--u)*4) calc(var(--u)*5),transparent calc(var(--u)*5) calc(var(--u)*8),#121214 calc(var(--u)*8) calc(var(--u)*11),
+    transparent calc(var(--u)*11) calc(var(--u)*13),#121214 calc(var(--u)*13) calc(var(--u)*14),transparent calc(var(--u)*14) calc(var(--u)*17))}
+  .zm-vbar{border:calc(var(--u)*2) solid #121214;background:#fffdf9 repeating-linear-gradient(0deg,#121214 0 calc(var(--u)*2),transparent calc(var(--u)*2) calc(var(--u)*4),
+    #121214 calc(var(--u)*4) calc(var(--u)*5),transparent calc(var(--u)*5) calc(var(--u)*8),#121214 calc(var(--u)*8) calc(var(--u)*11),transparent calc(var(--u)*11) calc(var(--u)*13))}
+  .zm-box{background:#fffdf9;border:calc(var(--u)*2.5) solid #121214;box-shadow:calc(var(--u)*3) calc(var(--u)*3) 0 #121214;
+    display:grid;place-items:center;font-size:calc(var(--u)*22);font-family:'Segoe UI Symbol','DejaVu Sans',sans-serif}
+  .zm-bcode{display:block;padding:calc(var(--u)*9) calc(var(--u)*12) calc(var(--u)*4);text-align:center;font-family:'JetBrains Mono',monospace}
+  .zm-bcode small{display:block;font-size:calc(var(--u)*9);letter-spacing:calc(var(--u)*1.8);font-weight:800;margin-top:calc(var(--u)*4)}
+  .zm-vtag{background:#ffc700;border:calc(var(--u)*2.5) solid #121214;box-shadow:calc(var(--u)*-3) calc(var(--u)*3) 0 #121214;
+    display:flex;align-items:center;justify-content:center}
+  .zm-vtag span{writing-mode:vertical-rl;transform:rotate(180deg);font-family:'Anton',sans-serif;letter-spacing:calc(var(--u)*3);white-space:nowrap}
+  .zm-stamp{font-family:'Anton',sans-serif;letter-spacing:calc(var(--u)*2.5);text-transform:uppercase;white-space:nowrap;text-align:center;
+    border:calc(var(--u)*3.5) solid currentColor;border-radius:calc(var(--u)*4);background:rgba(255,253,249,.6);
+    box-shadow:inset 0 0 0 calc(var(--u)*2) #fffdf9,inset 0 0 0 calc(var(--u)*3.5) currentColor;z-index:3;line-height:1}
+  .zm-red{color:#c8231a}.zm-dark{color:#2b2b30}.zm-green{color:#1c8a3c}
+  .zm-small{font-size:calc(var(--u)*8.5);font-weight:800;letter-spacing:calc(var(--u)*1);color:#6c6962;white-space:nowrap}
+
+  /* ===== KIRI (x dari tepi kiri, y dari atas) ===== */
+  .zm-grey{left:0;top:0;width:calc(var(--u)*305);height:calc(var(--u)*347);z-index:0;
+    background:radial-gradient(rgba(18,18,20,.28) calc(var(--u)*1),transparent calc(var(--u)*1.5)) 0 0/calc(var(--u)*5) calc(var(--u)*5),linear-gradient(135deg,#9a968c,#d6d1c5);opacity:.6}
+  .zm-a1{left:calc(var(--u)*31);top:calc(var(--u)*31)}
+  .zm-postage{position:absolute;left:calc(var(--u)*319);top:calc(var(--u)*17);width:calc(var(--u)*85);height:calc(var(--u)*92);
+    background:#b08460;border:calc(var(--u)*7) dotted #f3ede0;outline:calc(var(--u)*1) solid rgba(18,18,20,.25);transform:rotate(-3deg);z-index:3;
+    display:grid;place-items:center;box-shadow:calc(var(--u)*2) calc(var(--u)*3) 0 rgba(18,18,20,.3)}
+  .zm-postage i{font-style:normal;font-size:calc(var(--u)*34);color:#f6e8d2;font-family:'Segoe UI Symbol','DejaVu Sans',sans-serif}
+  .zm-postage small{position:absolute;bottom:calc(var(--u)*2);font-size:calc(var(--u)*8);font-weight:800;color:#f6e8d2;letter-spacing:calc(var(--u)*1)}
+  .zm-a2{left:calc(var(--u)*398);top:calc(var(--u)*24);width:calc(var(--u)*60);height:calc(var(--u)*122);z-index:4}
+  .zm-a2 span{font-size:calc(var(--u)*22);letter-spacing:calc(var(--u)*2)}
+  .zm-a3{left:calc(var(--u)*33);top:calc(var(--u)*72)}
+  .zm-a4{left:calc(var(--u)*28);top:calc(var(--u)*161);width:calc(var(--u)*430)}
+  .zm-a5{left:calc(var(--u)*25);top:calc(var(--u)*183);width:calc(var(--u)*433);height:calc(var(--u)*157)}
+
+  .zm-b1{left:calc(var(--u)*3);top:calc(var(--u)*361 + var(--gap));width:calc(var(--u)*57);height:calc(var(--u)*205);border-right:0}
+  .zm-b2{left:calc(var(--u)*59);top:calc(var(--u)*361 + var(--gap));width:calc(var(--u)*57);height:calc(var(--u)*205);z-index:3}
+  .zm-b2 span{font-size:calc(var(--u)*36);letter-spacing:calc(var(--u)*2)}
+  .zm-b3{left:calc(var(--u)*133);top:calc(var(--u)*364 + var(--gap));width:calc(var(--u)*54);height:calc(var(--u)*58)}
+  .zm-b4{left:calc(var(--u)*212);top:calc(var(--u)*358 + var(--gap));width:calc(var(--u)*238);height:calc(var(--u)*66)}
+  .zm-b4 .zm-bar{height:calc(var(--u)*34)}
+  .zm-b5{left:calc(var(--u)*134);top:calc(var(--u)*458 + var(--gap));width:calc(var(--u)*220);margin:0;font-size:calc(var(--u)*12);font-weight:800;line-height:1.55;letter-spacing:calc(var(--u)*.6);
+    border-top:calc(var(--u)*1) dashed #121214;padding-top:calc(var(--u)*10)}
+  .zm-b6{left:calc(var(--u)*399);top:calc(var(--u)*443 + var(--gap));width:calc(var(--u)*54);height:calc(var(--u)*58)}
+  .zm-c1{left:calc(var(--u)*21);top:calc(var(--u)*586 + var(--gap))}
+
+  .zm-news{background-color:#e4d8be;border:calc(var(--u)*1.5) solid #121214;box-shadow:calc(var(--u)*3) calc(var(--u)*3) 0 rgba(18,18,20,.4);
+    background-image:repeating-linear-gradient(0deg,rgba(18,18,20,.42) 0 calc(var(--u)*1.6),transparent calc(var(--u)*1.6) calc(var(--u)*6))}
+  .zm-n1{left:calc(var(--u)*232);top:calc(var(--u)*520 + var(--gap));width:calc(var(--u)*190);height:calc(var(--u)*150);transform:rotate(-8deg)}
+  .zm-n2{left:calc(var(--u)*305);top:calc(var(--u)*560 + var(--gap));width:calc(var(--u)*165);height:calc(var(--u)*140);transform:rotate(5deg);background-color:#d3c4a0}
+  .zm-n3{left:calc(var(--u)*385);top:calc(var(--u)*640 + var(--gap));width:calc(var(--u)*100);height:calc(var(--u)*130);transform:rotate(-4deg);background-color:#eadfc6}
+  .zm-s1{left:calc(var(--u)*405);top:calc(var(--u)*548 + var(--gap));font-size:calc(var(--u)*28);padding:calc(var(--u)*4) calc(var(--u)*12);transform:rotate(-12deg)}
+  .zm-s2{left:calc(var(--u)*318);top:calc(var(--u)*618 + var(--gap));font-size:calc(var(--u)*30);padding:calc(var(--u)*4) calc(var(--u)*14);transform:rotate(10deg)}
+  .zm-g1{left:calc(var(--u)*400);top:calc(var(--u)*686 + var(--gap));font-size:calc(var(--u)*11);font-weight:800;letter-spacing:calc(var(--u)*7);line-height:1.5;color:#2b2927;z-index:2}
+
+  /* ===== KANAN (x dari tepi kanan, y dari atas) ===== */
+  .zm-d1{right:calc(var(--u)*290);top:calc(var(--u)*38)}
+  .zm-d2{right:calc(var(--u)*92);top:calc(var(--u)*40);font-size:calc(var(--u)*19);padding:calc(var(--u)*5) calc(var(--u)*14);transform:rotate(-6deg)}
+  .zm-d3{right:calc(var(--u)*34);top:calc(var(--u)*92);font-size:calc(var(--u)*20);padding:calc(var(--u)*5) calc(var(--u)*14);transform:rotate(3deg)}
+  .zm-d4{right:calc(var(--u)*163);top:calc(var(--u)*76);font-size:calc(var(--u)*78);letter-spacing:calc(var(--u)*8)}
+  .zm-d5{right:calc(var(--u)*35);top:calc(var(--u)*164);width:calc(var(--u)*412)}
+  .zm-d6{right:calc(var(--u)*33);top:calc(var(--u)*187);width:calc(var(--u)*418);height:calc(var(--u)*153)}
+  .zm-d7{right:calc(var(--u)*-12);top:calc(var(--u)*228);width:calc(var(--u)*40);height:calc(var(--u)*40);font-size:calc(var(--u)*18)}
+
+  .zm-e1{right:calc(var(--u)*245);top:calc(var(--u)*375 + var(--gap));background:#ffc700;border:calc(var(--u)*2.5) solid #121214;box-shadow:calc(var(--u)*3) calc(var(--u)*3) 0 #121214;
+    padding:calc(var(--u)*9) calc(var(--u)*14);font-family:'Anton',sans-serif;font-size:calc(var(--u)*21);letter-spacing:calc(var(--u)*1.5);line-height:1;white-space:nowrap;transform:rotate(-1deg)}
+  .zm-e2{right:calc(var(--u)*302);top:calc(var(--u)*430 + var(--gap));background:#f3eee2;border:calc(var(--u)*1.5) dashed #121214;padding:calc(var(--u)*6) calc(var(--u)*14);
+    font-size:calc(var(--u)*12);font-weight:800;white-space:nowrap}
+  .zm-e3{right:calc(var(--u)*375);top:calc(var(--u)*489 + var(--gap));width:calc(var(--u)*65);height:calc(var(--u)*66);color:#2b2b30}
+  .zm-e3 svg{width:calc(var(--u)*34);height:calc(var(--u)*34)}
+  .zm-e3 b{position:absolute;right:calc(var(--u)*-8);top:calc(var(--u)*-8);width:calc(var(--u)*17);height:calc(var(--u)*19);background:#ff5722;border:calc(var(--u)*2) solid #121214}
+  .zm-e4{right:calc(var(--u)*250);top:calc(var(--u)*488 + var(--gap));font-size:calc(var(--u)*20);padding:calc(var(--u)*5) calc(var(--u)*14);transform:rotate(-5deg)}
+  .zm-e5{right:calc(var(--u)*103);top:calc(var(--u)*552 + var(--gap));width:calc(var(--u)*98);height:calc(var(--u)*60)}
+  .zm-e6{right:calc(var(--u)*41);top:calc(var(--u)*368 + var(--gap));width:calc(var(--u)*146);height:calc(var(--u)*64);box-shadow:none;border-width:calc(var(--u)*1.5)}
+  .zm-e7{right:calc(var(--u)*50);top:calc(var(--u)*436 + var(--gap));font-size:calc(var(--u)*16);letter-spacing:calc(var(--u)*4);font-family:'Segoe UI Symbol','DejaVu Sans',sans-serif;white-space:nowrap}
+  .zm-e8{right:calc(var(--u)*41);top:calc(var(--u)*467 + var(--gap));width:calc(var(--u)*146);height:calc(var(--u)*62);box-shadow:none;border-width:calc(var(--u)*1.5)}
+  .zm-e9{right:calc(var(--u)*152);top:calc(var(--u)*395 + var(--gap));writing-mode:vertical-rl;font-size:calc(var(--u)*8.5);font-weight:800;letter-spacing:calc(var(--u)*2);color:#6c6962;white-space:nowrap;max-height:calc(var(--u)*125);overflow:hidden}
+  .zm-e10{right:calc(var(--u)*6);top:calc(var(--u)*340 + var(--gap));width:calc(var(--u)*12);height:calc(var(--u)*190);border-width:calc(var(--u)*1)}
+
+  .zm-f1{right:calc(var(--u)*248);top:calc(var(--u)*578 + var(--gap));font-size:calc(var(--u)*14)}
+  .zm-f2{right:calc(var(--u)*248);top:calc(var(--u)*622 + var(--gap));font-size:calc(var(--u)*78);letter-spacing:calc(var(--u)*8)}
+  .zm-f3{right:calc(var(--u)*248);top:calc(var(--u)*714 + var(--gap))}
+  .zm-f4{right:calc(var(--u)*21);top:calc(var(--u)*623 + var(--gap));width:calc(var(--u)*177);height:calc(var(--u)*100);display:block;box-shadow:none;
+    font-size:calc(var(--u)*10);font-weight:800;padding:calc(var(--u)*6) calc(var(--u)*8)}
+  .zm-f4 i{display:block;margin-top:calc(var(--u)*6);height:calc(var(--u)*66);
+    background:linear-gradient(#121214,#121214) 0 0/100% calc(var(--u)*1) no-repeat,repeating-linear-gradient(0deg,transparent 0 calc(var(--u)*13),#121214 calc(var(--u)*13) calc(var(--u)*14)),
+    repeating-linear-gradient(90deg,transparent 0 calc(var(--u)*17),#121214 calc(var(--u)*17) calc(var(--u)*18))}
+  .zm-f5{right:calc(var(--u)*21);top:calc(var(--u)*730 + var(--gap));width:calc(var(--u)*177)}
+}
+
 </style>
+
   <script type="application/ld+json">
   {"@context":"https://schema.org","@graph":[
     {"@type":"WebSite","@id":"https://regarmz.shop/#website","url":"https://regarmz.shop/","name":"REGARM-MART","inLanguage":"id-ID"},
@@ -816,33 +2719,77 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
   </script>
 </head>
 <body>
+<!-- ===== SAYAP DESKTOP (ZINE COLLAGE) — kiri ===== -->
+<aside class="zm zm-l" aria-hidden="true">
+  <div class="zm-grey"></div>
+  <div class="zm-tape zm-a1">// ISSUE VOL. 03 — 2026</div>
+  <div class="zm-postage"><i>★</i><small>ID · 2026</small></div>
+  <div class="zm-vtag zm-a2"><span>03 / ISSUE</span></div>
+  <div class="zm-big zm-a3">ARCHIVE</div>
+  <div class="zm-hazard zm-a4"></div>
+  <div class="zm-card zm-a5">
+    <div class="zm-cardh">ARCHIVE SPECIFICATION // 01</div>
+    <div class="zm-lines"><div>• ITEM: PREMIUM GOODS</div><div>• DISPATCH: FAST RESPONSE</div><div>• ORIGIN: INDONESIA // YK</div></div>
+    <div class="zm-ticks">|||| | | | |</div>
+  </div>
 
-  <noscript>
-    <div style="padding:16px;margin:12px;border:1px solid #888;border-radius:12px;font-family:sans-serif;line-height:1.6">
-      <b>REGARM-MART</b> — katalog aplikasi premium (Netflix, Spotify, Canva, ChatGPT, dan lainnya) sejak 2023.
-      Aktifkan JavaScript untuk melihat katalog &amp; harga, atau langsung chat admin:
-      <a href="https://wa.me/62895325627342?text=Halo%20Admin,%20saya%20mau%20tanya%20layanan">WhatsApp</a> ·
-      <a href="https://t.me/sadraxh">Telegram</a>.
-    </div>
-  </noscript>
+  <div class="zm-vbar zm-b1"></div>
+  <div class="zm-vtag zm-b2"><span>03 / ISSUE</span></div>
+  <div class="zm-box zm-b3">★</div>
+  <div class="zm-box zm-bcode zm-b4"><div class="zm-bar"></div><small>350054 163890213</small></div>
+  <p class="zm-text zm-b5">VERIFIED SINCE 2023<br>INDONESIA // YK<br>SPEC: DIGITAL GOODS<br>SYSTEM FAIL-SAFE</p>
+  <div class="zm-box zm-b6">★</div>
+
+  <div class="zm-tape zm-black zm-c1">AUTHENTIC CATALOGUE</div>
+  <div class="zm-news zm-n1"></div>
+  <div class="zm-news zm-n2"></div>
+  <div class="zm-news zm-n3"></div>
+  <div class="zm-stamp zm-red zm-s1">FRAGILE</div>
+  <div class="zm-stamp zm-red zm-s2">FRAGILE</div>
+  <div class="zm-grid zm-g1">F R A . L<br>T Y S I A M<br>U O G R E<br>Y X P . N</div>
+</aside>
+
+<!-- ===== SAYAP DESKTOP (ZINE COLLAGE) — kanan ===== -->
+<aside class="zm zm-r" aria-hidden="true">
+  <div class="zm-tape zm-black zm-d1">OFFICIAL DISPATCH</div>
+  <div class="zm-stamp zm-dark zm-d2">CONFIDENTIAL</div>
+  <div class="zm-stamp zm-green zm-d3">ACCEPTED</div>
+  <div class="zm-big zm-d4">EDITION</div>
+  <div class="zm-hazard zm-d5"></div>
+  <div class="zm-card zm-d6">
+    <div class="zm-cardh zm-blue">SERVICE INSPECTION // 02</div>
+    <div class="zm-lines"><div>• OUTLET STATUS: ACTIVE</div><div>• SHIFT: DAILY SERVICE</div><div>• SER: #2026-RM-SEC02</div></div>
+    <div class="zm-ticks">| || | | |</div>
+  </div>
+  <div class="zm-box zm-d7">★</div>
+
+  <div class="zm-pill zm-e1">ACTIVE // ACTIVE</div>
+  <div class="zm-ghost zm-e2">// DAILY SERVICE</div>
+  <div class="zm-box zm-cart zm-e3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.7 11.5a2 2 0 0 0 2 1.5h8.2a2 2 0 0 0 2-1.5L21 7H6"/></svg><b></b></div>
+  <div class="zm-stamp zm-dark zm-e4">WARRANTY</div>
+  <svg class="zm-plane zm-e5" viewBox="0 0 64 40"><path d="M62 19c0-2-4-3-8-3H40L26 2h-6l7 14H12L7 10H3l3 9-3 9h4l5-6h15l-7 14h6l14-14h14c4 0 8-1 8-3z" fill="#121214"/></svg>
+  <div class="zm-box zm-bcode zm-e6"><div class="zm-bar"></div><small>0 826000 838265</small></div>
+  <div class="zm-stars zm-e7">★ ★ ★ ★ ★ ★</div>
+  <div class="zm-box zm-bcode zm-e8"><div class="zm-bar"></div><small>0 979096 56</small></div>
+  <div class="zm-vtext zm-e9">// 8.30.X 4 L 0 9 7 5</div>
+  <div class="zm-vbar zm-e10"></div>
+
+  <div class="zm-tape zm-f1">LIMITED GOODS EDITION</div>
+  <div class="zm-big zm-f2">STORE</div>
+  <div class="zm-small zm-f3">ALL SYSTEMS VERIFIED &amp; ENCRYPTED</div>
+  <div class="zm-box zm-tbl zm-f4"><span>ALL SYSTEMS V</span><i></i></div>
+  <div class="zm-bar zm-f5"></div>
+</aside>
+
 
   <!-- CUSTOM TOAST NOTIFICATION -->
   <div id="custom-toast">✅ Berhasil disalin ke clipboard!</div>
 
-  <!-- POJOK KANAN ATAS (TOMBOL INFO TOKO & MODE GELAP/TERANG) -->
+  <!-- POJOK KANAN ATAS (TENTANG TOKO SAJA) -->
   <div class="top-utils">
-    <button class="util-btn" onclick="bukaAbout()" title="Tentang Toko" aria-label="Tentang Toko"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></button>
-    <button class="util-btn" onclick="bukaTema()" title="Pilih Tema" aria-label="Pilih Tema"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.4-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2H17a4 4 0 0 0 4-4c0-4.4-4-8-9-8z"/><circle cx="7.5" cy="11.5" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="15" cy="7.5" r="1"/></svg></button>
-    <button class="util-btn" onclick="toggleTheme()" id="theme-btn" title="Ganti Mode Tampilan" aria-label="Ganti Mode Tampilan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-  </div>
-
-  <!-- SPLASH SCREEN -->
-  <div id="splash-screen">
-    <div class="splash-orb">
-      <img class="splash-logo" src="ava.png" alt="Loading" onerror="this.style.display='none'">
-    </div>
-    <div class="splash-text">REGARM-MART</div>
-    <div class="splash-bar"><i></i></div>
+    <button class="util-btn" onclick="bukaAbout()" title="Tentang Toko" aria-label="Tentang Toko">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    </button>
   </div>
 
   <!-- BACKGROUND -->
@@ -863,30 +2810,44 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
   </div>
 
   <div class="app-container">
+    <div class="editorial-hero">
     <div class="profile-section">
-      <div class="avatar-wrap rise" style="--d:.05s">
-        <img class="avatar" src="ava.png" alt="Logo REGARM-MART" fetchpriority="high" decoding="async" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
-        <span class="status-dot" id="header-status-dot" title="Status Operasional"></span>
-      </div>
-      <div class="store-subtitle rise" style="--d:.15s" id="dynamic-greeting">PREMIUM APPS</div>
-      <h1 class="store-title rise" style="--d:.22s"><span class="store-name" data-text="REGARM-MART">REGARM-MART</span><span class="verified-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg></span></h1>
-      <p class="store-bio rise" style="--d:.3s">"your one-stop premium store. tap menu di bawah untuk order"</p>
+         <span class="hero-top-badge" id="dynamic-greeting">⚡ PREMIUM APPS ED.</span>
+         <h1 class="store-title rise" style="--d:.1s">
+           <span class="store-name" data-text="REGARM-MART">REGARM-MART</span>
+           <span class="verified-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"><path d="m5 12 5 5 9-10"/></svg></span>
+         </h1>
+         <p class="store-bio rise" style="--d:.15s">Pusat akun & aplikasi premium terpercaya sejak 2023. Garansi aman dan proses kilat.</p>
 
-      <div class="home-search rise" style="--d:.34s"><input id="home-q" type="search" placeholder="Cari aplikasi… (Netflix, Canva, ChatGPT)" autocomplete="off"><div id="home-res"></div></div>
-      <!-- BADGE STATUS OPERASIONAL (BISA DIKLIK) -->
-      <div class="store-badge rise" style="--d:.38s" onclick="vibratePhone(); bukaJamOperasional()" title="Klik untuk lihat jadwal operasional">
-        <span id="badge-status-icon" class="live-dot"></span>
-        <span id="badge-status-text" style="color: var(--accent-color);">Memeriksa status toko...</span>
-      </div>
+         <!-- KOTAK CARI APLIKASI -->
+         <div class="home-search rise" style="--d:.18s">
+           <input id="home-q" type="search" placeholder="Cari aplikasi… (Netflix, Canva, ChatGPT)" autocomplete="off">
+           <div id="home-res"></div>
+         </div>
 
-      <div class="status-admin" id="status-admin" hidden><i></i><span id="status-admin-teks"></span></div>
+         <!-- BADGE STATUS OPERASIONAL -->
+         <div class="store-badge rise" style="--d:.2s" onclick="vibratePhone(); bukaJamOperasional()" title="Klik untuk lihat jadwal operasional">
+           <span id="badge-status-icon" class="live-dot"></span>
+           <span id="badge-status-text">Memeriksa status toko...</span>
+         </div>
 
-      <div class="stats-bar rise" style="--d:.46s">
-        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg></span><b id="stat-apps">–</b><span>Aplikasi</span></div>
-        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></span><b id="stat-pkts">–</b><span>Paket</span></div>
-        <div class="stat"><span class="stat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span><b>2023</b><span>Sejak</span></div>
-      </div>
+         <div class="status-admin" id="status-admin" hidden><i></i><span id="status-admin-teks"></span></div>
+
+         <!-- STATISTIK RINGKAS -->
+         <div class="stats-bar rise" style="--d:.25s">
+           <div class="stat"><b id="stat-apps">–</b><span>Aplikasi</span></div>
+           <div class="stat"><b id="stat-pkts">–</b><span>Paket</span></div>
+           <div class="stat"><b>2023</b><span>Sejak</span></div>
+         </div>
+       </div>
+
+    <!-- APLIKASI POPULER -->
+    <div class="hot-strip rise" style="--d:.63s">
+      <div class="strip-title"><span>🔥 Lagi Laris</span><span>GESER →</span></div>
+      <div class="strip-row" id="hot-strip-row"></div>
     </div>
+
+    </div><!-- /editorial-hero -->
 
     <!-- PENGUMUMAN MAINTENANCE -->
     <div class="maintenance-banner rise" style="--d:.54s" id="maintenance-box">
@@ -898,15 +2859,9 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     <!-- Teks Promo Berjalan -->
     <div class="promo-marquee rise" style="--d:.6s">
       <div class="marquee-track">
-        <span class="marquee-text">✦ NANTI ADA PROMO/DISKON KALAU RAMAI ✧ JANGAN RAGU BUAT BELI ✦ TRUSTED SINCE 2023 WITH 300+ PROOF ✧ ADA HARGA ADA KUALITAS ✦ STAY TUNE FOR MORE INFO ✧</span>
-        <span class="marquee-text" aria-hidden="true">✦ NANTI ADA PROMO/DISKON KALAU RAMAI ✧ JANGAN RAGU BUAT BELI ✦ TRUSTED SINCE 2023 WITH 300+ PROOF ✧ ADA HARGA ADA KUALITAS ✦ STAY TUNE FOR MORE INFO ✧</span>
+        <span class="marquee-text">✦ NANTIKAN PROMONYA ✧ JANGAN RAGU BUAT BELI ✦ TRUSTED SINCE 2023 WITH 300+ PROOF ✧ ADA HARGA ADA KUALITAS ✦ STAY TUNE FOR MORE INFO ✧</span>
+        <span class="marquee-text" aria-hidden="true">✦ NANTIKAN PROMONYA ✧ JANGAN RAGU BUAT BELI ✦ TRUSTED SINCE 2023 WITH 300+ PROOF ✧ ADA HARGA ADA KUALITAS ✦ STAY TUNE FOR MORE INFO ✧</span>
       </div>
-    </div>
-
-    <!-- APLIKASI POPULER -->
-    <div class="hot-strip rise" style="--d:.63s">
-      <div class="strip-title"><span>🔥 Lagi Laris</span><span>GESER →</span></div>
-      <div class="strip-row" id="hot-strip-row"></div>
     </div>
 
     <!-- BUKTI TRANSAKSI (isi lewat bukti.json; kosong = otomatis disembunyikan) -->
@@ -916,47 +2871,87 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     </div>
 
     <!-- Menu Utama -->
+<!-- LABEL RUBRIK MAJALAH -->
+    <div class="sec-rubrik-tag rise" style="--d:.64s">
+      <b>SECTION 02 // DIRECTORY</b>
+      <span>SELECT OPTION ↓</span>
+    </div>
+
+    <!-- Menu Utama Zine Grid -->
     <div class="menu-group">
-      <button class="menu-card featured wide span-2 rise" style="--d:.66s" onclick="vibratePhone(); bukaKatalogUtama()">
-        <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg></span>
-        <span class="mc-text"><b>Katalog Aplikasi Premium</b><small>Cek harga &amp; pilih paket favoritmu</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+      <!-- COVER FEATURE: KATALOG -->
+      <button class="menu-card featured rise" style="--d:.66s" onclick="vibratePhone(); bukaKatalogUtama()">
+        <span class="mc-badge-top">★ MAIN CATALOGUE</span>
+        <div class="mc-text">
+          <b>Katalog Premium Apps</b>
+          <small>Eksplorasi paket & cek harga terupdate</small>
+        </div>
       </button>
 
-      <button class="menu-card wide span-2 rise" id="menu-riwayat" style="--d:.7s;display:none" onclick="vibratePhone(); bukaRiwayat()">
-        <span class="mc-icon">🔁</span>
-        <span class="mc-text"><b>Order Lagi / Perpanjang</b><small>Dari riwayat order di perangkat ini</small></span>
-        <span class="arrow-icon">&#10095;</span>
+      <!-- ORDER LAGI / PERPANJANG (MUNCUL OTOMATIS JIKA ADA RIWAYAT) -->
+      <button class="menu-card wide span-2 rise" id="menu-riwayat" style="--d:.69s;display:none" onclick="vibratePhone(); bukaRiwayat()">
+        <span class="mc-icon-box">🔁</span>
+        <div class="mc-text">
+          <b>Perpanjang / Order Ulang</b>
+          <small>Pakai data riwayat dari perangkat ini</small>
+        </div>
       </button>
 
+      <!-- 01: FAVORIT -->
       <button class="menu-card rise" style="--d:.72s" onclick="vibratePhone(); bukaFavoritSaya()">
-        <span class="mc-icon">🐺</span>
-        <span class="mc-text"><b>Aplikasi Favorit Saya</b><small>Tersimpan di perangkatmu</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+        <div class="mc-top-row">
+          <span class="mc-idx">#01</span>
+          <span class="mc-icon-box">🐺</span>
+        </div>
+        <div class="mc-text">
+          <b>Favorit Saya</b>
+          <small>Disimpan di perangkatmu</small>
+        </div>
       </button>
 
+      <!-- 02: KONTAK ADMIN -->
       <button class="menu-card rise" style="--d:.78s" onclick="vibratePhone(); bukaKontak()">
-        <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.6-.8L3 21l1.9-5.1A8.4 8.4 0 1 1 21 11.5z"/></svg></span>
-        <span class="mc-text"><b>Contact Person</b><small>WhatsApp &amp; Telegram</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+        <div class="mc-top-row">
+          <span class="mc-idx">#02</span>
+          <span class="mc-icon-box">💬</span>
+        </div>
+        <div class="mc-text">
+          <b>Kontak Admin</b>
+          <small>WhatsApp & Telegram</small>
+        </div>
       </button>
 
+      <!-- 03: FAQ -->
       <button class="menu-card rise" style="--d:.84s" onclick="vibratePhone(); bukaFaq()">
-        <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></span>
-        <span class="mc-text"><b>FAQ / Tanya Jawab</b><small>Pertanyaan yang sering muncul</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+        <div class="mc-top-row">
+          <span class="mc-idx">#03</span>
+          <span class="mc-icon-box">❓</span>
+        </div>
+        <div class="mc-text">
+          <b>FAQ / Bantuan</b>
+          <small>Tanya jawab seputar order</small>
+        </div>
       </button>
 
-      <a data-k="testi" class="menu-card rise" style="--d:.9s" href="https://t.me/jejakbeli" target="_blank" onclick="vibratePhone()">
-        <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1z"/></svg></span>
-        <span class="mc-text"><b>Testimoni</b><small>Bukti transaksi pelanggan</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+      <!-- 04: TESTIMONI -->
+      <a data-k="testi" class="menu-card rise" style="--d:.9s;text-decoration:none;" href="https://t.me/jejakbeli" target="_blank" onclick="vibratePhone()">
+        <div class="mc-top-row">
+          <span class="mc-idx">#04</span>
+          <span class="mc-icon-box">⭐</span>
+        </div>
+        <div class="mc-text">
+          <b>Testimoni</b>
+          <small>300+ bukti transaksi asli</small>
+        </div>
       </a>
 
+      <!-- S&K GARANSI (WIDE TAPE) -->
       <button class="menu-card wide span-2 rise" style="--d:.96s" onclick="vibratePhone(); bukaSnK()">
-        <span class="mc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-        <span class="mc-text"><b>Ketentuan Order &amp; Klaim Garansi</b><small>Baca sebelum order ya</small></span>
-        <span class="arrow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="m9 6 6 6-6 6"/></svg></span>
+        <span class="mc-icon-box">🛡️</span>
+        <div class="mc-text">
+          <b>Ketentuan Order & Klaim Garansi</b>
+          <small>Wajib dibaca sebelum transaksi ya</small>
+        </div>
       </button>
     </div>
 
@@ -985,21 +2980,22 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
       ⚠️ <b>Informasi:</b> Website ini merupakan <b>Katalog Pintar</b> untuk mempermudah pelanggan mengecek harga dan detail paket favorit, <b>bukan</b> sistem auto-order otomatis. Seluruh proses pembayaran dan transaksi tetap dilakukan dengan aman melalui WhatsApp Admin.
     </div>
 
-    <footer class="copyright reveal">
-      &copy; 2026 ZAY. All Rights Reserved. · <a href="#" onclick="bukaPrivasi();return false;">Kebijakan Privasi</a>
-    </footer>
-  </div>
-
-  <!-- PEMILIH TEMA -->
-  <div id="theme-modal" onclick="if(event.target===this)tutupTema()">
-    <div class="theme-box">
-      <div class="theme-head"><h3>Pilih Tema 🎨</h3><button class="nav-btn" onclick="tutupTema()" aria-label="Tutup">&times;</button></div>
-      <div class="theme-sub">Pilihanmu tersimpan di perangkat ini.</div>
-      <div class="theme-grid" id="theme-grid"></div>
-      <button class="theme-mode" onclick="toggleTheme()">◐ Ganti mode gelap / terang</button>
-      <button class="theme-mode" id="lite-btn" onclick="toggleLite()">⚡ Mode hemat efek: MATI</button>
+<!-- FOOTER EDITORIAL COLOPHON -->
+<footer class="copyright reveal">
+  <div class="footer-colophon-box">
+    <div class="footer-colophon-top">
+      <span>REGARM ARCHIVE</span>
+      <span>EDISI 2026 // VOL. 03</span>
     </div>
+    <div class="footer-brand-title">REGARM-MART</div>
+    <p class="footer-sub">Premium Digital Goods &amp; Streaming Accounts · Fast Response &amp; Bergaransi Resmi</p>
+    <span class="footer-barcode-tag">|||| | ||||| || |||| |||</span>
   </div>
+  <p class="footer-copy">
+    &copy; 2026 REGARM-MART · BY ZAY · 
+    <a href="#" onclick="bukaPrivasi();return false;" style="color:var(--text-color);text-decoration:underline;font-weight:800;">Kebijakan Privasi</a>
+  </p>
+</footer>
 
   <!-- FORM TESTIMONI -->
   <div id="testi-modal" onclick="if(event.target===this)tutupTesti()">
@@ -1186,103 +3182,179 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         </div>
       </div>
 
-      <!-- VIEW RIWAYAT / ORDER LAGI -->
+      <!-- VIEW RIWAYAT / ORDER LAGI (EDITORIAL ARCHIVE) -->
       <div id="view-riwayat" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <h3>🔁 ORDER LAGI / PERPANJANG</h3>
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <h3>🔁 ARSIP PESANAN ANDA</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="info-note" style="margin-bottom:12px">Riwayat hanya tersimpan di perangkat ini. Harga yang dipakai adalah harga terbaru di katalog.</div>
+
+        <!-- STRIP KOP DOKUMEN -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>ORDER LOG // LOCAL CACHE</span>
+          <span style="background:#ffc700; color:#121214; padding:2px 6px; font-size:9px; border-radius:2px;">SAVED</span>
+        </div>
+
+        <div class="info-note" style="margin-bottom:12px">
+          Riwayat tersimpan di perangkat ini. Harga yang dipakai saat re-order otomatis mengikuti harga terbaru di katalog.
+        </div>
+
         <div id="hist-list"></div>
-        <button type="button" class="ask-btn" onclick="hapusRiwayat()">🗑️ HAPUS RIWAYAT DI PERANGKAT INI</button>
-      </div>
 
-      <!-- VIEW NOTA -->
-      <div id="view-nota" class="view-panel" style="display: none;">
-        <div class="drawer-header">
-          <button class="nav-btn" onclick="notaKembali()">&#10094;</button>
-          <h3>✦ NOTA DIGITAL</h3>
-          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
-        </div>
-        
-        <div class="receipt-wrapper">
-          <div class="receipt-header">REGARM-MART</div>
-          <div class="receipt-row"><span>Order ID:</span> <span id="nota-id"></span></div>
-          <div class="receipt-row"><span>Status:</span> <span style="color: #10b981;">UNPAID (Pending WA)</span></div>
-          <div class="receipt-row"><span>Waktu:</span> <span id="nota-waktu"></span></div>
-          <div style="margin: 10px 0; border-top: 1px dashed rgba(226,201,169,0.3);"></div>
-          
-          <div class="receipt-row"><span>Aplikasi:</span> <span id="nota-app"></span></div>
-          <div class="receipt-row"><span>Paket/Durasi:</span> <span id="nota-paket"></span></div>
-          <div class="receipt-row" id="nota-row-yt" style="display:none;"><span>Tipe Akun:</span> <span id="nota-yt"></span></div>
-          <div id="nota-items" style="display:none;"></div>
-          <div class="receipt-row"><span>Nomor WA Cust:</span> <span id="nota-wa"></span></div>
-          
-          <div class="receipt-total">
-            <span>Metode Bayar:</span> <span id="nota-pay"></span>
-            <button class="copy-pill" onclick="salinInfoBayar()">📋 Salin Info</button>
-          </div>
-        </div>
-
-        <button onclick="lanjutKeWA()" class="submit-btn" style="width: 100%; display: flex; justify-content: center; gap: 10px;">
-          <span>🟢</span> KONFIRMASI & LANJUT WA
+        <button type="button" class="submit-btn" style="width: 100%; margin-top: 14px; background: #ffffff; color: #e11d2e; border-color: #121214; box-shadow: 3px 3px 0 #121214; font-size: 12px;" onclick="hapusRiwayat()">
+          🗑️ HAPUS SELURUH RIWAYAT DI PERANGKAT INI
         </button>
       </div>
 
+      <!-- VIEW 4: NOTA TRANSAKSI (EDITORIAL THERMAL RECEIPT - FIXED) -->
+      <div id="view-nota" class="view-panel" style="display: none;">
+        <div class="drawer-header">
+          <button class="nav-btn" onclick="notaKembali()">&#10094;</button>
+          <h3>🧾 NOTA TRANSAKSI</h3>
+          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
+        </div>
+
+        <div class="thermal-receipt">
+          <div class="receipt-brand-meta">
+            <div class="receipt-store-name">REGARM-MART</div>
+            <div class="receipt-id-tag">INVOICE // <span id="nota-id">#RM-ORDER</span></div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 12px;">
+            <div class="receipt-item-row">
+              <span class="r-label">Waktu Order</span>
+              <span class="r-val" id="nota-waktu">-</span>
+            </div>
+            <div class="receipt-item-row">
+              <span class="r-label">Aplikasi</span>
+              <span class="r-val" id="nota-app">-</span>
+            </div>
+            <div class="receipt-item-row">
+              <span class="r-label">Paket</span>
+              <span class="r-val" id="nota-paket">-</span>
+            </div>
+            <div class="receipt-item-row" id="nota-row-yt" style="display: none;">
+              <span class="r-label">Tipe YouTube</span>
+              <span class="r-val" id="nota-yt">-</span>
+            </div>
+            <!-- WADAH RINCIAN ITEM KHUSUS KERANJANG -->
+            <div id="nota-items" style="display: none;"></div>
+
+            <div class="receipt-item-row">
+              <span class="r-label">WhatsApp</span>
+              <span class="r-val" id="nota-wa">-</span>
+            </div>
+            <div class="receipt-item-row">
+              <span class="r-label">Metode Bayar</span>
+              <span class="r-val" id="nota-pay">-</span>
+            </div>
+          </div>
+
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #6c6962; text-align: center; margin: 12px 0; letter-spacing: 2px;">
+            |||| | ||||| || |||| ||| 2026
+          </div>
+
+          <button class="submit-btn" id="btn-kirim-wa" onclick="lanjutKeWA()" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span>💬</span> LANJUT KE WHATSAPP ADMIN →
+          </button>
+        </div>
+      </div>
+
       <!-- VIEW ABOUT -->
+      <!-- VIEW ABOUT (EDITORIAL DOSSIER) -->
       <div id="view-about" class="view-panel" style="display: none;">
         <div class="drawer-header">
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
           <h3>ℹ️ ABOUT REGARM-MART</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="snk-box">
-          <div class="snk-title">✦ REGARM-MART OUTLET</div>
-          <div class="snk-text">
-            <p style="margin-bottom: 12px; font-style: italic; color: var(--accent-color);">this is an outlet owned by @ZAY so buyers ask for your attitude, if your attitude is good, our attitude is also very good. please be wise when shopping.</p>
-            <p>REGARM-MART adalah pusat layanan aplikasi premium terpercaya sejak 2023 yang berfokus memberikan kemudahan akses hiburan dan alat penunjang produktivitas dengan harga bersahabat dan garansi penuh.</p>
+
+        <!-- STRIP KOP PROFIL -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>DOSSIER // BRAND ARCHIVE</span>
+          <span style="background:#2563eb; color:#fff; padding:2px 6px; font-size:9px; border-radius:2px;">SINCE 2023</span>
+        </div>
+
+        <div class="about-dossier">
+          <div class="about-quote">
+            "this is an outlet owned by @ZAY so buyers ask for your attitude, if your attitude is good, our attitude is also very good. please be wise when shopping."
           </div>
+          <p style="font-size: 12.5px; font-weight: 600; line-height: 1.65; color: #2b2927; margin: 0;">
+            <b>REGARM-MART</b> adalah pusat layanan aplikasi premium terpercaya sejak 2023 yang berfokus memberikan kemudahan akses hiburan dan alat penunjang produktivitas dengan harga bersahabat dan garansi penuh.
+          </p>
+        </div>
+
+        <div style="background:#fffdf9; border:1.5px dashed #121214; border-radius:4px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:10px; color:#6c6962; display:flex; justify-content:space-between;">
+          <span>OPERATOR: ZAY</span>
+          <span>LOCATION: YOGYAKARTA // ID</span>
         </div>
       </div>
 
-      <!-- VIEW JAM OPERASIONAL -->
+      <!-- VIEW JAM OPERASIONAL (EDITORIAL SHIFT ROSTER) -->
       <div id="view-jam-operasional" class="view-panel" style="display: none;">
         <div class="drawer-header">
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
           <h3>⏰ JADWAL OPERASIONAL</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="snk-box">
-          <div class="snk-title">✦ JAM LAYANAN TOKO</div>
-          <div class="snk-text" style="text-align: center;">
-            <p style="font-size: 15px; color: var(--accent-color); font-weight: 700; margin-bottom: 10px;">🟢 Buka Setiap Hari</p>
-            <p id="jam-teks" style="font-size: 16px; font-weight: 800; margin-bottom: 15px;">Pukul 10.00 – 00.30 WIB</p>
-            <p style="opacity: 0.8; line-height: 1.6;">Diluar jam tersebut, chat WhatsApp atau Telegram tetap bisa dikirim dan akan diproses secara berurutan saat toko buka kembali. Terima kasih atas pengertiannya! ⚡</p>
+
+        <!-- STRIP KOP DOKUMEN -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>OPERATIONAL HOURS // TIMEZONE WIB</span>
+          <span style="background:#ffc700; color:#121214; padding:2px 6px; font-size:9px; border-radius:2px;">DAILY</span>
+        </div>
+
+        <div class="schedule-roster-box">
+          <div class="schedule-badge-status">
+            <span>●</span> STORE STATUS: OPEN DAILY
           </div>
+          <div class="schedule-time-display" id="jam-teks">
+            Pukul 10.00 – 00.30 WIB
+          </div>
+          <p style="font-size: 12px; line-height: 1.6; color: #5d5a52; margin: 0; font-weight: 600;">
+            Diluar jam tersebut, chat WhatsApp atau Telegram tetap bisa dikirim dan akan diproses secara berurutan saat toko buka kembali. Terima kasih atas pengertiannya! ⚡
+          </p>
         </div>
       </div>
 
-      <!-- VIEW CONTACT -->
+      <!-- VIEW CONTACT (EDITORIAL DISPATCH DIRECTORY) -->
       <div id="view-contact" class="view-panel" style="display: none;">
         <div class="drawer-header">
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
           <h3>💬 HUBUNGI ADMIN</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="content-list" style="display:flex; flex-direction:column; gap:10px;">
-          <a data-k="wa" class="action-btn" href="https://wa.me/62895325627342?text=Halo%20Admin,%20saya%20mau%20tanya%20layanan" target="_blank" onclick="vibratePhone()">
-            <span class="btn-label" style="font-size: 14px;">📱 WhatsApp Admin Utama</span>
+
+        <!-- STRIP KOP DIREKTORI -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>DIRECT DISPATCH CHANNELS</span>
+          <span style="background:#2563eb; color:#fff; padding:2px 6px; font-size:9px; border-radius:2px;">FAST RESP</span>
+        </div>
+
+        <div class="contact-dispatch-list">
+          <a data-k="wa" class="contact-dispatch-btn" href="https://wa.me/62895325627342" target="_blank" onclick="vibratePhone()">
+            <span style="display:flex; align-items:center; gap:8px;">📱 WhatsApp Admin Utama</span>
             <span class="arrow-icon">&#10095;</span>
           </a>
-          <button class="action-btn" onclick="salinNoWA()" style="background:var(--input-bg);">
-            <span class="btn-label" style="font-size: 14px;">📋 Salin Nomor WA (<span data-lbl="wa">0895325627342</span>)</span>
+
+          <button class="contact-dispatch-btn" onclick="salinNoWA()" style="cursor:pointer; width:100%; text-align:left;">
+            <span style="display:flex; align-items:center; gap:8px;">📋 Salin Nomor WA (<span data-lbl="wa">0895325627342</span>)</span>
+            <span class="copy-pill">SALIN</span>
           </button>
-          <a data-k="tg" class="action-btn" href="https://t.me/sadraxh" target="_blank" onclick="vibratePhone()">
-            <span class="btn-label" style="font-size: 14px;">✈️ Telegram Admin (@<span data-lbl="tg">sadraxh</span>)</span>
+
+          <a data-k="tg" class="contact-dispatch-btn" href="https://t.me/sadraxh" target="_blank" onclick="vibratePhone()">
+            <span style="display:flex; align-items:center; gap:8px;">✈️ Telegram Admin (@<span data-lbl="tg">sadraxh</span>)</span>
             <span class="arrow-icon">&#10095;</span>
           </a>
-          <button class="action-btn" onclick="salinNoTele()" style="background:var(--input-bg);">
-            <span class="btn-label" style="font-size: 14px;">📋 Salin Link Telegram (t.me/<span data-lbl="tg">sadraxh</span>)</span>
+
+          <button class="contact-dispatch-btn" onclick="salinNoTele()" style="cursor:pointer; width:100%; text-align:left;">
+            <span style="display:flex; align-items:center; gap:8px;">📋 Salin Link Telegram (t.me/<span data-lbl="tg">sadraxh</span>)</span>
+            <span class="copy-pill">SALIN</span>
           </button>
-          <a data-k="x" class="action-btn" href="https://x.com/klebuss" target="_blank" onclick="vibratePhone()">
-            <span class="btn-label" style="font-size: 14px;">𝕏 Akun X (Twitter)</span>
+
+          <a data-k="x" class="contact-dispatch-btn" href="https://x.com/gerxmo" target="_blank" onclick="vibratePhone()">
+            <span style="display:flex; align-items:center; gap:8px;">𝕏 Akun Resmi X (Twitter)</span>
             <span class="arrow-icon">&#10095;</span>
           </a>
         </div>
@@ -1314,118 +3386,150 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
         </div>
       </div>
 
-      <!-- VIEW S&K -->
+<!-- VIEW S&K (EDITORIAL SPEC SHEET) -->
       <div id="view-snk" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <h3>🛡️ KETENTUAN & KLAIM GARANSI</h3>
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <h3>🛡️ KETENTUAN &amp; KLAIM GARANSI</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
         
-        <div class="snk-container">
-          <div class="snk-box">
-            <div class="snk-title">✦ KETENTUAN ORDER</div>
-            <div class="snk-text" id="snk-order">
-              <p>㈥ Proses 1 - 30 menit, no rush order!!!</p>
-              <p>㈥ This is blackmarket, don't expect too much.</p>
-              <p>㈥ Wajib send form + ss login, tidak kirim garansi hangus.</p>
-              <p>㈥ Garansi max 3x24 jam, bisa 7x24 jam (error massal).</p>
-              <p>㈥ NO REFUND jika bukan kesalahan kami.</p>
-              <p>㈥ Payment first.</p>
+        <div class="snk-container" style="display: flex; flex-direction: column; gap: 14px;">
+          
+          <!-- KOTAK 1: KETENTUAN ORDER -->
+          <div class="snk-box" style="background: #ffffff; border: 2px solid #121214; border-radius: 4px; box-shadow: 4px 4px 0 #121214; padding: 16px;">
+            <div class="snk-title" style="font-family: 'Anton', sans-serif; font-size: 15px; letter-spacing: 1px; color: #121214; border-bottom: 2px dashed #121214; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span>✦ KETENTUAN ORDER</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; background: #ffc700; color: #121214; padding: 2px 6px; border: 1px solid #121214;">RULES // 01</span>
+            </div>
+            
+            <div class="snk-text" id="snk-order" style="display: flex; flex-direction: column; gap: 8px; font-size: 12.5px; font-weight: 600; color: #2b2927; line-height: 1.5;">
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[01]</span><span>Proses 1 - 30 menit, no rush order!!!</span></div>
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[02]</span><span>This is blackmarket, don't expect too much.</span></div>
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[03]</span><span>Wajib send form + ss login, tidak kirim garansi hangus.</span></div>
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[04]</span><span>Garansi max 3x24 jam, bisa 7x24 jam (error massal).</span></div>
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[05]</span><span style="color: #e11d2e; font-weight: 800;">NO REFUND jika bukan kesalahan kami.</span></div>
+              <div style="display: flex; gap: 8px; align-items: flex-start;"><span style="color: #ff5722; font-family: 'JetBrains Mono', monospace; font-weight: 800;">[06]</span><span>Payment first.</span></div>
             </div>
           </div>
 
-          <div class="snk-box" style="position: relative;">
-            <div class="snk-title">✦ KLAIM GARANSI</div>
-            <div class="snk-text">
-              <p style="color: var(--accent-color); text-align: center; margin-bottom: 6px; font-weight: 700;">☆ ✪ FORMAT KLAIM GARANSI ✪</p>
-              <p>ミ Nama aplikasi : </p>
-              <p>ミ Email: </p>
-              <p>ミ Password:</p>
-              <p>ミ ‌Plan: 1u/2u/semi/privat/dll </p>
-              <p>ミ Profil + pin (jika ada):</p>
-              <p>ミ Problem/masalah:</p>
-              <p>ミ ‌Tanggal order: </p>
-              <p>ミ Durasi order: </p>
-              <p>ミ Sisa hari:</p>
-              <br>
-              <p style="color: var(--accent-color); margin-bottom: 4px; font-weight: 700;">Syarat klaim:</p>
-<div id="snk-klaim">
-              <p>❖ Tolong double cek akunnya terlebih dahulu sebelum report.</p>
-              <p>❖ Wajib send ss problem.</p>
-              <p>❖ Mohon tunggu sesuai estimasi, dilarang buru-buru atau garansi hangus.</p>
-              <p>❖ Bisa untuk renewal.</p>
-</div>
+          <!-- KOTAK 2: KLAIM GARANSI & FORMAT -->
+          <div class="snk-box" style="background: #ffffff; border: 2px solid #121214; border-radius: 4px; box-shadow: 4px 4px 0 #121214; padding: 16px; position: relative;">
+            <div class="snk-title" style="font-family: 'Anton', sans-serif; font-size: 15px; letter-spacing: 1px; color: #121214; border-bottom: 2px dashed #121214; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+              <span>✦ KLAIM GARANSI</span>
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; background: #121214; color: #ffc700; padding: 2px 6px;">FORM // 02</span>
             </div>
-            
-            <button class="copy-btn ghost" onclick="salinFormatGaransi()" style="width: 100%; margin-top: 12px;">
-              📋 SALIN FORMAT KLAIM GARANSI
+
+            <div class="snk-text">
+              <!-- HEADER FORMAT -->
+              <div style="background: #121214; color: #ffc700; font-family: 'Anton', sans-serif; font-size: 12px; letter-spacing: 1.5px; padding: 6px 10px; text-align: center; border-radius: 3px; margin-bottom: 10px;">
+                FORMAT KLAIM GARANSI
+              </div>
+
+              <!-- DAFTAR FIELD FORMAT DENGAN GAYA MONOSPACE CODE/TICKET -->
+              <div style="background: #fbf9f5; border: 1.5px dashed #121214; border-radius: 4px; padding: 12px 14px; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: #121214;">
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Nama aplikasi : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Email : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Password : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Plan : 1u/2u/semi/privat/dll </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Profil + pin (jika ada) : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Problem/masalah : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Tanggal order : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Durasi order : </div>
+                <div><span style="color: #ff5722; font-weight: 700;">//</span> Sisa hari : </div>
+              </div>
+
+              <!-- SYARAT KLAIM -->
+              <div style="margin-top: 14px;">
+                <div style="font-family: 'Anton', sans-serif; font-size: 13px; letter-spacing: 1px; color: #ff5722; text-transform: uppercase; margin-bottom: 8px;">
+                  SYARAT KLAIM:
+                </div>
+                <div id="snk-klaim" style="display: flex; flex-direction: column; gap: 7px; font-size: 12px; font-weight: 600; color: #2b2927; line-height: 1.5;">
+                  <div style="display: flex; gap: 8px;"><span style="color: #121214; font-weight: 800;">—</span><span>Tolong double cek akunnya terlebih dahulu sebelum report.</span></div>
+                  <div style="display: flex; gap: 8px;"><span style="color: #121214; font-weight: 800;">—</span><span>Wajib send ss problem.</span></div>
+                  <div style="display: flex; gap: 8px;"><span style="color: #121214; font-weight: 800;">—</span><span>Mohon tunggu sesuai estimasi, dilarang buru-buru atau garansi hangus.</span></div>
+                  <div style="display: flex; gap: 8px;"><span style="color: #121214; font-weight: 800;">—</span><span>Bisa untuk renewal.</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TOMBOL SALIN -->
+            <button class="submit-btn" onclick="salinFormatGaransi()" style="width: 100%; margin-top: 14px; padding: 12px; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+              <span>📋</span> SALIN FORMAT KLAIM GARANSI
             </button>
           </div>
         </div>
       </div>
 
-      <!-- VIEW KEBIJAKAN PRIVASI -->
+      <!-- VIEW KEBIJAKAN PRIVASI (EDITORIAL ARCHIVE POLICY) -->
       <div id="view-privasi" class="view-panel" style="display: none;">
         <div class="drawer-header">
+          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
           <h3>🔒 KEBIJAKAN PRIVASI</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="snk-container">
-          <div class="snk-box">
-            <div class="snk-title">✦ DATA YANG KAMI TERIMA</div>
-            <div class="snk-text">
-              <p>❖ Website ini hanya katalog. Nomor WhatsApp dan pilihan paket di form hanya dipakai untuk menyusun pesan WhatsApp di perangkatmu dan tidak dikirim ke server website. Nomor WA dan riwayat pesanan terakhir hanya diingat di browser-mu agar form terisi otomatis.</p>
-              <p>❖ Setelah kamu mengirim pesan, data yang kamu kirim sendiri lewat WhatsApp/Telegram (nomor, detail pesanan, bukti bayar, data klaim garansi) kami terima dan hanya dipakai untuk memproses order dan garansi.</p>
-              <p>❖ Password yang diminta saat klaim adalah password akun yang kamu beli dari kami, bukan akun pribadimu yang lain.</p>
-              <p>❖ Kami tidak menjual data kamu.</p>
-            </div>
+
+        <!-- STRIP KOP DOKUMEN RESMI -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>PRIVACY MEMORANDUM // 2026</span>
+          <span style="background:#ffc700; color:#121214; padding:2px 6px; font-size:9px; border-radius:2px;">STRICT</span>
+        </div>
+
+        <div class="snk-box">
+          <h4><span style="background:#121214; color:#fff; padding:1px 6px; font-size:10px; margin-right:4px;">ART // 01</span> PENGUMPULAN DATA TRANSAKSI</h4>
+          <div class="snk-text">
+            <p style="margin: 0 0 8px;">Informasi kontak (seperti nomor WhatsApp dan nama pemesan) hanya digunakan murni untuk keperluan pengiriman akun, verifikasi transfer, serta konfirmasi garansi.</p>
+            <p style="margin: 0; font-size: 11.5px; color: #6c6962; font-style: italic;">Kami tidak pernah meminta data sensitif seperti password pribadi perbankan atau PIN dompet digital Anda.</p>
           </div>
-          <div class="snk-box">
-            <div class="snk-title">✦ DATA DI PERANGKATMU</div>
-            <div class="snk-text">
-              <p>❖ Tema, mode hemat efek, daftar favorit, isi keranjang, nomor WA yang pernah kamu isi, riwayat pesanan terakhir, dan penanda splash screen disimpan di browser-mu (localStorage/sessionStorage). Riwayat bisa dihapus lewat menu Order Lagi, dan semuanya bisa dihapus lewat pengaturan browser.</p>
-            </div>
+        </div>
+
+        <div class="snk-box">
+          <h4><span style="background:#121214; color:#fff; padding:1px 6px; font-size:10px; margin-right:4px;">ART // 02</span> KEAMANAN &amp; KERAHASIAAN</h4>
+          <div class="snk-text">
+            <p style="margin: 0 0 8px;">Semua data pembeli dienkripsi dan disimpan secara lokal pada perangkat Anda (*Local Storage*) untuk memudahkan fitur keranjang dan riwayat pesanan.</p>
+            <p style="margin: 0;">REGARM-MART menjamin data Anda tidak akan pernah dijual, disebarluaskan, atau disalahgunakan kepada pihak manapun untuk keperluan spam atau iklan pihak ketiga.</p>
           </div>
-          <div class="snk-box">
-            <div class="snk-title">✦ TESTIMONI &amp; BUKTI TRANSAKSI</div>
-            <div class="snk-text">
-              <p>❖ Testimoni yang kamu kirim (nama/inisial, produk, rating, isi pesan) tampil publik setelah disetujui admin. Jangan menulis nomor HP, email, atau password di testimoni.</p>
-              <p>❖ Bukti transaksi yang ditampilkan sudah disensor (nomor/email disamarkan). Minta hapus lewat admin jika kamu keberatan.</p>
-            </div>
-          </div>
-          <div class="snk-box">
-            <div class="snk-title">✦ PIHAK KETIGA</div>
-            <div class="snk-text">
-              <p>❖ Halaman ini memuat font dari Google Fonts, ikon aplikasi dari layanan favicon Google, ikon cadangan dari DiceBear, serta tautan ke WhatsApp dan Telegram. Layanan tersebut dapat menerima alamat IP dan data perangkat sesuai kebijakan masing-masing.</p>
-            </div>
-          </div>
-          <div class="snk-box">
-            <div class="snk-title">✦ HAPUS DATA &amp; KONTAK</div>
-            <div class="snk-text">
-              <p>❖ Mau data chat/order dihapus atau ada pertanyaan privasi? Hubungi admin via WhatsApp atau Telegram.</p>
-              <p>Terakhir diperbarui: 12 Oktober 2026</p>
-            </div>
+        </div>
+
+        <div class="snk-box">
+          <h4><span style="background:#121214; color:#fff; padding:1px 6px; font-size:10px; margin-right:4px;">ART // 03</span> PERSETUJUAN PENGGUNA</h4>
+          <div class="snk-text">
+            <p style="margin: 0;">Dengan mengakses katalog dan melakukan checkout pesanan di website ini, pengguna dianggap telah memahami dan menyetujui seluruh ketentuan privasi yang tercantum.</p>
           </div>
         </div>
       </div>
 
-      <!-- VIEW INFO APLIKASI -->
+      <!-- VIEW INFO APLIKASI (EDITORIAL SPEC SHEET) -->
       <div id="view-app-info" class="view-panel" style="display: none;">
         <div class="drawer-header">
           <button class="nav-btn" onclick="gantiView('view-paket')">&#10094;</button>
           <h3 id="title-app-info">INFO APLIKASI</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        <div class="snk-box">
-          <div class="snk-text" id="desc-app-info" style="line-height: 1.7;">
+
+        <!-- STRIP KOP SPESIFIKASI -->
+        <div style="background:#121214; color:#ffc700; padding:6px 12px; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:700; letter-spacing:1.5px; margin-bottom:12px; border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
+          <span>SPEC SHEET // APP SUMMARY</span>
+          <span style="background:#ff5722; color:#fff; padding:2px 6px; font-size:9px; border-radius:2px;">OFFICIAL</span>
+        </div>
+
+        <div class="app-info-card">
+          <div class="app-info-title">
+            <span>✦ KETERANGAN LAYANAN</span>
+            <span style="font-family:'JetBrains Mono',monospace; font-size:10px; background:#f0ebe1; padding:2px 6px; border:1px solid #121214;">INFO // ID</span>
+          </div>
+          <div class="app-info-desc" id="desc-app-info">
             Penjelasan detail aplikasi akan muncul di sini.
           </div>
         </div>
-      </div>
 
+        <div style="background:#fbf9f5; border:1.5px dashed #121214; border-radius:4px; padding:10px 14px; font-family:'JetBrains Mono',monospace; font-size:10px; color:#6c6962; line-height:1.5;">
+          // CATATAN: Detail konfigurasi profil dan jenis aktivasi akan dipandu langsung oleh Admin melalui WhatsApp saat pengiriman invoice.
+        </div>
+      </div>
     </div>
   </div>
-
+  
   <script>
     const ICON_MOON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>`;
     const ICON_SUN = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" ><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`;
@@ -2016,9 +4120,15 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     }
 
     function lanjutKeWA() { 
-      vibratePhone();
-      if (linkWaFinal !== "") { if (window.catatRiwayat) window.catatRiwayat(); window.open(linkWaFinal, "_blank"); } 
+  vibratePhone();
+  if (linkWaFinal !== "") { 
+    if (window.catatRiwayat) window.catatRiwayat(); 
+    const win = window.open(linkWaFinal, "_blank", "noopener,noreferrer");
+    if (!win) {
+      window.location.href = linkWaFinal;
     }
+  } 
+}
   </script>
 
 <script>
@@ -2047,31 +4157,6 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
       setTimeout(strike, 9000 + Math.random() * 9000);
     }
     setTimeout(strike, 3500);
-  })();
-</script>
-
-<script>
-  // --- PEMILIH TEMA ---
-  (function () {
-    const SKINS = [["noir", "ZAY Noir", "⚡", "#ffd400", "#e11d2e"], ["pink", "Pink Angel", "🌸", "#ff7eb6", "#b388ff"], ["cloud", "Cloud Dream", "☁️", "#6ec1ff", "#c4a5ff"], ["violet", "Midnight Violet", "🌙", "#a78bfa", "#f472b6"], ["mint", "Matcha Mint", "🍃", "#5eead4", "#a3e635"], ["sunset", "Sunset Fire", "🔥", "#ff8a3d", "#ff4d6d"]];
-    const grid = document.getElementById("theme-grid");
-    function cur() { return document.documentElement.getAttribute("data-skin") || "noir"; }
-    function mark() { grid.querySelectorAll(".theme-opt").forEach(b => b.classList.toggle("on", b.dataset.id === cur())); }
-    window.setSkin = function (id) {
-      if (id === "noir") document.documentElement.removeAttribute("data-skin");
-      else document.documentElement.setAttribute("data-skin", id);
-      try { localStorage.setItem("skin", id); } catch (e) {}
-      mark(); if (typeof vibratePhone === "function") vibratePhone();
-    };
-    SKINS.forEach(([id, name, emo, p, s]) => {
-      const b = document.createElement("button");
-      b.className = "theme-opt"; b.dataset.id = id;
-      b.innerHTML = `<i style="background:linear-gradient(135deg,${p},${s})">${emo}</i><span>${name}</span>`;
-      b.onclick = () => setSkin(id);
-      grid.appendChild(b);
-    });
-    window.bukaTema = function () { mark(); document.getElementById("theme-modal").style.display = "flex"; };
-    window.tutupTema = function () { document.getElementById("theme-modal").style.display = "none"; };
   })();
 </script>
 
@@ -2631,157 +4716,257 @@ html[data-lite] *{backdrop-filter:none!important;-webkit-backdrop-filter:none!im
     setInterval(() => { if (document.hidden) return; ambil().then(terapkanLive).catch(() => { if (window.TOKO) terapkanLive(window.TOKO); }); }, 60000);
   })();
 </script>
-  <!-- ================= MULAI LAYAR MASUK ================= -->
+<!-- ================= MULAI LAYAR MASUK (SEALED ZINE - REAL TEAR) ================= -->
 <style>
   #layar-masuk-kustom {
-    position: fixed; 
-    inset: 0; 
-    z-index: 9999999; 
-    background: 
-      radial-gradient(circle at 50% 30%, rgba(255, 212, 0, 0.15) 0%, transparent 50%),
-      radial-gradient(circle at 50% 80%, rgba(225, 29, 46, 0.1) 0%, transparent 50%),
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      #07080d;
-    background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px, 100% 100%;
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center; 
-    text-align: center; 
-    padding: 24px;
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    background-color: #f0ebe1;
+    background-image: 
+      radial-gradient(rgba(18, 18, 20, 0.08) 1.2px, transparent 1.2px),
+      linear-gradient(to right, rgba(18, 18, 20, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(18, 18, 20, 0.035) 1px, transparent 1px);
+    background-size: 16px 16px, 60px 60px, 60px 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
-  
-  @keyframes munculMasuk { 
-    0% { transform: translateY(20px) scale(0.9); opacity: 0; } 
-    100% { transform: translateY(0) scale(1); opacity: 1; } 
+
+  /* Kotak Kemasan Kertas Gading */
+  .sleeve-packet {
+    width: 100%;
+    max-width: 380px;
+    background: #fffdf9;
+    border: 2px solid #121214;
+    border-radius: 4px;
+    box-shadow: 7px 7px 0 #121214;
+    padding: 26px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    animation: munculSleeve 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  @keyframes muterCincin { 
-    to { transform: rotate(360deg); } 
+  @keyframes munculSleeve {
+    from { opacity: 0; transform: translateY(20px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
   }
-  
-  .masuk-avatar-wrap { 
-    position: relative; 
-    margin-bottom: 24px; 
-    animation: munculMasuk 0.8s 0.1s both; 
+
+  /* WADAH LAKBAN SEGEL DUA BAGIAN */
+  .sleeve-seal-wrap {
+    position: absolute;
+    top: -15px;
+    width: calc(100% - 40px);
+    height: 34px;
+    display: flex;
+    z-index: 20;
+    pointer-events: none;
+    transform: rotate(-1.5deg);
   }
-  .masuk-avatar-wrap::before { 
-    content: ''; 
-    position: absolute; 
-    inset: -15px; 
-    border-radius: 50%; 
-    background: conic-gradient(from 0deg, transparent 0 30%, #ffd400, #e11d2e, transparent 85%); 
-    animation: muterCincin 3s linear infinite; 
-    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); 
-    mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px)); 
+
+  /* Belahan Lakban Kiri (Tepi Kanan Bergerigi) */
+  .tape-half {
+    height: 100%;
+    background: #ffc700;
+    color: #121214;
+    font-family: 'Anton', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-shadow: 2px 3px 0 rgba(18, 18, 20, 0.8);
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
   }
-  .masuk-avatar { 
-    width: 120px; 
-    height: 120px; 
-    border-radius: 50%; 
-    object-fit: cover; 
-    position: relative; 
-    z-index: 1; 
-    border: 4px solid #07080d; 
-    background: #111; 
+  .tape-left {
+    flex: 1.1;
+    justify-content: flex-end;
+    padding-right: 8px;
+    border: 2px solid #121214;
+    border-right: none;
+    clip-path: polygon(0% 0%, 100% 0%, 93% 25%, 100% 50%, 92% 75%, 100% 100%, 0% 100%);
   }
-  
-  .masuk-title { 
-    font-family: 'Anton', sans-serif; 
-    font-size: clamp(40px, 8vw, 64px); 
-    font-weight: 400; 
-    letter-spacing: 2px; 
-    text-transform: uppercase; 
-    color: #fff; 
-    margin-bottom: 8px; 
-    text-shadow: 4px 4px 0 #e11d2e, -2px -2px 0 #ffd400;
-    animation: munculMasuk 0.8s 0.3s both; 
+  /* Belahan Lakban Kanan (Tepi Kiri Bergerigi Pasangan) */
+  .tape-right {
+    flex: 0.9;
+    justify-content: flex-start;
+    padding-left: 6px;
+    border: 2px solid #121214;
+    border-left: none;
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 7% 75%, 0% 50%, 8% 25%);
   }
-  
-  .masuk-subtitle { 
-    font-family: 'Plus Jakarta Sans', sans-serif; 
-    font-size: 12px; 
-    color: #ffd400; 
-    margin-bottom: 48px; 
-    letter-spacing: 3px; 
-    text-transform: uppercase; 
-    font-weight: 700; 
-    animation: munculMasuk 0.8s 0.4s both; 
+
+  /* Garis Putus Jahitan di Tengah Lakban */
+  .tape-tear-line {
+    position: absolute;
+    right: -1px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    border-right: 2px dashed rgba(18, 18, 20, 0.6);
   }
-  
-  .masuk-btn { 
-    padding: 16px 48px; 
-    border-radius: 8px; 
-    background: #ffd400; 
-    color: #111; 
-    font-weight: 800; 
-    font-size: 16px; 
-    font-family: 'Anton', sans-serif; 
-    border: 2px solid #111; 
-    cursor: pointer; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    box-shadow: 6px 6px 0 #e11d2e;
-    transition: transform 0.2s, box-shadow 0.2s; 
-    animation: munculMasuk 0.8s 0.5s both; 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
+
+  /* FOTO AVATAR DENGAN STEMPEL */
+  .sleeve-photo-box {
+    position: relative;
+    margin: 12px 0 14px;
   }
-  .masuk-btn:hover { 
-    transform: translate(-2px, -2px); 
-    box-shadow: 8px 8px 0 #e11d2e; 
+  .sleeve-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 2px solid #121214;
+    background: #121214;
+    box-shadow: 4px 4px 0 #ff5722;
+    display: block;
   }
-  .masuk-btn:active { 
-    transform: translate(2px, 2px); 
-    box-shadow: 0 0 0 #e11d2e; 
+  .sleeve-badge-tag {
+    position: absolute;
+    bottom: -6px;
+    right: -8px;
+    background: #121214;
+    color: #ffc700;
+    font-family: 'Anton', sans-serif;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border: 1px solid #ffc700;
+    transform: rotate(-5deg);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
   }
-  
-  .masuk-footer { 
-    position: absolute; 
-    bottom: 30px; 
-    left: 0; 
-    right: 0; 
-    font-size: 11px; 
-    color: #666; 
-    letter-spacing: 1px; 
-    font-weight: 600; 
-    animation: munculMasuk 0.8s 0.6s both; 
+
+  /* KONTEN TEKS */
+  .sleeve-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(36px, 9vw, 48px);
+    line-height: 0.95;
+    letter-spacing: 1.5px;
+    color: #121214;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    text-shadow: 3px 3px 0 #ffc700;
+  }
+  .sleeve-meta-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #ff5722;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sleeve-hint {
+    font-size: 11px;
+    color: #6c6962;
+    line-height: 1.45;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  /* TOMBOL ROBEK SEGEL */
+  .sleeve-open-btn {
+    width: 100%;
+    padding: 14px 18px;
+    background: #121214;
+    color: #ffc700;
+    font-family: 'Anton', sans-serif;
+    font-size: 15px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 2px solid #121214;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #ff5722;
+    transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .sleeve-open-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 #ff5722;
+    background: #ff5722;
+    color: #ffffff;
+  }
+  .sleeve-open-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 #ff5722;
+  }
+
+  /* ANIMASI SAAT ROBEK DIKLIK */
+  .sleeve-packet.torn .tape-left {
+    transform: translate(-45px, -18px) rotate(-16deg);
+    opacity: 0;
+  }
+  .sleeve-packet.torn .tape-right {
+    transform: translate(45px, 14px) rotate(18deg);
+    opacity: 0;
+  }
+  .sleeve-packet.torn {
+    transform: translateY(-28px) scale(0.96);
+    opacity: 0;
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1) 0.15s;
   }
 </style>
 
 <div id="layar-masuk-kustom">
-  <div class="masuk-avatar-wrap">
-    <img src="ava.png" class="masuk-avatar" alt="Logo" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
+  <div class="sleeve-packet" id="sleeveBox">
+    <!-- PITA LAKBAN DENGAN TEPI KOYAK FISIK -->
+    <div class="sleeve-seal-wrap">
+      <div class="tape-half tape-left">
+        <span>SEALED // VOL.03</span>
+        <div class="tape-tear-line"></div>
+      </div>
+      <div class="tape-half tape-right">
+        <span>ARCHIVE</span>
+      </div>
+    </div>
+
+    <!-- AVATAR -->
+    <div class="sleeve-photo-box">
+      <img src="ava.png" class="sleeve-img" alt="REGARM-MART" onerror="this.src='https://api.dicebear.com/7.x/bottts/svg?seed=REGARM'">
+      <span class="sleeve-badge-tag">VERIFIED</span>
+    </div>
+
+    <h1 class="sleeve-title">REGARM-MART</h1>
+    <p class="sleeve-meta-sub">DIGITAL GOODS OUTLET</p>
+    <p class="sleeve-hint">Tap tombol di bawah untuk merobek segel dan membuka katalog</p>
+
+    <button class="sleeve-open-btn" onclick="prosesRobekSegel()">
+      ROBEK SEGEL & MASUK ↵
+    </button>
   </div>
-  <h1 class="masuk-title">REGARM-MART</h1>
-  <p class="masuk-subtitle">Premium Apps Store</p>
-  
-  <button class="masuk-btn" onclick="prosesMasukToko()">
-    MASUK 
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button>
-  
-  <div class="masuk-footer">&copy; 2026 ZAY.</div>
 </div>
 
 <script>
-  function prosesMasukToko() {
-    // Getaran kecil di HP (opsional)
-    if (navigator.vibrate) navigator.vibrate(20);
-    
-    // Cari elemen layar masuk
+  function prosesRobekSegel() {
+    if (navigator.vibrate) navigator.vibrate([30, 40, 30]);
+    const box = document.getElementById('sleeveBox');
     const layar = document.getElementById('layar-masuk-kustom');
-    
-    if (layar) {
-      // Animasi memudar
-      layar.style.transition = 'opacity 0.5s ease';
-      layar.style.opacity = '0';
-      
-      // Hapus total dari halaman setelah 0.5 detik (Dijamin gak akan stuck!)
+
+    if (box && layar) {
+      // 1. Lakban terbelah koyak ke kiri & kanan
+      box.classList.add('torn');
+
+      // 2. Layar memudar mulus
       setTimeout(() => {
-        layar.remove(); 
-      }, 500);
+        layar.style.transition = 'opacity 0.3s ease';
+        layar.style.opacity = '0';
+      }, 250);
+
+      // 3. Hapus layar pembuka (halaman utama langsung aktif)
+      setTimeout(() => {
+        layar.remove();
+      }, 550);
     }
   }
 </script>
