@@ -1,152 +1,433 @@
 <!DOCTYPE html>
-<html lang="id" data-mode="dark">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f0ebe1">
 <title>Auto Sender @jejakbeli | REGARM-MART</title>
 <link rel="icon" href="../ava.png">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+
 <style>
-:root{--p:#ffd400;--s:#e11d2e;--ac:#ffd400;--bg:#050507;--text:#f4f2ec;--muted:#9a978f;--card:#111115;--line:#22222a;--inp:#0a0a0e;--ok:#22c55e;--bad:#ef4444;--hard:var(--p);color-scheme:dark}
-* {box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body {font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);padding:16px 12px 60px;min-height:100vh;overflow-x:hidden;position:relative}
-button,input,select,textarea{font-family:inherit;color:inherit;outline:none}
-a{color:inherit;text-decoration:none}
+:root {
+  --bg: #f0ebe1;
+  --text: #121214;
+  --muted: #6c6962;
+  --card: #fffdf9;
+  --line: #121214;
+  --inp: #ffffff;
+  --yellow: #ffc700;
+  --orange: #ff5722;
+  --blue: #2563eb;
+  --ok: #10b981;
+  --bad: #e11d2e;
+  --hard: #121214;
+}
 
-/* BACKGROUND & ZAY TEXT EFFECT */
-.bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.au{position:absolute;border-radius:50%;filter:blur(80px);opacity:.15;animation:dr 26s ease-in-out infinite alternate}
-.au.a{width:60vmax;height:60vmax;left:-18vmax;top:-24vmax;background:var(--p)}
-.au.b{width:50vmax;height:50vmax;right:-18vmax;top:20vh;background:var(--s);animation-duration:32s}
-@keyframes dr{to{transform:translate(12vmax,10vmax) scale(1.15)}}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 
-.zay{position:absolute;left:-25%;top:-25%;width:150%;height:150%;display:flex;flex-direction:column;justify-content:space-around;transform:rotate(-9deg);z-index:0}
-.zay div{display:flex;justify-content:space-around}
-.zay div:nth-child(even){margin-left:-9vw}
-.zay b{font:400 clamp(90px,20vw,200px)/1 Anton,sans-serif;letter-spacing:5px;color:transparent;-webkit-text-stroke:2px color-mix(in srgb,var(--p) 20%,transparent);text-shadow:6px 6px 0 color-mix(in srgb,var(--s) 10%,transparent)}
-.zay div:nth-child(even) b{color:color-mix(in srgb,var(--p) 6%,transparent)}
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 24px 16px 80px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(rgba(18, 18, 20, 0.08) 1.2px, transparent 1.2px),
+    linear-gradient(to right, rgba(18, 18, 20, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 20, 0.035) 1px, transparent 1px);
+  background-size: 16px 16px, 80px 80px, 80px 80px;
+}
 
-/* LAYOUT UTAMA */
-.wrap{position:relative;z-index:2;max-width:680px;margin:0 auto;display:flex;flex-direction:column;gap:16px;width:100%}
-.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.ttl{font:400 clamp(22px,5vw,34px)/1 Anton,sans-serif;letter-spacing:2px;text-transform:uppercase}
-.ttl small{font:400 .5em/1 'Permanent Marker',cursive;color:var(--ac);letter-spacing:1px;margin-left:6px}
+button, input, select, textarea {
+  font-family: inherit;
+  color: inherit;
+  outline: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
-/* GLITCH EFFECT */
-.gl{position:relative;display:inline-block;text-shadow:3px 3px 0 var(--s)}
-.gl::before,.gl::after{content:attr(data-t);position:absolute;left:0;top:0;clip-path:inset(0 0 100% 0);text-shadow:none}
-.gl::before{color:var(--p);animation:g1 4.5s infinite steps(1)}
-.gl::after{color:#2ee6ff;animation:g2 4.5s infinite steps(1)}
-@keyframes g1{0%,90%,100%{clip-path:inset(0 0 100% 0)}91%{transform:translate(-4px,1px);clip-path:inset(8% 0 58% 0)}94%{transform:translate(4px,-1px);clip-path:inset(62% 0 8% 0)}97%{transform:translate(-3px,0);clip-path:inset(32% 0 38% 0)}}
-@keyframes g2{0%,90%,100%{clip-path:inset(0 0 100% 0)}92%{transform:translate(4px,0);clip-path:inset(48% 0 22% 0)}95%{transform:translate(-4px,1px);clip-path:inset(4% 0 72% 0)}98%{transform:translate(3px,0);clip-path:inset(70% 0 4% 0)}}
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
 
-/* NAVS MENU */
-.navs{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
-.navs::-webkit-scrollbar{display:none}
-.navs a{flex:none;padding:8px 14px;border:2px solid var(--line);border-radius:999px;background:var(--card);font-size:12px;font-weight:800;transition:all .2s}
-.navs a:hover{border-color:var(--p)}
-.navs a.on{background:var(--p);color:#111;border-color:#111;box-shadow:3px 3px 0 var(--s)}
+/* HEADER EDITORIAL */
+.hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
 
-.card{background:var(--card);border:2px solid var(--line);border-radius:12px;padding:16px;box-shadow:6px 6px 0 rgba(0,0,0,0.4)}
-.btn{background:var(--card);border:2px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13px;font-weight:800;cursor:pointer;display:block;text-align:center;width:100%;transition:all .25s}
-.btn:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:3px 3px 0 var(--hard)}
-.btn:active:not(:disabled){transform:translate(1px,1px);box-shadow:none}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-.btn.pri{background:var(--p);color:#111;border-color:#111;box-shadow:4px 4px 0 var(--s)}
-.btn.pri:hover:not(:disabled){box-shadow:6px 6px 0 var(--s)}
-.btn-sm{padding:8px;font-size:11px;width:auto;flex:1}
+.ttl {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(28px, 7vw, 42px);
+  line-height: 0.95;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.ttl span {
+  text-shadow: 3px 3px 0 var(--yellow);
+}
+.ttl small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--line);
+  color: #fff;
+  padding: 3px 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+  letter-spacing: 1.5px;
+}
 
-input[type="file"], textarea{width:100%;background:var(--inp);border:2px solid var(--line);border-radius:8px;padding:12px;font-size:13px}
-textarea:focus{border-color:var(--p)}
-input[type="range"]{width:100%;accent-color:var(--p)}
+/* NAVIGASI ADMIN */
+.navs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.navs::-webkit-scrollbar { display: none; }
+.navs a {
+  flex: none;
+  padding: 8px 14px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  background: #ffffff;
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  box-shadow: 2px 2px 0 var(--hard);
+  transition: transform .15s, box-shadow .15s;
+}
+.navs a:hover {
+  background: var(--yellow);
+  transform: translate(-1px, -1px);
+}
+.navs a.on {
+  background: var(--yellow);
+  box-shadow: 3px 3px 0 var(--orange);
+}
 
-.f{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-.f label{font-size:12px;font-weight:700;color:var(--muted)}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+/* KARTU FORMULIR */
+.card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 18px 16px;
+  box-shadow: 5px 5px 0 var(--hard);
+  width: 100%;
+  box-sizing: border-box;
+}
 
-.preview-box{background:var(--inp);border:2px dashed var(--line);border-radius:10px;padding:8px;margin-top:16px;text-align:center;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.canvas-container{width:100%;overflow:auto;display:flex;justify-content:center}
-canvas{max-width:100%;height:auto;border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,0.5);cursor:crosshair;touch-action:none}
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 14.5px;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed var(--line);
+  padding-bottom: 8px;
+  text-transform: uppercase;
+}
 
-.badge-info{background:var(--card);border:1.5px solid var(--line);padding:6px 10px;border-radius:6px;font-size:11px;font-weight:700;color:var(--p);margin-bottom:10px;display:inline-block}
-.status-bar{display:flex;justify-content:space-between;align-items:center;background:var(--inp);padding:8px 12px;border-radius:8px;margin-bottom:12px;font-weight:800;font-size:13px;border:1px solid var(--line)}
+.f {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.f label {
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--text);
+  text-transform: uppercase;
+}
 
-#toast{position:fixed;left:50%;bottom:-70px;transform:translateX(-50%);background:var(--card);border:2px solid var(--p);box-shadow:4px 4px 0 var(--s);border-radius:8px;padding:10px 16px;font-size:13px;font-weight:700;z-index:90;transition:bottom .35s;white-space:nowrap}
-#toast.show{bottom:20px}
-.foot{text-align:center;font-size:12px;color:var(--muted);margin-top:10px}
-.reset-btn{color:var(--bad); font-size:11px; text-decoration:underline; cursor:pointer; background:none; border:none; margin-top:10px;}
+input[type="file"], textarea {
+  width: 100%;
+  background: var(--inp);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  box-shadow: 3px 3px 0 var(--hard);
+  box-sizing: border-box;
+}
+textarea {
+  resize: vertical;
+  min-height: 70px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+}
+input:focus, textarea:focus {
+  border-color: var(--line);
+  box-shadow: 4px 4px 0 var(--orange);
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--orange);
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.g2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media(min-width: 520px) {
+  .g2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* TOMBOL EDITORIAL */
+.btn {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 11px 14px;
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--hard);
+  transition: transform .15s, box-shadow .15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-transform: uppercase;
+  width: 100%;
+  box-sizing: border-box;
+}
+.btn:hover:not(:disabled) {
+  background: var(--yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--orange);
+}
+.btn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 0 0 0 var(--hard);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn.pri {
+  background: var(--yellow);
+  color: var(--text);
+  box-shadow: 4px 4px 0 var(--orange);
+}
+.btn-sm {
+  padding: 8px 12px;
+  font-size: 11.5px;
+  letter-spacing: 1px;
+  width: auto;
+  flex: 1;
+}
+
+/* CANVAS EDITOR & STATUS BAR */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--line);
+  color: var(--yellow);
+  padding: 8px 12px;
+  border-radius: 3px;
+  margin-bottom: 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+}
+
+.badge-info {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1.5px dashed var(--line);
+  padding: 6px 12px;
+  border-radius: 3px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--orange);
+  margin-bottom: 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.canvas-container {
+  width: 100%;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  background: #f0ebe1;
+  border: 2px dashed var(--line);
+  border-radius: 4px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+canvas {
+  max-width: 100%;
+  height: auto;
+  border: 1.5px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 var(--hard);
+  cursor: crosshair;
+  touch-action: none;
+}
+
+/* TOAST */
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: -70px;
+  transform: translateX(-50%);
+  background: var(--yellow);
+  color: var(--text);
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 var(--hard);
+  border-radius: 4px;
+  padding: 10px 18px;
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  z-index: 90;
+  transition: bottom .3s cubic-bezier(.34, 1.56, .64, 1);
+  white-space: nowrap;
+}
+#toast.show { bottom: 24px; }
+
+.foot {
+  text-align: center;
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1.7;
+  margin-top: 10px;
+}
+.reset-btn {
+  color: var(--orange);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  margin-top: 6px;
+}
 </style>
 </head>
 <body>
-
-<div class="bg">
-  <div class="au a"></div>
-  <div class="au b"></div>
-  <div class="zay" id="zay"></div>
-</div>
 
 <div id="toast">✅ Berhasil!</div>
 
 <div class="wrap">
   <div class="hd">
-    <div class="ttl"><span class="gl" data-t="REGARM-MART">REGARM-MART</span><small>// auto sender</small></div>
+    <div class="ttl"><span>REGARM-MART</span><small>// AUTO SENDER</small></div>
   </div>
 
-  <nav class="navs">
+  <nav class="navs" aria-label="Web admin">
     <a href="../">🏠 Toko</a>
     <a href="../rekap/">📒 Rekap</a>
+    <a href="../refund/">↩️ Refund</a>
+    <a href="../invoice/">🧾 Invoice</a>
     <a href="./" class="on">🚀 Auto Sender</a>
   </nav>
 
+  <!-- FORM UPLOAD & PENGATURAN WATERMARK -->
   <div class="card">
+    <div class="section-title">
+      <span>📤 1. UPLOAD TESTIMONI &amp; CAPTION</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; background:var(--yellow); padding:2px 6px; border:1px solid #121214;">BATCH QUEUE</span>
+    </div>
+
     <div class="f">
-      <label style="color:var(--p)">1. Upload Bukti Testimoni/Mutasi (Bisa pilih banyak sekaligus)</label>
+      <label style="color:var(--orange)">PILIH BUKTI TRANSAKSI (BISA BANYAK SEKALIGUS)</label>
       <input type="file" id="uploadImg" accept="image/*" multiple>
     </div>
 
     <div class="f">
-      <label>2. Caption Telegram (Opsional)</label>
-      <textarea id="captionText" rows="2" placeholder="Tulis caption untuk dikirim bersama gambar..."></textarea>
+      <label>CAPTION TELEGRAM (OPSIONAL)</label>
+      <textarea id="captionText" rows="2" placeholder="Tulis caption pelengkap untuk dikirim bersama gambar..."></textarea>
     </div>
 
     <div class="g2">
-      <div class="f"><label>Ukuran Stiker: <span id="valSize" style="color:var(--p)">150</span>px</label><input type="range" id="wmSize" min="50" max="600" value="150"></div>
-      <div class="f"><label>Transparansi Stiker: <span id="valOpac" style="color:var(--p)">60</span>%</label><input type="range" id="wmOpacity" min="10" max="100" value="60"></div>
+      <div class="f">
+        <label>UKURAN STIKER: <span id="valSize" style="color:var(--orange)">150</span>PX</label>
+        <input type="range" id="wmSize" min="50" max="600" value="150">
+      </div>
+      <div class="f">
+        <label>TRANSPARANSI STIKER: <span id="valOpac" style="color:var(--orange)">60</span>%</label>
+        <input type="range" id="wmOpacity" min="10" max="100" value="60">
+      </div>
     </div>
   </div>
 
+  <!-- CANVAS EDITOR & SENSOR SENSITIF -->
   <div class="card" id="editorSection" style="display:none;">
     <div class="status-bar">
-      <span id="queueCounter">Foto 1 / 5</span>
-      <span style="color:var(--p)">@jejakbeli</span>
+      <span id="queueCounter">FOTO 1 / 1</span>
+      <span>TARGET: @jejakbeli</span>
     </div>
     
-    <div class="badge-info">👆 Usap foto untuk menyensor info rahasia (Coretan Hitam)</div>
+    <div class="badge-info">👆 Usap area sensitif pada gambar untuk menyensor info pembeli (Coretan Hitam)</div>
     
     <div style="display:flex; gap:8px; margin-bottom:12px">
       <button class="btn btn-sm" id="btnUndo">⏪ Undo Coretan</button>
-      <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Coretan</button>
+      <button class="btn btn-sm" id="btnClearStrokes">🗑️ Hapus Semua Coretan</button>
     </div>
 
     <div class="canvas-container">
       <canvas id="canvas"></canvas>
     </div>
 
-    <button type="button" class="btn pri" id="btnSend" style="margin-top:16px;">🚀 KIRIM & LANJUT FOTO BERIKUTNYA</button>
+    <button type="button" class="btn pri" id="btnSend" style="margin-top:16px;">
+      🚀 KIRIM KE @JEJAKBELI &amp; LANJUT FOTO BERIKUTNYA →
+    </button>
   </div>
   
   <div class="foot">
-    <b>API Connected: @jejakbeli</b><br>
-    &copy; 2026 ZAY. All Rights Reserved.<br>
-    <button class="reset-btn" onclick="resetToken()">Ganti API Token</button>
+    REGARM-MART &bull; TELEGRAM BOT INTEGRATION &bull; ISSUE 2026<br>
+    Tersambung ke Channel: <b>@jejakbeli</b><br>
+    <button class="reset-btn" onclick="resetToken()">[ Reset / Ganti Bot Token API ]</button>
   </div>
 </div>
 
 <script>
-// Latar belakang ZAY
-document.getElementById('zay').innerHTML=Array(5).fill('<div>'+'<b>ZAY</b>'.repeat(4)+'</div>').join('');
-
 // SISTEM KEAMANAN TOKEN LOKAL
 let BOT_TOKEN = localStorage.getItem('regarm_bot_token');
 if (!BOT_TOKEN) {
@@ -177,7 +458,7 @@ const wmOpacity = document.getElementById('wmOpacity');
 const valSize = document.getElementById('valSize');
 const valOpac = document.getElementById('valOpac');
 
-// AUTO-LOAD STIKER DARI GITHUB
+// AUTO-LOAD STIKER
 let stickerObj = new Image();
 stickerObj.src = 'stiker.png';
 
@@ -193,7 +474,7 @@ function toast(m){
   const t = document.getElementById('toast');
   t.textContent = m;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  setTimeout(() => t.classList.remove('show'), 2500);
 }
 
 uploadImg.addEventListener('change', e => {
@@ -204,17 +485,18 @@ uploadImg.addEventListener('change', e => {
   currentIndex = 0;
   editorSection.style.display = 'block';
   loadNextImage();
+  editorSection.scrollIntoView({ behavior: 'smooth' });
 });
 
 function loadNextImage() {
   if (currentIndex >= imageQueue.length) {
     editorSection.style.display = 'none';
-    toast('🎉 Semua foto selesai dikirim!');
+    toast('🎉 Semua foto berhasil dikirim ke @jejakbeli!');
     uploadImg.value = '';
     return;
   }
   
-  queueCounter.textContent = `Foto ${currentIndex + 1} / ${imageQueue.length}`;
+  queueCounter.textContent = `FOTO ${currentIndex + 1} / ${imageQueue.length}`;
   strokes = [];
   
   const r = new FileReader();
@@ -238,7 +520,7 @@ function drawCanvas() {
 
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#111111';
+  ctx.strokeStyle = '#121214';
   
   strokes.forEach(p => {
     ctx.lineWidth = p.width;
@@ -286,6 +568,7 @@ function getPos(e) {
   const clientY = e.touches ? e.touches[0].clientY : e.clientY;
   return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
 }
+
 canvas.addEventListener('mousedown', e => { isDrawing = true; currentPath = [getPos(e)]; drawCanvas(); });
 canvas.addEventListener('mousemove', e => { if (isDrawing) { currentPath.push(getPos(e)); drawCanvas(); } });
 canvas.addEventListener('mouseup', e => { if (isDrawing) { strokes.push({points: currentPath, width: 30}); currentPath = []; isDrawing = false; drawCanvas(); } });
@@ -296,13 +579,15 @@ canvas.addEventListener('touchend', e => { e.preventDefault(); if (isDrawing) { 
 document.getElementById('btnUndo').onclick = () => { strokes.pop(); drawCanvas(); };
 document.getElementById('btnClearStrokes').onclick = () => { strokes = []; drawCanvas(); };
 [wmSize, wmOpacity].forEach(el => el.addEventListener('input', () => {
-  valSize.innerText = wmSize.value; valOpac.innerText = wmOpacity.value; drawCanvas();
+  valSize.innerText = wmSize.value;
+  valOpac.innerText = wmOpacity.value;
+  drawCanvas();
 }));
 
 btnSend.addEventListener('click', () => {
   if (!currentImageObj || !BOT_TOKEN) return;
   btnSend.disabled = true;
-  btnSend.innerText = "⏳ MENGIRIM KE TELEGRAM...";
+  btnSend.innerText = "⏳ MENGIRIM KE @JEJAKBELI...";
 
   canvas.toBlob(blob => {
     const formData = new FormData();
@@ -319,7 +604,7 @@ btnSend.addEventListener('click', () => {
     .then(res => res.json())
     .then(data => {
       if(data.ok) {
-        toast('✅ Gambar terkirim!');
+        toast('✅ Gambar terkirim ke Telegram!');
         currentIndex++;
         loadNextImage();
       } else {
@@ -330,7 +615,7 @@ btnSend.addEventListener('click', () => {
     .catch(err => alert('Error jaringan: ' + err))
     .finally(() => {
       btnSend.disabled = false;
-      btnSend.innerText = "🚀 KIRIM & LANJUT FOTO BERIKUTNYA";
+      btnSend.innerText = "🚀 KIRIM KE @JEJAKBELI & LANJUT FOTO BERIKUTNYA →";
     });
   }, 'image/jpeg', 0.85);
 });
