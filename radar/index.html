@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#f0ebe1">
+<title>Radar Peluang X | REGARM-MART</title>
+<link rel="icon" href="../ava.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f0ebe1;
+  --text: #121214;
+  --muted: #6c6962;
+  --card: #fffdf9;
+  --line: #121214;
+  --inp: #ffffff;
+  --yellow: #ffc700;
+  --orange: #ff5722;
+  --ok: #10b981;
+  --bad: #e11d2e;
+  --hard: #121214;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  padding: 24px 16px 80px;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(rgba(18, 18, 20, 0.08) 1.2px, transparent 1.2px),
+    linear-gradient(to right, rgba(18, 18, 20, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(18, 18, 20, 0.035) 1px, transparent 1px);
+  background-size: 16px 16px, 80px 80px, 80px 80px;
+}
+
+button, input, select, textarea { font-family: inherit; color: inherit; outline: none; }
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+/* HEADER EDITORIAL */
+.hd { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.ttl {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(28px, 7vw, 42px);
+  line-height: 0.95;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.ttl span { text-shadow: 3px 3px 0 var(--yellow); }
+.ttl small {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  background: var(--line);
+  color: #fff;
+  padding: 3px 8px;
+  margin-left: 8px;
+  letter-spacing: 1.5px;
+  vertical-align: middle;
+}
+
+/* NAVIGASI ADMIN */
+.navs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.navs::-webkit-scrollbar { display: none; }
+.navs a {
+  flex: none;
+  padding: 8px 14px;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  background: #ffffff;
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  box-shadow: 2px 2px 0 var(--hard);
+  transition: transform .15s, box-shadow .15s;
+}
+.navs a:hover { background: var(--yellow); transform: translate(-1px, -1px); }
+.navs a.on { background: var(--yellow); box-shadow: 3px 3px 0 var(--orange); }
+
+/* STATUS LIVE BAR */
+.live-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--line);
+  color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  border: 2px solid var(--line);
+  box-shadow: 3px 3px 0 var(--orange);
+}
+.live-indicator { display: inline-flex; align-items: center; gap: 8px; color: #22c55e; font-weight: 800; }
+.live-dot {
+  width: 9px; height: 9px; background: #22c55e; border-radius: 50%;
+  animation: pulse 1.5s infinite;
+}
+@keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+/* KARTU FORM & FEED */
+.card {
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 5px 5px 0 var(--hard);
+  width: 100%;
+}
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 14.5px;
+  letter-spacing: 1px;
+  color: var(--text);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px dashed var(--line);
+  padding-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* FEED ITEM CALON PEMBELI */
+.feed-item {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 14px;
+  margin-top: 12px;
+  box-shadow: 3px 3px 0 var(--hard);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.feed-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px dashed var(--line);
+  padding-bottom: 6px;
+}
+.feed-user { font-weight: 800; font-size: 13.5px; }
+.feed-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+.feed-tag {
+  background: #ffebee;
+  color: var(--orange);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  width: fit-content;
+}
+.feed-text {
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* TOMBOL */
+.btn {
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 9px 13px;
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--hard);
+  transition: transform .15s, box-shadow .15s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-transform: uppercase;
+}
+.btn:hover { background: var(--yellow); transform: translate(-2px, -2px); box-shadow: 5px 5px 0 var(--orange); }
+.btn:active { transform: translate(1px, 1px); box-shadow: 0 0 0 var(--hard); }
+.btn.pri { background: var(--yellow); color: var(--text); box-shadow: 4px 4px 0 var(--orange); }
+.btn.sm { padding: 6px 10px; font-size: 11px; }
+
+/* MODAL BALAS LANGSUNG */
+.modal {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(18, 18, 20, 0.75);
+  backdrop-filter: blur(3px);
+  z-index: 100;
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal.on { display: flex; }
+.modal-box {
+  width: 100%; max-width: 480px;
+  background: var(--card);
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 6px 6px 0 var(--hard);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+textarea {
+  width: 100%;
+  background: #ffffff;
+  border: 2px solid var(--line);
+  border-radius: 4px;
+  padding: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  resize: vertical;
+  min-height: 90px;
+  box-shadow: 3px 3px 0 var(--hard);
+}
+textarea:focus { border-color: var(--line); box-shadow: 4px 4px 0 var(--orange); }
+
+#toast {
+  position: fixed;
+  left: 50%;
+  bottom: -70px;
+  transform: translateX(-50%);
+  background: var(--yellow);
+  color: var(--text);
+  border: 2px solid var(--line);
+  box-shadow: 4px 4px 0 var(--hard);
+  border-radius: 4px;
+  padding: 10px 18px;
+  font-family: 'Anton', sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  z-index: 110;
+  transition: bottom .3s cubic-bezier(.34, 1.56, .64, 1);
+  white-space: nowrap;
+}
+#toast.show { bottom: 24px; }
+</style>
+</head>
+<body>
+
+<div id="toast">✅ Balasan terkirim ke X!</div>
+
+<div class="wrap">
+  <div class="hd">
+    <div class="ttl"><span>REGARM-MART</span><small>// RADAR PELUANG X</small></div>
+  </div>
+
+  <nav class="navs" aria-label="Web admin">
+    <a href="../">🏠 Toko</a>
+    <a href="../rekap/">📒 Rekap</a>
+    <a href="./" class="on">🎯 Radar X</a>
+    <a href="../refund/">↩️ Refund</a>
+    <a href="../invoice/">🧾 Invoice</a>
+  </nav>
+
+  <!-- LIVE BAR PENJADWAL -->
+  <div class="live-bar">
+    <div class="live-indicator"><span class="live-dot"></span> LIVE SCANNING AKTIF</div>
+    <div id="timerText">Refresh: 30s</div>
+  </div>
+
+  <!-- FEED TWEET REAL-TIME -->
+  <div class="card">
+    <div class="section-title">
+      <span>📥 CALON PEMBELI MASUK</span>
+      <span style="font-family:'JetBrains Mono',monospace; font-size:9.5px; background:var(--yellow); padding:2px 6px; border:1px solid #121214;" id="counterBadge">0 Tweet</span>
+    </div>
+
+    <div id="feedList">
+      <div style="font-size:12px; color:var(--muted); font-weight:600; text-align:center; padding:20px;">
+        ⏳ Menghubungkan ke server radar lokal...
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; font-size:11px; color:var(--muted); font-weight:700; margin-top:10px;">
+    REGARM-MART &bull; RADAR ENGINE V3 &bull; ISSUE 2026
+  </div>
+</div>
+
+<!-- MODAL BALAS LANGSUNG DARI WEB -->
+<div class="modal" id="replyModal">
+  <div class="modal-box">
+    <div style="font-family:'Anton',sans-serif; font-size:16px; letter-spacing:1px; text-transform:uppercase;">
+      💬 BALAS TWEET LANGSUNG VIA WEB
+    </div>
+    <div id="targetUserInfo" style="font-size:12px; color:var(--muted); font-weight:700;"></div>
+    
+    <textarea id="replyInput"></textarea>
+
+    <div style="display:flex; gap:8px;">
+      <button class="btn pri" style="flex:1;" id="btnSubmitReply" onclick="eksekusiReply()">
+        🚀 KIRIM BALASAN SEKARANG
+      </button>
+      <button class="btn" onclick="tutupModal()">BATAL</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const BACKEND_URL = "http://localhost:3001/api";
+
+let selectedTweetId = null;
+let selectedUsername = null;
+let timerSec = 30;
+
+function toast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Ambil tweet terbaru dari server backend
+async function fetchLeads() {
+  try {
+    const res = await fetch(`${BACKEND_URL}/leads`);
+    const json = await res.json();
+
+    if (json.success && json.data.length > 0) {
+      document.getElementById('counterBadge').innerText = `${json.data.length} Tweet Baru`;
+      renderFeed(json.data);
+    } else {
+      document.getElementById('feedList').innerHTML = `
+        <div style="font-size:12px; color:var(--muted); font-weight:600; text-align:center; padding:20px;">
+          Belum ada calon pembeli baru dalam 30 detik terakhir. Radar terus memantau...
+        </div>`;
+    }
+  } catch (err) {
+    document.getElementById('feedList').innerHTML = `
+      <div style="font-size:12px; color:var(--bad); font-weight:700; text-align:center; padding:20px;">
+        ⚠️ Server radar belum aktif. Jalankan "node server.js" di terminal laptopmu.
+      </div>`;
+  }
+}
+
+function renderFeed(items) {
+  const container = document.getElementById('feedList');
+  container.innerHTML = items.map(item => `
+    <div class="feed-item">
+      <div class="feed-top">
+        <div>
+          <span class="feed-user">${item.user}</span>
+          <span class="feed-time"> · ${item.time}</span>
+        </div>
+        <span class="feed-tag">${item.app}</span>
+      </div>
+      <div class="feed-text">${item.text}</div>
+      <div style="display:flex; gap:8px; margin-top:4px;">
+        <button class="btn sm pri" onclick="bukaModal('${item.id}', '${item.user}', '${item.app}')">💬 Balas di Web</button>
+        <a href="${item.url}" target="_blank" class="btn sm">Buka di X ↗</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function bukaModal(id, user, app) {
+  selectedTweetId = id;
+  selectedUsername = user;
+  document.getElementById('targetUserInfo').innerText = `Membalas tweet ${user} (${app})`;
+  document.getElementById('replyInput').value = `Halo kak ${user}! Ready garansi resmi anti on-hold di REGARM-MART ya ✨ Langsung mampir ke katalog: regarm-mart.netlify.app atau DM kami kak! 🙌⚡`;
+  document.getElementById('replyModal').classList.add('on');
+}
+
+function tutupModal() {
+  document.getElementById('replyModal').classList.remove('on');
+}
+
+async function eksekusiReply() {
+  const text = document.getElementById('replyInput').value.trim();
+  const btn = document.getElementById('btnSubmitReply');
+
+  if (!text) return alert("Teks balasan tidak boleh kosong!");
+
+  btn.innerText = "⏳ MENGIRIM KE X...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`${BACKEND_URL}/reply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ tweet_id: selectedTweetId, reply_text: text })
+    });
+    const result = await res.json();
+
+    if (result.success) {
+      toast(`✅ Berhasil membalas ${selectedUsername} langsung ke X!`);
+      tutupModal();
+    } else {
+      alert("Gagal kirim: " + result.message);
+    }
+  } catch (err) {
+    alert("Koneksi gagal ke server backend lokal.");
+  } finally {
+    btn.innerText = "🚀 KIRIM BALASAN SEKARANG";
+    btn.disabled = false;
+  }
+}
+
+// Auto-Refresh Loop setiap 30 detik
+setInterval(() => {
+  timerSec--;
+  document.getElementById('timerText').innerText = `Refresh: ${timerSec}s`;
+  if (timerSec <= 0) {
+    timerSec = 30;
+    fetchLeads();
+  }
+}, 1000);
+
+fetchLeads();
+</script>
+</body>
+</html>
