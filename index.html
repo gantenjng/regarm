@@ -654,7 +654,36 @@ svg{display:block}
 }
 @media(max-width:380px){.menu-card .mc-text small{display:none}.menu-card{min-height:100px}}
 
-
+/* TAMPILAN PILLS PAKET BERTINGKAT */
+.tier-pills {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 2px 10px;
+  margin: 4px 0 8px;
+  scrollbar-width: none;
+}
+.tier-pills::-webkit-scrollbar { display: none; }
+.tier-pill {
+  background: #ffffff;
+  border: 1.5px solid #121214;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-family: 'Anton', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 2px 2px 0 #121214;
+  transition: transform .12s, background .12s;
+  color: #121214;
+}
+.tier-pill:hover { background: var(--yellow); }
+.tier-pill.active {
+  background: var(--yellow) !important;
+  box-shadow: 3px 3px 0 var(--accent-color, #ff5722) !important;
+  color: #121214 !important;
+}
 </style>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Permanent+Marker&display=swap"></noscript>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
@@ -3080,7 +3109,7 @@ html[data-lite] .store-title {
 
         <div class="product-list" id="box-all-apps"></div>
       </div>
-
+        
       <!-- VIEW 2: PILIHAN PAKET -->
       <div id="view-paket" class="view-panel" style="display: none;">
         <div class="drawer-header">
@@ -3088,7 +3117,9 @@ html[data-lite] .store-title {
           <h3 id="label-aplikasi">DAFTAR PAKET</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
-        
+
+        <!-- WADAH PILLS BERTINGKAT (TAMBAHKAN INI) -->
+        <div class="tier-pills" id="tier-filter-pills"></div>
         <div class="filter-tools" style="margin-bottom: 12px;">
           <button class="chip chip-accent" onclick="bukaInfoAplikasi()">
             ℹ️ Info Aplikasi
@@ -4007,7 +4038,9 @@ html[data-lite] .store-title {
       });
     }
 
-    let currentAppPakets = [];
+   let currentAppPakets = [];
+    let activeTierFilter = "Semua";
+
     function pilihPaket(appName) {
       pApp = appName; 
       document.getElementById("label-aplikasi").innerText = appName.toUpperCase();
@@ -4016,8 +4049,52 @@ html[data-lite] .store-title {
         if(DATABASE[k][appName]) { pKategoriApp = k; break; }
       }
       currentAppPakets = DATABASE[pKategoriApp][appName] || [];
+      
+      activeTierFilter = "Semua";
+      buatPillsOtomatis();
       renderDaftarPaket();
       gantiView("view-paket");
+    }
+
+    function buatPillsOtomatis() {
+      const boxPills = document.getElementById("tier-filter-pills");
+      if (!boxPills) return;
+      boxPills.innerHTML = "";
+
+      // Kata kunci varian umum
+      const kataKunci = ["1P1U", "1P2U", "2P2U", "Semi", "Private", "Sharing", "Famplan", "Indplan", "Mixplan", "Basic", "Standar", "Edu", "Designer"];
+      let tiersDitemukan = ["Semua"];
+
+      currentAppPakets.forEach(p => {
+        const namaPkt = p.split(" - ")[0];
+        kataKunci.forEach(k => {
+          const reg = new RegExp(k, "i");
+          if (reg.test(namaPkt) && !tiersDitemukan.includes(k)) {
+            tiersDitemukan.push(k);
+          }
+        });
+      });
+
+      if (tiersDitemukan.length <= 2) {
+        boxPills.style.display = "none";
+        return;
+      }
+      boxPills.style.display = "flex";
+
+      tiersDitemukan.forEach(tier => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tier-pill" + (tier === activeTierFilter ? " active" : "");
+        btn.textContent = tier;
+        btn.onclick = () => {
+          vibratePhone();
+          activeTierFilter = tier;
+          document.querySelectorAll(".tier-pill").forEach(el => el.classList.remove("active"));
+          btn.classList.add("active");
+          renderDaftarPaket();
+        };
+        boxPills.appendChild(btn);
+      });
     }
 
     function parseHarga(strHarga) {
@@ -4045,7 +4122,11 @@ html[data-lite] .store-title {
       box.innerHTML = "";
       const sortVal = document.getElementById("sort-select-paket").value;
 
-      let listData = [...currentAppPakets];
+    let listData = [...currentAppPakets];
+
+      if (activeTierFilter !== "Semua") {
+        listData = listData.filter(p => new RegExp(activeTierFilter, "i").test(p.split(" - ")[0]));
+      }
 
       if(sortVal === "termurah") {
         listData.sort((a, b) => parseHarga(a.split(" - ")[1] || "0") - parseHarga(b.split(" - ")[1] || "0"));
