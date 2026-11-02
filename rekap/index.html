@@ -620,6 +620,16 @@ td.up, td.dn { font-weight: 800; white-space: nowrap; font-family: 'JetBrains Mo
     <div class="card"><h3>Terlaris (Periode Ini)</h3><div id="c2"></div></div>
   </div>
 
+  <!-- ALERT SIKLUS RENEWAL INTERNAL (ZOOM 14D, DSB) -->
+  <div class="card" id="rcBox" style="display:none; background:#fff7ed; border-color:var(--orange); box-shadow:4px 4px 0 var(--hard);">
+    <h3 style="color:var(--orange); border-bottom-color:var(--orange)">
+      <span>🚨 PERLU RENEWAL SEGERA (INTERNAL)</span>
+      <span class="mut" id="rcCount" style="color:var(--orange);font-size:12px"></span>
+    </h3>
+    <div id="rcList"></div>
+  </div>
+
+  <!-- REMINDER CUSTOMER EXPIRY -->
   <div class="card" id="rm" style="display:none"><h3>⏰ Segera Berakhir — Follow Up Renewal</h3><div id="rl"></div></div>
 
   <div class="card" id="pu" style="display:none"><h3>💳 Belum Dibayar <span class="mut" id="pun"></span></h3><div id="pul"></div></div>
@@ -665,7 +675,7 @@ td.up, td.dn { font-weight: 800; white-space: nowrap; font-family: 'JetBrains Mo
         </div>
 
         <div class="g2">
-          <div class="f jo"><label>Durasi (Hari)</label><input type="number" id="dy" inputmode="numeric" min="0" placeholder="30"></div>
+          <div class="f jo"><label>Durasi Paket (Hari)</label><input type="number" id="dy" inputmode="numeric" min="0" placeholder="30"></div>
           <div class="f jo"><label>Status</label>
             <select id="s">
               <option value="lunas">Lunas</option>
@@ -673,6 +683,17 @@ td.up, td.dn { font-weight: 800; white-space: nowrap; font-family: 'JetBrains Mo
               <option value="refund">Refund</option>
             </select>
           </div>
+        </div>
+
+        <!-- FITUR SIKLUS RENEWAL INTERNAL -->
+        <div class="f jo">
+          <label>Siklus Renewal Internal (Zoom, dsb)</label>
+          <select id="cy">
+            <option value="0">Tidak Ada (Paket Standar)</option>
+            <option value="7">Per 7 Hari</option>
+            <option value="14">Per 14 Hari (Zoom/Trial)</option>
+            <option value="30">Per 30 Hari</option>
+          </select>
         </div>
 
         <div class="f"><label>Metode Bayar</label>
@@ -745,7 +766,19 @@ const rp = n => (n < 0 ? '-' : '') + 'Rp' + Math.abs(Math.round(n)).toLocaleStri
 const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()), D = s => new Date(s + 'T00:00:00'), addD = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const tgl = s => D(s).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const N = t => { const x = Object.assign({}, t); x.type = x.type || 'jual'; x.status = x.status || 'lunas'; x.jual = +x.jual || 0; x.modal = +x.modal || 0; x.profit = x.jual - x.modal; x.date = x.date || iso(new Date()); x.days = +x.days || 0; return x; };
+const N = t => {
+  const x = Object.assign({}, t);
+  x.type = x.type || 'jual';
+  x.status = x.status || 'lunas';
+  x.jual = +x.jual || 0;
+  x.modal = +x.modal || 0;
+  x.profit = x.jual - x.modal;
+  x.date = x.date || iso(new Date());
+  x.days = +x.days || 0;
+  x.cycle = +x.cycle || 0; // Siklus renewal internal
+  x.lr = x.lr || '';       // Last renewed date
+  return x;
+};
 
 let tt;
 function toast(m, undo) {
@@ -834,6 +867,15 @@ function stat(L) {
 
 const daysLeft = t => Math.round((addD(D(t.date), t.days) - D(iso(new Date()))) / 864e5);
 
+/* Logika Next Renewal Internal */
+function getCycleDaysLeft(t) {
+  if (!t.cycle || t.cycle <= 0) return null;
+  const base = t.lr ? D(t.lr) : D(t.date);
+  const nextRen = addD(base, t.cycle);
+  const diff = Math.round((nextRen - D(iso(new Date()))) / 864e5);
+  return { nextDate: iso(nextRen), left: diff };
+}
+
 function render() {
   A = T.map(N);
   const p = $('per').value, q = $('q').value.toLowerCase().trim(), sf = $('sf').value, P = A.filter(t => inP(t, p)), st = stat(P);
@@ -867,7 +909,30 @@ function render() {
   const top = Object.entries(m).sort((a, b) => b[1].n - a[1].n || b[1].p - a[1].p).slice(0, 5);
   $('c2').innerHTML = top.length ? top.map(([k, x]) => `<div class="tp"><div class="tn"><b>${esc(k)}</b><span>${x.n}x · ${rp(x.p)}</span></div><i style="width:${x.n / top[0][1].n * 100}%"></i></div>`).join('') : '<p class="mut">Belum ada penjualan di periode ini.</p>';
 
-  /* Reminder Follow Up */
+  /* RENEWAL INTERNAL BERKALA (ZOOM/TRIAL 14D) */
+  const RC = A.filter(t => t.type === 'jual' && t.status === 'lunas' && t.cycle > 0).map(t => {
+    const totalLeft = daysLeft(t);
+    const cyc = getCycleDaysLeft(t);
+    return { t, cyc, totalLeft };
+  }).filter(x => x.totalLeft >= 0 && x.cyc && x.cyc.left <= 2).sort((a, b) => a.cyc.left - b.cyc.left);
+
+  $('rcBox').style.display = RC.length ? 'block' : 'none';
+  $('rcCount').textContent = RC.length ? RC.length + ' akun' : '';
+  $('rcList').innerHTML = RC.map(({ t, cyc, totalLeft }) => {
+    const tag = cyc.left < 0 ? 'LEWAT ' + -cyc.left + ' HARI!' : cyc.left === 0 ? 'HARI INI!' : 'H-' + cyc.left;
+    return `
+      <div class="rem">
+        <div>
+          <b>${esc(t.name)}</b>${t.buyer ? ' · ' + esc(t.buyer) : ''}
+          <span class="ex" style="color:var(--bad)">[${tag}]</span>
+          <small style="color:var(--muted)">Siklus per ${t.cycle} hari · Sisa total paket: ${totalLeft} hari</small>
+        </div>
+        <button class="btn sm pri" data-rcdone="${esc(t.id)}">✓ Sudah Renew</button>
+      </div>
+    `;
+  }).join('');
+
+  /* Reminder Follow Up Customer Biasa */
   const R = A.filter(t => t.type === 'jual' && t.status === 'lunas' && t.days > 0).map(t => ({ t, l: daysLeft(t) })).filter(x => x.l <= 3 && x.l >= -7).sort((a, b) => a.l - b.l);
   $('rm').style.display = R.length ? '' : 'none';
   $('rl').innerHTML = R.map(({ t, l }) => `<div class="rem"><span><b>${esc(t.name)}</b>${t.buyer ? ' · ' + esc(t.buyer) : ''} <span class="ex">${l < 0 ? 'lewat ' + -l + ' hari' : l === 0 ? 'berakhir hari ini' : 'H-' + l}</span></span><button class="btn sm" data-r="${esc(t.id)}">Salin pesan</button></div>`).join('');
@@ -877,7 +942,8 @@ function render() {
   $('cnt').textContent = L.length + ' data · ' + PL[p];
   $('tb').innerHTML = L.length ? L.slice(0, SHOW).map(t => {
     const ex = t.type === 'jual' && t.days > 0 && t.status === 'lunas' ? `<span class="ex">s/d ${D(iso(addD(D(t.date), t.days))).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}</span>` : '';
-    return `<tr><td>${tgl(t.date)}${ex}</td><td><b>${esc(t.name)}</b><small>${esc(t.buyer || '')}${t.buyer && t.method ? ' · ' : ''}${esc(t.method || '')}${t.note ? '<br>' + esc(t.note) : ''}</small></td><td>${t.type === 'jual' ? rp(t.jual) : '—'}</td><td>${rp(t.modal)}</td><td class="${t.profit >= 0 ? 'up' : 'dn'}">${t.profit >= 0 ? '+' : ''}${rp(t.profit)}</td><td><span class="st ${t.type === 'keluar' ? 'keluar' : t.status}">${t.type === 'keluar' ? 'biaya' : t.status}</span></td><td class="ac"><button data-e="${esc(t.id)}" title="Edit">✎</button><button data-d="${esc(t.id)}" title="Hapus">✕</button></td></tr>`;
+    const cyBadge = t.cycle > 0 ? `<span class="ex" style="color:var(--blue)">[Siklus ${t.cycle}D]</span>` : '';
+    return `<tr><td>${tgl(t.date)}${ex}${cyBadge}</td><td><b>${esc(t.name)}</b><small>${esc(t.buyer || '')}${t.buyer && t.method ? ' · ' : ''}${esc(t.method || '')}${t.note ? '<br>' + esc(t.note) : ''}</small></td><td>${t.type === 'jual' ? rp(t.jual) : '—'}</td><td>${rp(t.modal)}</td><td class="${t.profit >= 0 ? 'up' : 'dn'}">${t.profit >= 0 ? '+' : ''}${rp(t.profit)}</td><td><span class="st ${t.type === 'keluar' ? 'keluar' : t.status}">${t.type === 'keluar' ? 'biaya' : t.status}</span></td><td class="ac"><button data-e="${esc(t.id)}" title="Edit">✎</button><button data-d="${esc(t.id)}" title="Hapus">✕</button></td></tr>`;
   }).join('') : '<tr><td colspan="7" class="mut" style="text-align:center;padding:24px">Belum ada data di filter ini.</td></tr>';
   $('more').style.display = L.length > SHOW ? '' : 'none';
 
@@ -915,6 +981,7 @@ function resetF() {
   E = null;
   $('f').reset();
   $('d').value = iso(new Date());
+  $('cy').value = '0';
   kind('jual');
   $('ft').textContent = '➕ Input Transaksi';
   $('sb').textContent = 'SIMPAN TRANSAKSI';
@@ -934,6 +1001,7 @@ $('n').addEventListener('input', () => {
     if (p.days) $('dy').value = p.days;
   }
   if (MM[k] && !$('m').value) $('m').value = MM[k];
+  if (/zoom/i.test(k)) $('cy').value = '14'; // Otomatis set 14 hari jika produk Zoom
 });
 
 $('f').onsubmit = e => {
@@ -942,6 +1010,8 @@ $('f').onsubmit = e => {
   if (!name) return toast('⚠️ Isi nama produk / keterangan');
   if (k === 'jual' && jual <= 0) return toast('⚠️ Harga jual harus lebih dari 0');
   if (k === 'keluar' && modal <= 0) return toast('⚠️ Isi jumlah pengeluaran');
+
+  const oldItem = E ? T.find(t => String(t.id) === String(E)) : null;
 
   const o = {
     id: E || Date.now(),
@@ -953,6 +1023,8 @@ $('f').onsubmit = e => {
     profit: jual - modal,
     buyer: k === 'jual' ? $('b').value.trim() : '',
     days: k === 'jual' ? Math.round(+$('dy').value || 0) : 0,
+    cycle: k === 'jual' ? Math.round(+$('cy').value || 0) : 0,
+    lr: (oldItem && oldItem.lr) ? oldItem.lr : '',
     method: $('mt').value,
     status: k === 'keluar' ? 'lunas' : $('s').value,
     note: $('nt').value.trim()
@@ -985,6 +1057,7 @@ $('tb').onclick = e => {
     $('j').value = t.jual || '';
     $('m').value = t.modal || '';
     $('dy').value = t.days || '';
+    $('cy').value = t.cycle || '0';
     $('s').value = t.status;
     $('mt').value = t.method || 'QRIS';
     $('nt').value = t.note || '';
@@ -998,6 +1071,23 @@ $('tb').onclick = e => {
     setT(T.filter(t => String(t.id) !== id));
     render();
     toast('🗑️ Data dihapus', () => { setT(old); render(); });
+  }
+};
+
+/* KLIK SUDAH RENEW PADA KOTAK ALERT RENEWAL */
+$('rcList').onclick = e => {
+  const b = e.target.closest('[data-rcdone]');
+  if (!b) return;
+  const id = b.dataset.rcdone;
+  const target = T.find(t => String(t.id) === id);
+  if (!target) return;
+  
+  if (confirm(`Konfirmasi: Sudah perpanjang akun ${target.name} milik ${target.buyer || 'Pelanggan'}?`)) {
+    const old = T.slice();
+    target.lr = iso(new Date()); // Catat renewal terakhir hari ini
+    setT(T.map(t => String(t.id) === id ? target : t));
+    render();
+    toast('✅ Status renewal diperbarui (+ ' + target.cycle + ' hari)', () => { setT(old); render(); });
   }
 };
 
@@ -1025,7 +1115,7 @@ function copyRekap() {
 function csv() {
   if (!T.length) return toast('⚠️ Tidak ada data untuk diekspor');
   const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
-  dl('Rekapan_RegarmMart_' + iso(new Date()) + '.csv', '\ufeff' + ['Tanggal', 'Tipe', 'Produk', 'Pembeli', 'Harga Jual', 'Modal', 'Untung', 'Metode', 'Status', 'Durasi', 'Catatan'].join(',') + '\n' + A.map(t => [t.date, t.type === 'keluar' ? 'Pengeluaran' : 'Penjualan', t.name, t.buyer, t.jual, t.modal, t.profit, t.method, t.status, t.days, t.note].map(q).join(',')).join('\n'), 'text/csv;charset=utf-8');
+  dl('Rekapan_RegarmMart_' + iso(new Date()) + '.csv', '\ufeff' + ['Tanggal', 'Tipe', 'Produk', 'Pembeli', 'Harga Jual', 'Modal', 'Untung', 'Metode', 'Status', 'Durasi', 'Siklus', 'Catatan'].join(',') + '\n' + A.map(t => [t.date, t.type === 'keluar' ? 'Pengeluaran' : 'Penjualan', t.name, t.buyer, t.jual, t.modal, t.profit, t.method, t.status, t.days, t.cycle || 0, t.note].map(q).join(',')).join('\n'), 'text/csv;charset=utf-8');
   toast('📥 CSV berhasil diunduh');
 }
 
@@ -1119,6 +1209,7 @@ function fromOrder(t) {
   $('j').value = hg;
   $('b').value = wa;
   $('dy').value = dd(name) || '';
+  $('cy').value = /zoom/i.test(name) ? '14' : '0';
   if (dm) $('d').value = dm[3] + '-' + pad(dm[2]) + '-' + pad(dm[1]);
   const o = [...$('mt').options].find(x => pay.toLowerCase().includes(x.value.toLowerCase()));
   $('mt').value = o ? o.value : 'Lainnya';
@@ -1130,7 +1221,7 @@ function fromOrder(t) {
 
 $('pb').onclick = () => {
   if (fromOrder($('ps').value)) {
-    toast('⚡ Terisi otomatis. Cek modal & status, lalu simpan');
+    toast('⚡ Terisi otomatis. Cek modal, status & siklus, lalu simpan');
     if (!$('m').value) $('m').focus();
   } else {
     toast('⚠️ Format pesan order tidak dikenali');
@@ -1358,6 +1449,7 @@ function quick(name) {
   const jual = p ? p.jual : (prev ? prev.jual : 0);
   const modal = MM[name] || (prev ? prev.modal : 0);
   const days = (p && p.days) || (prev && prev.days) || 0;
+  const cycle = /zoom/i.test(name) ? 14 : ((prev && prev.cycle) || 0);
 
   if (!jual || !modal) {
     kind('jual');
@@ -1365,13 +1457,14 @@ function quick(name) {
     $('j').value = jual || '';
     $('m').value = modal || '';
     $('dy').value = days || '';
+    $('cy').value = cycle || '0';
     $('f').scrollIntoView({ behavior: 'smooth', block: 'center' });
     (jual ? $('m') : $('j')).focus();
     return toast('Lengkapi modal/harga jual dulu');
   }
 
   const old = T.slice();
-  if (setT(T.concat([{ id: Date.now(), date: iso(new Date()), type: 'jual', name, jual, modal, profit: jual - modal, buyer: '', days, method: C.pm || 'QRIS', status: 'lunas', note: '' }]))) {
+  if (setT(T.concat([{ id: Date.now(), date: iso(new Date()), type: 'jual', name, jual, modal, profit: jual - modal, buyer: '', days, cycle, lr: '', method: C.pm || 'QRIS', status: 'lunas', note: '' }]))) {
     render();
     toast('✅ ' + name + ' · untung ' + rp(jual - modal), () => { setT(old); render(); });
   }
