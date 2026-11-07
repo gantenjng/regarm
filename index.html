@@ -3129,7 +3129,7 @@ html[data-lite] .store-title {
 <div id="view-pricelist-utama" class="view-panel">
   <div class="drawer-header">
     <!-- TOMBOL INI YANG DITAMBAHKAN: -->
-    <button class="nav-btn" onclick="gantiView('view-katalog-hub')">&#10094;</button>
+    <button class="nav-btn" onclick="kembaliDariKatalog()">&#10094;</button>
     <h3 id="katalog-title">✦ PREMIUM APPS PRICELIST</h3>
     <button class="nav-btn" onclick="tutupSemua()">&times;</button>
   </div>
@@ -3348,7 +3348,7 @@ html[data-lite] .store-title {
       <!-- VIEW ABOUT (EDITORIAL DOSSIER) -->
       <div id="view-about" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <button class="nav-btn" onclick="tutupSemua()">&#10094;</button>
           <h3>ℹ️ ABOUT REGARM-MART</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
@@ -3377,7 +3377,7 @@ html[data-lite] .store-title {
       <!-- VIEW JAM OPERASIONAL (EDITORIAL SHIFT ROSTER) -->
       <div id="view-jam-operasional" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <button class="nav-btn" onclick="tutupSemua()">&#10094;</button>
           <h3>⏰ JADWAL OPERASIONAL</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
@@ -3404,7 +3404,7 @@ html[data-lite] .store-title {
       <!-- VIEW CONTACT (EDITORIAL DISPATCH DIRECTORY) -->
       <div id="view-contact" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <button class="nav-btn" onclick="tutupSemua()">&#10094;</button>
           <h3>💬 HUBUNGI ADMIN</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
@@ -3446,6 +3446,7 @@ html[data-lite] .store-title {
       <!-- VIEW FAQ -->
       <div id="view-faq" class="view-panel" style="display: none;">
         <div class="drawer-header">
+          <button class="nav-btn" onclick="tutupSemua()">&#10094;</button>
           <h3>❓ PERTANYAAN UMUM (FAQ)</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
@@ -3472,7 +3473,8 @@ html[data-lite] .store-title {
 <!-- VIEW S&K (EDITORIAL SPEC SHEET) -->
       <div id="view-snk" class="view-panel" style="display: none;">
         <div class="drawer-header">
-          <button class="nav-btn" onclick="gantiView('view-pricelist-utama')">&#10094;</button>
+          <!-- GANTI MENJADI tutupSemua() -->
+          <button class="nav-btn" onclick="tutupSemua()">&#10094;</button>
           <h3>🛡️ KETENTUAN &amp; KLAIM GARANSI</h3>
           <button class="nav-btn" onclick="tutupSemua()">&times;</button>
         </div>
