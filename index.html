@@ -3077,13 +3077,15 @@ html[data-lite] .store-title {
   <!-- MODAL DRAWER -->
   <div id="drawer-modal" class="drawer-overlay" onclick="tutupLuar(event)">
     <div class="drawer-content">
-
-      <!-- VIEW 1: KATALOG UTAMA -->
-      <div id="view-pricelist-utama" class="view-panel">
-        <div class="drawer-header">
-          <h3 id="katalog-title">✦ PREMIUM APPS PRICELIST</h3>
-          <button class="nav-btn" onclick="tutupSemua()">&times;</button>
-        </div>
+      
+<!-- VIEW 1: KATALOG UTAMA -->
+<div id="view-pricelist-utama" class="view-panel">
+  <div class="drawer-header">
+    <!-- TOMBOL INI YANG DITAMBAHKAN: -->
+    <button class="nav-btn" onclick="gantiView('view-katalog-hub')">&#10094;</button>
+    <h3 id="katalog-title">✦ PREMIUM APPS PRICELIST</h3>
+    <button class="nav-btn" onclick="tutupSemua()">&times;</button>
+  </div>
 
         <div class="harga-update" hidden></div>
         <button type="button" class="cart-bar" onclick="bukaKeranjang()" hidden>🛒 Keranjang (<b class="cart-n">0</b>) · Lihat &amp; checkout →</button>
@@ -3967,15 +3969,47 @@ html[data-lite] .store-title {
     function bukaPrivasi() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-privasi"); }
     function bukaSnK() { vibratePhone(); document.getElementById("drawer-modal").style.display = "flex"; gantiView("view-snk"); }
     
-    function bukaKatalogUtama() { 
-      vibratePhone(); 
-      isModeFavorit = false;
-      document.getElementById("katalog-title").innerText = "✦ PREMIUM APPS PRICELIST";
-      document.getElementById("drawer-modal").style.display = "flex"; 
-      gantiView("view-pricelist-utama"); 
-      renderAplikasi(""); 
-    }
+    // Saat tombol utama di beranda diklik, buka menu Departemen dulu
+function bukaKatalogUtama() {
+  vibratePhone();
+  document.getElementById("drawer-modal").style.display = "flex";
+  gantiView("view-katalog-hub");
+}
 
+// Logika saat memilih salah satu departemen
+function pilihDepartemen(dept) {
+  vibratePhone();
+  const chipContainer = document.querySelector(".category-chips");
+  const title = document.getElementById("katalog-title");
+
+  if (dept === "apprem") {
+    title.innerText = "✦ APLIKASI PREMIUM";
+    // Tampilkan chip kategori khusus App Premium
+    chipContainer.style.display = "flex";
+    chipContainer.innerHTML = `
+      <button class="chip active" onclick="setKategori('Semua', this)">SEMUA</button>
+      <button class="chip" onclick="setKategori('Streaming & Music', this)">STREAMING</button>
+      <button class="chip" onclick="setKategori('Editing', this)">EDITING</button>
+      <button class="chip" onclick="setKategori('Education', this)">EDUCATION</button>
+      <button class="chip" onclick="setKategori('Other', this)">OTHER</button>
+    `;
+    setKategori('Semua', chipContainer.querySelector('.chip'));
+  } 
+  else if (dept === "sosmed") {
+    title.innerText = "✦ SOSIAL MEDIA NEED";
+    chipContainer.style.display = "none"; // Sosmed tidak butuh chip streaming/editing
+    activeFilterKat = "Sosmed Needs";
+    renderAplikasi("");
+  } 
+  else if (dept === "nokos") {
+    title.innerText = "✦ NOKOS & OTP VIRTUAL";
+    chipContainer.style.display = "none";
+    activeFilterKat = "Nokos & OTP";
+    renderAplikasi("");
+  }
+
+  gantiView("view-pricelist-utama");
+}
     function bukaFavoritSaya() {
       isModeFavorit = true;
       document.getElementById("katalog-title").innerText = "🐺 APLIKASI FAVORIT SAYA";
